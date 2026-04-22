@@ -223,6 +223,47 @@
   @media (max-width: 1100px) {
     .form-layout { grid-template-columns: 1fr; }
   }
+  /* Layout single column para formulario solo (sin tabla al lado) */
+  .form-layout-single {
+    max-width: 960px;
+    margin: 0 auto 40px;
+  }
+  .form-layout-single .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 800px) {
+    .form-layout-single .form-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .form-layout-single .form-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Filtros de la página Partidas Registradas */
+  .reg-filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 1100px) { .reg-filters { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .reg-filters { grid-template-columns: 1fr; } }
+  .reg-filters .filter-wrap label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .reg-filters select {
+    font-family: var(--sans);
+    font-size: 12px;
+    padding: 8px 10px;
+    background: var(--paper-pure);
+    border: 1px solid var(--ink-15);
+    border-radius: 2px;
+    width: 100%;
+  }
 
   .panel {
     background: var(--card);
@@ -231,6 +272,10 @@
     box-shadow: var(--shadow-md);
     overflow: hidden;
   }
+  /* Excepción: el panel que contiene el dropdown "Más acciones" necesita
+     permitir que el menú se despliegue fuera de sus bordes. */
+  .panel.allow-overflow,
+  .panel.allow-overflow .panel-body { overflow: visible; }
   .panel-hd {
     padding: 18px 24px 14px;
     border-bottom: 1px solid var(--ink-08);
@@ -527,19 +572,19 @@
   /* ==================== FILTROS ==================== */
   .filter-bar {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
     margin-bottom: 32px;
     padding: 16px;
     background: var(--card);
     border: 1px solid var(--ink-15);
     border-radius: 2px;
   }
-  @media (max-width: 1100px) {
-    .filter-bar { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     .filter-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .filter-bar { grid-template-columns: 1fr; }
   }
   .filter-bar select {
     font-family: var(--sans);
@@ -565,8 +610,14 @@
     margin-bottom: 4px;
   }
   .filter-reset {
-    grid-column: -2 / -1;
+    grid-column: 4 / 5;
     align-self: end;
+  }
+  @media (max-width: 900px) {
+    .filter-reset { grid-column: 2 / 3; }
+  }
+  @media (max-width: 500px) {
+    .filter-reset { grid-column: 1 / 2; }
   }
 
   /* Chips de filtros activos */
@@ -655,11 +706,12 @@
   .kpi .kpi-value {
     font-family: var(--serif);
     font-weight: 500;
-    font-size: 32px;
-    line-height: 1.05;
+    font-size: 26px;
+    line-height: 1.1;
     letter-spacing: -.02em;
     color: var(--ink);
     font-variant-numeric: tabular-nums;
+    word-break: break-word;
   }
   .kpi .kpi-value .unit {
     font-family: var(--serif);
@@ -731,10 +783,97 @@
     letter-spacing: .15em;
     text-transform: uppercase;
     color: var(--ink-50);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chart-zoom {
+    background: transparent;
+    border: 1px solid var(--ink-15);
+    color: var(--ink-50);
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all .15s;
+  }
+  .chart-zoom:hover {
+    border-color: var(--accent-oxblood);
+    color: var(--accent-oxblood);
+    background: rgba(122,31,43,.04);
+  }
+  .chart-zoom::before {
+    content: '⤢'; margin-right: 4px;
   }
   .chart-body { position: relative; height: 320px; }
   .chart-body.sm { height: 260px; }
   .chart-body.lg { height: 380px; }
+
+  /* ==================== MODAL DE ZOOM ==================== */
+  .zoom-bg {
+    position: fixed; inset: 0;
+    background: rgba(14,26,43,.75);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 95;
+    padding: 40px;
+  }
+  .zoom-bg.show { display: flex; }
+  .zoom-modal {
+    background: var(--card);
+    border-radius: 3px;
+    width: 100%; max-width: 1400px;
+    height: calc(100vh - 80px);
+    box-shadow: var(--shadow-lg);
+    border-top: 3px solid var(--accent-gold);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .zoom-hd {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--ink-08);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--paper-pure);
+  }
+  .zoom-hd h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -.01em;
+  }
+  .zoom-hd .zoom-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    display: block;
+    margin-top: 4px;
+  }
+  .zoom-close {
+    background: transparent;
+    border: 1px solid var(--ink-15);
+    color: var(--ink-70);
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .zoom-close:hover { border-color: var(--accent-oxblood); color: var(--accent-oxblood); }
+  .zoom-body {
+    flex: 1;
+    padding: 28px;
+    overflow: auto;
+    position: relative;
+  }
+  .zoom-body canvas {
+    max-width: 100%;
+  }
 
   /* ==================== HEATMAP ==================== */
   .heatmap-wrap { overflow-x: auto; }
@@ -972,6 +1111,206 @@
     .chart-card, .kpi, .panel { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
   }
 
+  /* ==================== TOOLBAR DE REGISTROS ==================== */
+  .reg-toolbar {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .reg-search {
+    flex: 1; min-width: 200px; max-width: 380px;
+    position: relative;
+  }
+  .reg-search input {
+    width: 100%;
+    padding: 8px 12px 8px 32px;
+    font-size: 13px;
+    font-family: var(--sans);
+    background: var(--card);
+    border: 1px solid var(--ink-15);
+    border-radius: 2px;
+  }
+  .reg-search::before {
+    content: '⌕'; position: absolute; left: 10px; top: 50%;
+    transform: translateY(-50%); color: var(--ink-50); font-size: 14px;
+  }
+  .toolbar-spacer { flex: 1; min-width: 0; }
+
+  .btn-new-partida {
+    background: var(--accent-oxblood);
+    color: var(--paper);
+    border-color: var(--accent-oxblood);
+    font-weight: 600;
+    padding: 10px 20px;
+  }
+  .btn-new-partida:hover {
+    background: #5f1820;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(122,31,43,.25);
+  }
+
+  /* Menú más acciones (dropdown) — position:fixed para evitar stacking contexts de paneles */
+  .more-menu-wrap { position: relative; }
+  .more-menu {
+    position: fixed;
+    background: var(--card);
+    border: 1px solid var(--ink-15);
+    border-radius: 3px;
+    min-width: 260px;
+    box-shadow: var(--shadow-lg);
+    z-index: 9999;
+    padding: 6px 0;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity .15s, transform .15s, visibility .15s;
+    pointer-events: none;
+  }
+  .more-menu.show {
+    opacity: 1; visibility: visible; transform: translateY(0);
+    pointer-events: auto;
+  }
+  .more-item {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%;
+    padding: 10px 16px;
+    border: none; background: transparent;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    transition: background .1s;
+  }
+  .more-item:hover { background: var(--paper-pure); }
+  .more-item.danger { color: var(--accent-oxblood); }
+  .more-item.danger:hover { background: rgba(122,31,43,.06); }
+  .more-item .mi-ico {
+    display: inline-block;
+    width: 18px; text-align: center;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-50);
+  }
+  .more-item.danger .mi-ico { color: var(--accent-oxblood); }
+  .more-sep {
+    height: 1px;
+    background: var(--ink-08);
+    margin: 6px 0;
+  }
+
+  /* ==================== DRAWER LATERAL ==================== */
+  .drawer-bg {
+    position: fixed; inset: 0;
+    background: rgba(14,26,43,.5);
+    backdrop-filter: blur(3px);
+    opacity: 0; visibility: hidden;
+    z-index: 88;
+    transition: opacity .25s, visibility .25s;
+  }
+  .drawer-bg.show { opacity: 1; visibility: visible; }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 100%; max-width: 620px;
+    height: 100vh;
+    background: var(--card);
+    box-shadow: -8px 0 32px rgba(14,26,43,.18);
+    border-left: 3px solid var(--accent-oxblood);
+    z-index: 89;
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(.25,.8,.3,1);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .drawer.show { transform: translateX(0); }
+
+  .drawer-hd {
+    padding: 22px 28px 18px;
+    border-bottom: 1px solid var(--ink-08);
+    background: linear-gradient(180deg, var(--paper-pure), var(--card));
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .drawer-hd .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent-oxblood);
+    margin-bottom: 6px;
+  }
+  .drawer-hd h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .drawer-hd .drawer-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+  }
+  .drawer-close {
+    background: transparent;
+    border: 1px solid var(--ink-15);
+    color: var(--ink-70);
+    width: 34px; height: 34px;
+    border-radius: 2px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .15s;
+    flex-shrink: 0;
+  }
+  .drawer-close:hover { border-color: var(--accent-oxblood); color: var(--accent-oxblood); }
+
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px;
+  }
+  .drawer-body .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 560px) {
+    .drawer-body .form-grid { grid-template-columns: 1fr; }
+  }
+
+  .drawer-ft {
+    padding: 16px 28px;
+    border-top: 1px solid var(--ink-08);
+    background: var(--paper-pure);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  .drawer-actions {
+    display: flex; gap: 10px;
+  }
+  .keep-open-label {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--ink-70);
+    cursor: pointer;
+    user-select: none;
+  }
+  .keep-open-label input[type="checkbox"] {
+    width: 14px; height: 14px;
+    accent-color: var(--accent-oxblood);
+  }
+  .keep-open-label:hover { color: var(--ink); }
+
+  @media (max-width: 640px) {
+    .drawer { max-width: 100%; border-left: none; }
+  }
+
   /* Scrollbar */
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track { background: var(--paper-warm); }
@@ -998,7 +1337,7 @@
       </div>
     </div>
     <nav class="topbar-nav">
-      <button class="nav-btn active" data-nav="ingreso">Ingreso de Datos</button>
+      <button class="nav-btn active" data-nav="registros">Partidas Registradas</button>
       <button class="nav-btn" data-nav="dashboard">Análisis & Dashboard</button>
     </nav>
     <div class="topbar-meta" id="meta-clock">—</div>
@@ -1006,144 +1345,101 @@
 </header>
 
 <!-- ==================== PÁGINA 1: INGRESO ==================== -->
-<main class="page" id="page-ingreso">
+<!-- ==================== PÁGINA 2: PARTIDAS REGISTRADAS (NUEVA) ==================== -->
+<main class="page" id="page-registros">
 
   <div class="page-title">
     <div>
-      <div class="eyebrow">Módulo I · Carga y Administración</div>
-      <h1>Registro <em>presupuestario</em></h1>
+      <div class="eyebrow">Módulo I.b · Gestión de Registros</div>
+      <h1>Partidas <em>registradas</em></h1>
     </div>
-    <div class="subtitle">Ingresa, edita y organiza partidas por Subdirección, Instrumento y fuente de Financiamiento. La información se conserva localmente entre sesiones.</div>
+    <div class="subtitle">Visualiza, edita, duplica o elimina partidas. Usa los filtros avanzados para localizar rápidamente los registros que necesitas actualizar.</div>
   </div>
 
-  <div class="form-layout">
-
-    <!-- FORMULARIO -->
-    <section class="panel reveal">
-      <div class="panel-hd">
-        <h2><span class="num">01.</span>Nueva partida</h2>
-        <span class="hint" id="form-mode">Modo: Creación</span>
-      </div>
-      <div class="panel-body">
-        <form id="record-form" onsubmit="return false;">
-          <div class="form-grid">
-            <div class="field">
-              <label>Subdirección <span class="req">*</span></label>
-              <input type="text" name="subdireccion" list="dl-subdireccion" required autocomplete="off" />
-              <datalist id="dl-subdireccion"></datalist>
-            </div>
-            <div class="field">
-              <label>Asignación presupuestaria <span class="req">*</span></label>
-              <input type="text" name="asignacion" list="dl-asignacion" required autocomplete="off" />
-              <datalist id="dl-asignacion"></datalist>
-            </div>
-            <div class="field">
-              <label>Subtítulo <span class="req">*</span></label>
-              <input type="text" name="subtitulo" list="dl-subtitulo" required autocomplete="off" />
-              <datalist id="dl-subtitulo"></datalist>
-            </div>
-            <div class="field">
-              <label>Programa presupuestario <span class="req">*</span></label>
-              <input type="text" name="programa" list="dl-programa" required autocomplete="off" />
-              <datalist id="dl-programa"></datalist>
-            </div>
-            <div class="field">
-              <label>Instrumento <span class="req">*</span></label>
-              <input type="text" name="instrumento" list="dl-instrumento" required autocomplete="off" />
-              <datalist id="dl-instrumento"></datalist>
-            </div>
-            <div class="field">
-              <label>Financiamiento <span class="req">*</span></label>
-              <input type="text" name="financiamiento" list="dl-financiamiento" required autocomplete="off" />
-              <datalist id="dl-financiamiento"></datalist>
-            </div>
-            <div class="field">
-              <label>Proyectos 2026</label>
-              <input type="number" name="proy2026" min="0" step="1" value="0" />
-            </div>
-            <div class="field">
-              <label>Proyectos 2027</label>
-              <input type="number" name="proy2027" min="0" step="1" value="0" />
-            </div>
-            <div class="field">
-              <label>Monto 2026 <span class="req">*</span></label>
-              <div class="currency"><input type="number" name="monto2026" min="0" step="1" required value="0" /></div>
-            </div>
-            <div class="field">
-              <label>Monto 2027 <span class="req">*</span></label>
-              <div class="currency"><input type="number" name="monto2027" min="0" step="1" required value="0" /></div>
-            </div>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn btn-ghost" id="btn-clear">Limpiar</button>
-            <button type="button" class="btn btn-ghost" id="btn-demo">Cargar ejemplo</button>
-            <button type="submit" class="btn btn-primary" id="btn-save">Guardar partida</button>
-          </div>
-        </form>
-      </div>
-    </section>
-
-    <!-- TABLA DE REGISTROS -->
-    <section class="panel records-panel reveal">
-      <div class="panel-hd">
-        <h2><span class="num">02.</span>Partidas registradas</h2>
-        <span class="hint" id="records-hint">—</span>
-      </div>
-      <div class="records-toolbar">
-        <div class="search">
-          <input type="text" id="search-input" placeholder="Buscar en cualquier campo…" />
+  <!-- FILTROS AVANZADOS PARA PARTIDAS -->
+  <section class="panel allow-overflow reveal" style="margin-bottom:24px">
+    <div class="panel-hd">
+      <h2><span class="num">F.</span>Filtros de búsqueda</h2>
+      <span class="hint" id="reg-count-hint">—</span>
+    </div>
+    <div class="panel-body">
+      <div class="reg-filters" id="reg-filters"></div>
+      <div class="reg-toolbar">
+        <div class="search reg-search">
+          <input type="text" id="reg-search-input" placeholder="Buscar texto libre en cualquier campo…" />
         </div>
-        <span class="records-count">Total: <b id="rec-count">0</b></span>
-        <label class="btn btn-ghost btn-icon" style="cursor:pointer;margin:0">
-          Importar XLSX/CSV
-          <input type="file" id="file-import" accept=".xlsx,.xls,.csv" style="display:none" />
-        </label>
-        <button class="btn btn-ghost btn-icon" id="btn-export-records">Exportar XLSX</button>
-        <button class="btn btn-ghost btn-icon" id="btn-backup">Respaldo JSON</button>
-        <button class="btn btn-ghost btn-icon" id="btn-clear-all">Vaciar</button>
-      </div>
-      <div class="table-wrap">
-        <table class="data">
-          <thead>
-            <tr>
-              <th>Subdirección</th>
-              <th>Asignación</th>
-              <th>Subtítulo</th>
-              <th>Programa</th>
-              <th>Instrumento</th>
-              <th>Financ.</th>
-              <th style="text-align:right">Proy. 26</th>
-              <th style="text-align:right">Proy. 27</th>
-              <th style="text-align:right">Monto 26</th>
-              <th style="text-align:right">Monto 27</th>
-              <th style="text-align:right">Δ%</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="records-tbody"></tbody>
-        </table>
-        <div class="empty" id="empty-state">
-          <div class="mark">◈</div>
-          Aún no hay partidas registradas.<br />
-          Ingresa una nueva o carga un ejemplo para comenzar.
+        <button class="btn btn-ghost" id="reg-clear-filters">Limpiar filtros</button>
+        <div class="toolbar-spacer"></div>
+        <button class="btn btn-accent btn-new-partida" id="btn-open-drawer">
+          <span style="font-size:15px; font-weight:700; margin-right:2px">+</span> Nueva partida
+        </button>
+        <div class="more-menu-wrap">
+          <button class="btn btn-ghost" id="btn-more-menu" aria-haspopup="true" aria-expanded="false">
+            ⋯ Más acciones
+          </button>
+          <div class="more-menu" id="more-menu">
+            <button class="more-item" id="menu-demo">
+              <span class="mi-ico">◈</span> Cargar datos de ejemplo
+            </button>
+            <label class="more-item" style="cursor:pointer">
+              <span class="mi-ico">⬆</span> Importar desde XLSX/CSV
+              <input type="file" id="reg-file-import" accept=".xlsx,.xls,.csv" style="display:none" />
+            </label>
+            <button class="more-item" id="reg-btn-export">
+              <span class="mi-ico">⬇</span> Exportar a XLSX
+            </button>
+            <button class="more-item" id="reg-btn-backup">
+              <span class="mi-ico">⎘</span> Respaldo JSON
+            </button>
+            <div class="more-sep"></div>
+            <button class="more-item danger" id="reg-btn-clear-all">
+              <span class="mi-ico">✕</span> Vaciar todos los registros
+            </button>
+          </div>
         </div>
       </div>
-    </section>
-
-  </div>
-
-  <!-- PROCESAR -->
-  <div class="process-bar reveal">
-    <div>
-      <h3>Listo para generar el <em>análisis ejecutivo</em></h3>
-      <p>Procesa las partidas cargadas y accede al dashboard con indicadores, rankings y visualizaciones.</p>
     </div>
-    <button class="btn btn-process" id="btn-process">Procesar información →</button>
-  </div>
+  </section>
+
+  <!-- TABLA DE REGISTROS A PANTALLA COMPLETA -->
+  <section class="panel records-panel reveal">
+    <div class="panel-hd">
+      <h2><span class="num">02.</span>Listado de partidas</h2>
+      <span class="hint" id="records-hint">—</span>
+    </div>
+    <div class="table-wrap" style="max-height: calc(100vh - 420px); min-height: 500px">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Subdirección</th>
+            <th>Asignación</th>
+            <th>Subtítulo</th>
+            <th>Programa</th>
+            <th>Instrumento</th>
+            <th>Financ.</th>
+            <th>Concurso</th>
+            <th>Categoría</th>
+            <th style="text-align:right">Proy. 26</th>
+            <th style="text-align:right">Proy. 27</th>
+            <th style="text-align:right">Monto 26</th>
+            <th style="text-align:right">Monto 27</th>
+            <th style="text-align:right">Δ%</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="records-tbody"></tbody>
+      </table>
+      <div class="empty" id="empty-state">
+        <div class="mark">◈</div>
+        Aún no hay partidas registradas.<br />
+        Usa el botón <b>"+ Nueva partida"</b> o bien <b>"⋯ Más acciones → Cargar datos de ejemplo"</b>.
+      </div>
+    </div>
+  </section>
 
   <div class="foot">
-    <span>ERARIO · Sistema de Análisis Presupuestario · ANID</span>
-    <span>Datos almacenados localmente en el navegador · Usa "Respaldo JSON" para hacer copia de seguridad</span>
+    <span id="reg-foot-summary">—</span>
+    <span>Consejo: Los filtros en esta vista solo afectan la tabla, no el dashboard</span>
   </div>
 
 </main>
@@ -1183,6 +1479,110 @@
     </div>
   </div>
 </div>
+
+<!-- ==================== MODAL DE ZOOM ==================== -->
+<div class="zoom-bg" id="zoom-modal">
+  <div class="zoom-modal">
+    <div class="zoom-hd">
+      <div>
+        <h3 id="zoom-title">Gráfico</h3>
+        <span class="zoom-sub" id="zoom-sub">—</span>
+      </div>
+      <button class="zoom-close" id="zoom-close">Cerrar ✕</button>
+    </div>
+    <div class="zoom-body" id="zoom-body">
+      <!-- canvas/tabla clonada entra aquí -->
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DRAWER LATERAL: NUEVA/EDITAR PARTIDA ==================== -->
+<div class="drawer-bg" id="drawer-bg"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-hd">
+    <div>
+      <div class="eyebrow" id="drawer-eyebrow">Nueva partida</div>
+      <h2 id="drawer-title">Crear partida presupuestaria</h2>
+      <span class="drawer-sub" id="form-mode">Modo: Creación</span>
+    </div>
+    <button class="drawer-close" id="drawer-close" title="Cerrar (Esc)">✕</button>
+  </div>
+  <div class="drawer-body">
+    <form id="record-form" onsubmit="return false;">
+      <div class="form-grid">
+        <div class="field">
+          <label>Subdirección <span class="req">*</span></label>
+          <input type="text" name="subdireccion" list="dl-subdireccion" required autocomplete="off" />
+          <datalist id="dl-subdireccion"></datalist>
+        </div>
+        <div class="field">
+          <label>Asignación presupuestaria <span class="req">*</span></label>
+          <input type="text" name="asignacion" list="dl-asignacion" required autocomplete="off" />
+          <datalist id="dl-asignacion"></datalist>
+        </div>
+        <div class="field">
+          <label>Subtítulo <span class="req">*</span></label>
+          <input type="text" name="subtitulo" list="dl-subtitulo" required autocomplete="off" />
+          <datalist id="dl-subtitulo"></datalist>
+        </div>
+        <div class="field">
+          <label>Programa presupuestario <span class="req">*</span></label>
+          <input type="text" name="programa" list="dl-programa" required autocomplete="off" />
+          <datalist id="dl-programa"></datalist>
+        </div>
+        <div class="field">
+          <label>Instrumento <span class="req">*</span></label>
+          <input type="text" name="instrumento" list="dl-instrumento" required autocomplete="off" />
+          <datalist id="dl-instrumento"></datalist>
+        </div>
+        <div class="field">
+          <label>Financiamiento <span class="req">*</span></label>
+          <input type="text" name="financiamiento" list="dl-financiamiento" required autocomplete="off" />
+          <datalist id="dl-financiamiento"></datalist>
+        </div>
+        <div class="field">
+          <label>Concurso (año) <span class="req">*</span></label>
+          <input type="number" name="concurso" min="2000" max="2100" step="1" list="dl-concurso" required autocomplete="off" />
+          <datalist id="dl-concurso"></datalist>
+        </div>
+        <div class="field">
+          <label>Categoría <span class="req">*</span></label>
+          <select name="categoria" required>
+            <option value="">— Seleccionar —</option>
+            <option value="Nueva Convocatoria">Nueva Convocatoria</option>
+            <option value="Arrastre">Arrastre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Proyectos 2026</label>
+          <input type="number" name="proy2026" min="0" step="1" value="0" />
+        </div>
+        <div class="field">
+          <label>Proyectos 2027</label>
+          <input type="number" name="proy2027" min="0" step="1" value="0" />
+        </div>
+        <div class="field">
+          <label>Monto 2026 <span class="req">*</span></label>
+          <div class="currency"><input type="number" name="monto2026" min="0" step="1" required value="0" /></div>
+        </div>
+        <div class="field">
+          <label>Monto 2027 <span class="req">*</span></label>
+          <div class="currency"><input type="number" name="monto2027" min="0" step="1" required value="0" /></div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="drawer-ft">
+    <label class="keep-open-label" id="keep-open-wrap">
+      <input type="checkbox" id="keep-open" />
+      <span>Mantener abierto y agregar otra partida</span>
+    </label>
+    <div class="drawer-actions">
+      <button type="button" class="btn btn-ghost" id="btn-clear">Limpiar</button>
+      <button type="button" class="btn btn-primary" id="btn-save">Guardar partida</button>
+    </div>
+  </div>
+</aside>
 
 <!-- ==================== TOAST ==================== -->
 <div id="toast">—</div>
@@ -1225,14 +1625,17 @@ const CATALOG = {
     'Regional',
     'Internacional',
     'Aporte Fiscal Libre'
-  ]
+  ],
+  concurso: ['2023','2024','2025','2026','2027'],
+  categoria: ['Nueva Convocatoria','Arrastre']
 };
 const STORAGE_KEY = 'erario.records.v1';
-const FILTERS = ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento'];
+const FILTERS = ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento','concurso','categoria'];
 
 let records = [];
 let editingId = null;
 let activeFilters = {};
+let regFilters = {};       // filtros propios de la vista Partidas Registradas
 let charts = {};     // instancias Chart.js
 let searchQuery = '';
 
@@ -1241,11 +1644,9 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7
 
 const fmtCLP = (n, compact=false) => {
   if (n == null || isNaN(n)) return '$0';
-  if (compact) {
-    if (Math.abs(n) >= 1e9) return '$' + (n/1e9).toLocaleString('es-CL',{maximumFractionDigits:2}) + ' MM';
-    if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toLocaleString('es-CL',{maximumFractionDigits:1}) + ' M';
-    if (Math.abs(n) >= 1e3) return '$' + (n/1e3).toLocaleString('es-CL',{maximumFractionDigits:0}) + ' K';
-  }
+  // Siempre mostrar el monto completo con separadores de miles (estándar DIPRES).
+  // Se ignora "compact" porque en presupuesto público la norma es no abreviar
+  // para evitar ambigüedades entre millones, miles, miles de millones, etc.
   return '$' + Math.round(n).toLocaleString('es-CL');
 };
 const fmtNum = n => (n==null||isNaN(n))?'0':Math.round(n).toLocaleString('es-CL');
@@ -1283,9 +1684,10 @@ document.querySelectorAll('.nav-btn').forEach(b => {
     document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     const target = b.dataset.nav;
-    document.getElementById('page-ingreso').classList.toggle('hidden', target!=='ingreso');
+    document.getElementById('page-registros').classList.toggle('hidden', target!=='registros');
     document.getElementById('page-dashboard').classList.toggle('hidden', target!=='dashboard');
     if (target==='dashboard') renderDashboard();
+    if (target==='registros') renderRegistrosView();
     window.scrollTo({top:0, behavior:'smooth'});
   });
 });
@@ -1309,6 +1711,7 @@ document.getElementById('btn-clear').addEventListener('click', clearForm);
 
 document.getElementById('btn-save').addEventListener('click', () => {
   const fd = new FormData(form);
+  const editingId_wasSet = !!editingId;  // capturar antes de clearForm
   const rec = {
     id: editingId || uid(),
     subdireccion: (fd.get('subdireccion')||'').trim(),
@@ -1317,6 +1720,8 @@ document.getElementById('btn-save').addEventListener('click', () => {
     programa:     (fd.get('programa')||'').trim(),
     instrumento:  (fd.get('instrumento')||'').trim(),
     financiamiento:(fd.get('financiamiento')||'').trim(),
+    concurso:     (fd.get('concurso')||'').toString().trim(),
+    categoria:    (fd.get('categoria')||'').trim(),
     proy2026:     Math.max(0, parseInt(fd.get('proy2026'))||0),
     proy2027:     Math.max(0, parseInt(fd.get('proy2027'))||0),
     monto2026:    Math.max(0, parseFloat(fd.get('monto2026'))||0),
@@ -1324,7 +1729,7 @@ document.getElementById('btn-save').addEventListener('click', () => {
   };
 
   // Validación
-  const required = ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento'];
+  const required = ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento','concurso','categoria'];
   for (const f of required) {
     if (!rec[f]) { toast('Falta completar: '+f, 'err'); return; }
   }
@@ -1341,12 +1746,143 @@ document.getElementById('btn-save').addEventListener('click', () => {
     toast('Partida agregada', 'ok');
   }
   saveRecords();
-  clearForm();
   renderRecords();
   refreshDatalists();
+  try { renderRegFilters(); } catch(e) {}
+  // Si el dashboard está visible, refrescarlo automáticamente (dato → gráfico)
+  try {
+    if (!document.getElementById('page-dashboard').classList.contains('hidden')) {
+      renderAll();
+    }
+  } catch(e) {}
+
+  // Si "Mantener abierto" está marcado en creación, NO cerrar el drawer.
+  // Preservamos algunos campos que suelen repetirse en partidas consecutivas
+  // (flujo típico de carga manual al inicio de un ciclo presupuestario).
+  const keep = document.getElementById('keep-open');
+  if (keep && keep.checked && !editingId_wasSet) {
+    // Preservar algunos campos que suelen repetirse en partidas consecutivas
+    const sub = form.querySelector('[name="subdireccion"]').value;
+    const subt = form.querySelector('[name="subtitulo"]').value;
+    const conc = form.querySelector('[name="concurso"]').value;
+    const fin = form.querySelector('[name="financiamiento"]').value;
+    clearForm();
+    form.querySelector('[name="subdireccion"]').value = sub;
+    form.querySelector('[name="subtitulo"]').value = subt;
+    form.querySelector('[name="concurso"]').value = conc;
+    form.querySelector('[name="financiamiento"]').value = fin;
+    refreshDatalists();
+    form.querySelector('[name="asignacion"]').focus();
+  } else {
+    closeDrawer();
+  }
 });
 
-document.getElementById('btn-demo').addEventListener('click', () => {
+/* ==================== DRAWER: ABRIR / CERRAR ==================== */
+function openDrawerForNew() {
+  clearForm();
+  editingId = null;
+  document.getElementById('drawer-title').textContent = 'Crear partida presupuestaria';
+  document.getElementById('drawer-eyebrow').textContent = 'Nueva partida';
+  document.getElementById('form-mode').textContent = 'Modo: Creación';
+  document.getElementById('btn-save').textContent = 'Guardar partida';
+  const keepWrap = document.getElementById('keep-open-wrap');
+  if (keepWrap) keepWrap.style.display = '';
+  showDrawer();
+  // Foco en el primer campo para empezar a tipear de inmediato
+  setTimeout(() => {
+    form.querySelector('[name="subdireccion"]').focus();
+  }, 320);
+}
+
+function openDrawerForEdit(id) {
+  const r = records.find(x=>x.id===id); if (!r) return;
+  editingId = id;
+  Object.keys(r).forEach(k => {
+    const input = form.querySelector(`[name="${k}"]`);
+    if (input) input.value = r[k];
+  });
+  document.getElementById('drawer-title').textContent = 'Editar partida';
+  document.getElementById('drawer-eyebrow').textContent = 'Edición';
+  document.getElementById('form-mode').textContent = 'Modo: Edición';
+  document.getElementById('btn-save').textContent = 'Actualizar';
+  // En modo edición no tiene sentido "mantener abierto"
+  const keepWrap = document.getElementById('keep-open-wrap');
+  if (keepWrap) keepWrap.style.display = 'none';
+  const keep = document.getElementById('keep-open');
+  if (keep) keep.checked = false;
+  refreshDatalists();
+  showDrawer();
+}
+
+function showDrawer() {
+  document.getElementById('drawer').classList.add('show');
+  document.getElementById('drawer-bg').classList.add('show');
+  document.getElementById('drawer').setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';  // prevenir scroll del fondo
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('show');
+  document.getElementById('drawer-bg').classList.remove('show');
+  document.getElementById('drawer').setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+  editingId = null;
+}
+
+// Wire up drawer UI
+document.getElementById('btn-open-drawer').addEventListener('click', openDrawerForNew);
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+document.getElementById('drawer-bg').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('drawer').classList.contains('show')) {
+    closeDrawer();
+  }
+});
+
+/* ==================== MENÚ "MÁS ACCIONES" ====================
+   El menú se crea dentro del panel de filtros pero al abrirlo lo movemos al
+   <body> para que escape de cualquier stacking context creado por las
+   animaciones CSS reveal (que usan transform y por eso crean su propio
+   stacking context que el z-index no puede atravesar). */
+const moreMenuBtn = document.getElementById('btn-more-menu');
+const moreMenu = document.getElementById('more-menu');
+const moreMenuOrigParent = moreMenu.parentElement;  // recordar su posición original
+
+function setMenuOpen(open) {
+  if (open) {
+    // Mover al body para escapar stacking contexts
+    if (moreMenu.parentElement !== document.body) {
+      document.body.appendChild(moreMenu);
+    }
+    // Posicionar relativo al botón (position: fixed)
+    const rect = moreMenuBtn.getBoundingClientRect();
+    moreMenu.style.top = (rect.bottom + 6) + 'px';
+    moreMenu.style.left = 'auto';
+    moreMenu.style.right = (window.innerWidth - rect.right) + 'px';
+    moreMenu.classList.add('show');
+  } else {
+    moreMenu.classList.remove('show');
+  }
+  moreMenuBtn.setAttribute('aria-expanded', open);
+}
+
+moreMenuBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  setMenuOpen(!moreMenu.classList.contains('show'));
+});
+document.addEventListener('click', (e) => {
+  if (!moreMenu.contains(e.target) && e.target !== moreMenuBtn) {
+    setMenuOpen(false);
+  }
+});
+window.addEventListener('scroll', () => {
+  if (moreMenu.classList.contains('show')) setMenuOpen(false);
+}, { passive: true });
+
+// Acciones del menú: Cargar ejemplo
+document.getElementById('menu-demo').addEventListener('click', () => {
+  setMenuOpen(false);
   loadDemoData();
 });
 
@@ -1387,16 +1923,21 @@ function updateSubHint() {
   }
 }
 
-/* ==================== BÚSQUEDA & TABLA ==================== */
-document.getElementById('search-input').addEventListener('input', e => {
-  searchQuery = e.target.value.toLowerCase().trim();
-  renderRecords();
-});
+/* ==================== BÚSQUEDA & TABLA ====================
+   En la página "Partidas Registradas", la búsqueda tiene dos mecanismos:
+   1) Filtros estructurados por campo (dropdowns) en regFilters
+   2) Búsqueda de texto libre en cualquier campo
+   Ambos se combinan (AND lógico). */
 
 function getFilteredRecords(list = records) {
   let r = list;
+  // Filtros estructurados
+  for (const f of FILTERS) {
+    if (regFilters[f]) r = r.filter(x => String(x[f]||'') === regFilters[f]);
+  }
+  // Búsqueda libre
   if (searchQuery) {
-    r = r.filter(x => FILTERS.some(f => (x[f]||'').toLowerCase().includes(searchQuery)));
+    r = r.filter(x => FILTERS.some(f => String(x[f]||'').toLowerCase().includes(searchQuery)));
   }
   return r;
 }
@@ -1404,20 +1945,33 @@ function getFilteredRecords(list = records) {
 function renderRecords() {
   const tbody = document.getElementById('records-tbody');
   const empty = document.getElementById('empty-state');
+  if (!tbody || !empty) return;  // Solo la página de Registros los tiene
+
   const list = getFilteredRecords(records);
 
-  document.getElementById('rec-count').textContent = records.length;
-  document.getElementById('records-hint').textContent =
-    records.length ? `${list.length} visible(s) de ${records.length}` : 'Sin registros';
+  const countEl = document.getElementById('records-hint');
+  if (countEl) countEl.textContent = records.length
+    ? `${list.length} visible(s) de ${records.length}`
+    : 'Sin registros';
+
+  const regCountHint = document.getElementById('reg-count-hint');
+  if (regCountHint) regCountHint.textContent = records.length
+    ? `${list.length} / ${records.length} partidas`
+    : 'Sin registros';
+
+  const regFootSum = document.getElementById('reg-foot-summary');
+  if (regFootSum) {
+    const totM27 = list.reduce((s,r)=>s+(r.monto2027||0),0);
+    regFootSum.textContent = `${list.length} partidas visibles · Monto 2027: $${Math.round(totM27).toLocaleString('es-CL')}`;
+  }
 
   if (list.length === 0) {
     tbody.innerHTML = '';
-    empty.style.display = records.length ? 'none' : 'block';
-    if (records.length && searchQuery) {
-      empty.style.display = 'block';
-      empty.innerHTML = '<div class="mark">⌕</div>Sin coincidencias para "'+esc(searchQuery)+'"';
-    } else if (!records.length) {
-      empty.innerHTML = '<div class="mark">◈</div>Aún no hay partidas registradas.<br />Ingresa una nueva o carga un ejemplo para comenzar.';
+    empty.style.display = 'block';
+    if (records.length) {
+      empty.innerHTML = '<div class="mark">⌕</div>Sin coincidencias para los filtros aplicados<br/><small style="opacity:.6; font-size:12px">Usa "Limpiar filtros" para ver todos los registros</small>';
+    } else {
+      empty.innerHTML = '<div class="mark">◈</div>Aún no hay partidas registradas.<br />Usa el botón <b>"+ Nueva partida"</b> o bien <b>"⋯ Más acciones → Cargar datos de ejemplo"</b>.';
     }
     return;
   }
@@ -1425,8 +1979,13 @@ function renderRecords() {
 
   tbody.innerHTML = list.map(r => {
     const delta = r.monto2026>0 ? ((r.monto2027-r.monto2026)/r.monto2026)*100 : (r.monto2027>0?100:0);
-    const dClass = delta>0?'pos':delta<0?'neg':'neu';
     const dColor = delta>0?'var(--positive)':delta<0?'var(--negative)':'var(--ink-50)';
+    // Tags visuales para categoría
+    const catBadge = r.categoria === 'Arrastre'
+      ? '<span style="display:inline-block; padding:2px 6px; background:rgba(176,141,59,.18); color:#8a6a24; border-radius:2px; font-size:11px; font-weight:500">Arrastre</span>'
+      : r.categoria === 'Nueva Convocatoria'
+      ? '<span style="display:inline-block; padding:2px 6px; background:rgba(47,93,63,.15); color:#2F5D3F; border-radius:2px; font-size:11px; font-weight:500">Nueva</span>'
+      : '—';
     return `<tr>
       <td>${esc(r.subdireccion)}</td>
       <td>${esc(r.asignacion)}</td>
@@ -1434,6 +1993,8 @@ function renderRecords() {
       <td>${esc(r.programa)}</td>
       <td>${esc(r.instrumento)}</td>
       <td>${esc(r.financiamiento)}</td>
+      <td class="num">${esc(r.concurso||'—')}</td>
+      <td>${catBadge}</td>
       <td class="num">${fmtNum(r.proy2026)}</td>
       <td class="num">${fmtNum(r.proy2027)}</td>
       <td class="num">${fmtCLP(r.monto2026)}</td>
@@ -1458,25 +2019,78 @@ function renderRecords() {
   });
 }
 
+/* ==================== VISTA PARTIDAS REGISTRADAS ====================
+   Construye los filtros jerárquicos (igual que en el dashboard) y los
+   sincroniza con la tabla. Permite búsqueda por texto libre además. */
+function renderRegistrosView() {
+  renderRegFilters();
+  renderRecords();
+}
+
+function renderRegFilters() {
+  const wrap = document.getElementById('reg-filters');
+  if (!wrap) return;
+
+  const labels = {
+    subdireccion:'Subdirección', asignacion:'Asignación', subtitulo:'Subtítulo',
+    programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento',
+    concurso:'Concurso (año)', categoria:'Categoría'
+  };
+
+  // Limpiar filtros inválidos (si la jerarquía quedó inconsistente)
+  let upstream = records.slice();
+  for (const f of FILTERS) {
+    if (regFilters[f]) {
+      const valid = new Set(upstream.map(r=>String(r[f]||'')).filter(Boolean));
+      if (!valid.has(regFilters[f])) delete regFilters[f];
+      else upstream = upstream.filter(r => String(r[f]||'') === regFilters[f]);
+    }
+  }
+
+  wrap.innerHTML = FILTERS.map(f => {
+    // Opciones disponibles bajo los filtros superiores
+    let subset = records.slice();
+    for (const other of FILTERS) {
+      if (other !== f && regFilters[other]) subset = subset.filter(r => String(r[other]||'') === regFilters[other]);
+    }
+    const opts = [...new Set(subset.map(r=>String(r[f]||'')).filter(Boolean))].sort();
+    const current = regFilters[f] || '';
+
+    return `<div class="filter-wrap">
+      <label>${labels[f]} <span style="color:var(--ink-30); font-weight:400; margin-left:4px">${opts.length} opción(es)</span></label>
+      <select data-reg-filter="${f}" ${opts.length===0?'disabled':''}>
+        <option value="">Todas</option>
+        ${opts.map(o => `<option value="${esc(o)}" ${current===o?'selected':''}>${esc(o)}</option>`).join('')}
+      </select>
+    </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('select').forEach(s => {
+    s.addEventListener('change', () => {
+      const f = s.dataset.regFilter;
+      if (s.value) regFilters[f] = s.value; else delete regFilters[f];
+      renderRegFilters();
+      renderRecords();
+    });
+  });
+}
+
 function duplicateRecord(id) {
   const r = records.find(x=>x.id===id); if (!r) return;
   const copy = {...r, id: uid(), asignacion: r.asignacion + ' (copia)'};
   records.push(copy);
   saveRecords(); renderRecords(); refreshDatalists();
+  try { renderRegFilters(); } catch(e) {}
+  try {
+    if (!document.getElementById('page-dashboard').classList.contains('hidden')) renderAll();
+  } catch(e) {}
   toast('Partida duplicada', 'ok');
 }
 
 function editRecord(id) {
-  const r = records.find(x=>x.id===id); if (!r) return;
-  editingId = id;
-  Object.keys(r).forEach(k => {
-    const input = form.querySelector(`[name="${k}"]`);
-    if (input) input.value = r[k];
-  });
-  document.getElementById('form-mode').textContent = 'Modo: Edición';
-  document.getElementById('btn-save').textContent = 'Actualizar';
-  refreshDatalists();  // cargar sugerencias acordes a la Subdirección del registro editado
-  form.scrollIntoView({behavior:'smooth', block:'start'});
+  // Ahora el formulario vive en un drawer lateral, así que abrimos el drawer
+  // en modo edición con los datos precargados.
+  openDrawerForEdit(id);
 }
 
 function deleteRecord(id) {
@@ -1485,22 +2099,50 @@ function deleteRecord(id) {
     saveRecords();
     renderRecords();
     refreshDatalists();
+    try { renderRegFilters(); } catch(e) {}
+    // Si el dashboard está visible, refrescar también
+    try {
+      if (!document.getElementById('page-dashboard').classList.contains('hidden')) {
+        renderAll();
+      }
+    } catch(e) {}
     toast('Partida eliminada', 'ok');
   });
 }
 
-document.getElementById('btn-clear-all').addEventListener('click', () => {
+document.getElementById('reg-btn-clear-all').addEventListener('click', () => {
   if (!records.length) return;
+  // Cerrar el menú si está abierto
+  const mm = document.getElementById('more-menu'); if (mm) mm.classList.remove('show');
   openModal('Vaciar todos los registros', `Se eliminarán las ${records.length} partidas actuales. ¿Continuar?`, () => {
-    records = []; saveRecords(); renderRecords(); refreshDatalists();
+    records = []; regFilters = {}; saveRecords(); renderRecords(); refreshDatalists(); renderRegFilters();
+    try {
+      if (!document.getElementById('page-dashboard').classList.contains('hidden')) renderAll();
+    } catch(e) {}
     toast('Registros eliminados', 'ok');
   });
 });
 
-document.getElementById('btn-export-records').addEventListener('click', () => exportRecordsXLSX());
+document.getElementById('reg-btn-export').addEventListener('click', () => {
+  const mm = document.getElementById('more-menu'); if (mm) mm.classList.remove('show');
+  exportRecordsXLSX();
+});
+
+document.getElementById('reg-clear-filters').addEventListener('click', () => {
+  regFilters = {};
+  searchQuery = '';
+  const si = document.getElementById('reg-search-input'); if (si) si.value = '';
+  renderRegFilters();
+  renderRecords();
+});
+
+document.getElementById('reg-search-input').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  renderRecords();
+});
 
 /* ==================== IMPORTACIÓN XLSX / CSV ==================== */
-document.getElementById('file-import').addEventListener('change', async (e) => {
+document.getElementById('reg-file-import').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   try {
@@ -1532,6 +2174,8 @@ document.getElementById('file-import').addEventListener('change', async (e) => {
       programa:     String(mapCol(row, ['Programa','programa','Programa Presupuestario'])).trim(),
       instrumento:  String(mapCol(row, ['Instrumento','instrumento'])).trim(),
       financiamiento:String(mapCol(row, ['Financiamiento','financiamiento','Financ.'])).trim(),
+      concurso:     String(mapCol(row, ['Concurso','concurso','Concurso (año)','Año concurso'])).trim(),
+      categoria:    String(mapCol(row, ['Categoría','Categoria','categoria'])).trim(),
       proy2026:     Math.round(toNum(mapCol(row, ['Proyectos 2026','Proy 2026','proy2026','Proy. 26']))),
       proy2027:     Math.round(toNum(mapCol(row, ['Proyectos 2027','Proy 2027','proy2027','Proy. 27']))),
       monto2026:    toNum(mapCol(row, ['Monto 2026','monto2026','Monto 26'])),
@@ -1547,7 +2191,10 @@ document.getElementById('file-import').addEventListener('change', async (e) => {
       `Se detectaron ${imported.length} partidas válidas en el archivo. ¿Agregar a los registros actuales?`,
       () => {
         records.push(...imported);
-        saveRecords(); renderRecords(); refreshDatalists();
+        saveRecords(); renderRecords(); refreshDatalists(); renderRegFilters();
+        try {
+          if (!document.getElementById('page-dashboard').classList.contains('hidden')) renderAll();
+        } catch(e) {}
         toast(`${imported.length} partidas importadas`, 'ok');
       });
   } catch (err) {
@@ -1559,7 +2206,8 @@ document.getElementById('file-import').addEventListener('change', async (e) => {
 });
 
 /* ==================== RESPALDO JSON ==================== */
-document.getElementById('btn-backup').addEventListener('click', () => {
+document.getElementById('reg-btn-backup').addEventListener('click', () => {
+  const mm = document.getElementById('more-menu'); if (mm) mm.classList.remove('show');
   if (!records.length) { toast('No hay datos para respaldar','err'); return; }
   const data = {
     meta: {
@@ -1643,55 +2291,80 @@ function loadDemoData() {
   if (records.length && !confirm('Se agregarán partidas de ejemplo a los registros actuales. ¿Continuar?')) return;
   // Datos de ejemplo basados en la estructura real de ANID:
   // Subdirecciones oficiales + instrumentos efectivamente administrados por la agencia.
+  // Incluye Concurso (año) y Categoría (Nueva Convocatoria / Arrastre).
   const demo = [
-    // Subdirección Capital Humano
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     proy2026:850,  proy2027:920,  monto2026:45000000000, monto2027:52000000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     proy2026:420,  proy2027:480,  monto2026:38000000000, monto2027:44000000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     proy2026:1200, proy2027:1350, monto2026:18500000000, monto2027:21000000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.106', subtitulo:'24 — Transferencias Corrientes',   programa:'Inserción en la Academia',              instrumento:'Subvención a la Instalación',      financiamiento:'Institucional', proy2026:45,   proy2027:52,   monto2026:3200000000,  monto2027:3850000000 },
+    // ===== Subdirección Capital Humano =====
+    // Doctorado Nacional — nueva convocatoria 2026 + arrastres
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:250, proy2027:0,   monto2026:12500000000, monto2027:0 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:280, proy2027:260, monto2026:18500000000, monto2027:17200000000 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2024', categoria:'Arrastre',            proy2026:320, proy2027:320, monto2026:14000000000, monto2027:12800000000 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:340, monto2026:0,           monto2027:22000000000 },
+    // Becas Chile
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:180, proy2027:0,   monto2026:18000000000, monto2027:0 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:240, proy2027:230, monto2026:20000000000, monto2027:19800000000 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:250, monto2026:0,           monto2027:24200000000 },
+    // Magíster
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:600, proy2027:0,   monto2026:8500000000,  monto2027:0 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:600, proy2027:550, monto2026:10000000000, monto2027:9200000000 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:800, monto2026:0,           monto2027:11800000000 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.106', subtitulo:'24 — Transferencias Corrientes',   programa:'Inserción en la Academia',              instrumento:'Subvención a la Instalación',      financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:45,  proy2027:0,   monto2026:3200000000,  monto2027:0 },
+    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.106', subtitulo:'24 — Transferencias Corrientes',   programa:'Inserción en la Academia',              instrumento:'Subvención a la Instalación',      financiamiento:'Institucional', concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:52,  monto2026:0,           monto2027:3850000000 },
 
-    // Subdirección de Proyectos de Investigación (Fondecyt)
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     proy2026:680,  proy2027:650,  monto2026:68000000000, monto2027:65000000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     proy2026:320,  proy2027:360,  monto2026:14500000000, monto2027:16800000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     proy2026:280,  proy2027:310,  monto2026:12000000000, monto2027:13800000000 },
+    // ===== Subdirección de Proyectos de Investigación (Fondecyt) =====
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:420, proy2027:0,   monto2026:28000000000, monto2027:0 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:260, proy2027:250, monto2026:26000000000, monto2027:25000000000 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2024', categoria:'Arrastre',            proy2026:140, proy2027:120, monto2026:14000000000, monto2027:11500000000 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:400, monto2026:0,           monto2027:28500000000 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:200, proy2027:0,   monto2026:8500000000,  monto2027:0 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:120, proy2027:100, monto2026:6000000000,  monto2027:5300000000 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:260, monto2026:0,           monto2027:11500000000 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:180, proy2027:0,   monto2026:7500000000,  monto2027:0 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:100, proy2027:90,  monto2026:4500000000,  monto2027:4100000000 },
+    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:220, monto2026:0,           monto2027:9700000000 },
 
-    // Subdirección Centros e Investigación Asociativa
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     proy2026:42,   proy2027:48,   monto2026:22000000000, monto2027:26500000000 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     proy2026:28,   proy2027:32,   monto2026:9800000000,  monto2027:11200000000 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.303', subtitulo:'24 — Transferencias Corrientes',   programa:'Centros Basales',                       instrumento:'Financiamiento Basal',              financiamiento:'Basal',         proy2026:14,   proy2027:14,   monto2026:34000000000, monto2027:36500000000 },
+    // ===== Subdirección Centros e Investigación Asociativa =====
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:22,  proy2027:0,   monto2026:11500000000, monto2027:0 },
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:20,  proy2027:20,  monto2026:10500000000, monto2027:10800000000 },
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:28,  monto2026:0,           monto2027:15700000000 },
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:18,  proy2027:0,   monto2026:6000000000,  monto2027:0 },
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:10,  proy2027:10,  monto2026:3800000000,  monto2027:3900000000 },
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:22,  monto2026:0,           monto2027:7300000000 },
+    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.303', subtitulo:'24 — Transferencias Corrientes',   programa:'Centros Basales',                       instrumento:'Financiamiento Basal',              financiamiento:'Basal',         concurso:'2024', categoria:'Arrastre',            proy2026:14,  proy2027:14,  monto2026:34000000000, monto2027:36500000000 },
 
-    // Subdirección Investigación Aplicada
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     proy2026:95,   proy2027:110,  monto2026:15800000000, monto2027:18500000000 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.402', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef Valorización de la Investigación', financiamiento:'Sectorial', proy2026:35, proy2027:42,  monto2026:5200000000,  monto2027:6400000000 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondequip',                             instrumento:'Fondequip Mediano',                 financiamiento:'Sectorial',     proy2026:45,   proy2027:38,   monto2026:8900000000,  monto2027:7800000000 },
+    // ===== Subdirección Investigación Aplicada =====
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:60,  proy2027:0,   monto2026:9500000000,  monto2027:0 },
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:35,  proy2027:30,  monto2026:6300000000,  monto2027:5500000000 },
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:75,  monto2026:0,           monto2027:13000000000 },
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.402', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef Valorización de la Investigación', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:22, proy2027:0,   monto2026:3400000000,  monto2027:0 },
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.402', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef Valorización de la Investigación', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,  proy2027:30,  monto2026:0,           monto2027:4800000000 },
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondequip',                             instrumento:'Fondequip Mediano',                 financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:45,  proy2027:0,   monto2026:8900000000,  monto2027:0 },
+    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondequip',                             instrumento:'Fondequip Mediano',                 financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:38,  monto2026:0,           monto2027:7800000000 },
 
-    // Subdirección Redes, Estrategia y Conocimiento
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes',   programa:'Cooperación Internacional',             instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', proy2026:55,  proy2027:62,   monto2026:3400000000,  monto2027:3950000000 },
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes',   programa:'Vinculación Regional',                  instrumento:'Nodos Macrozonales',                financiamiento:'Regional',      proy2026:18,   proy2027:24,   monto2026:2800000000,  monto2027:3800000000 },
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.503', subtitulo:'24 — Transferencias Corrientes',   programa:'Información Científica',                instrumento:'SciELO Chile',                      financiamiento:'Institucional', proy2026:1,    proy2027:1,    monto2026:650000000,   monto2027:720000000 },
+    // ===== Subdirección Redes, Estrategia y Conocimiento =====
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes',   programa:'Cooperación Internacional',             instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:55,  proy2027:0,   monto2026:3400000000,  monto2027:0 },
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes',   programa:'Cooperación Internacional',             instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:62,  monto2026:0,           monto2027:3950000000 },
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes',   programa:'Vinculación Regional',                  instrumento:'Nodos Macrozonales',                financiamiento:'Regional',      concurso:'2026', categoria:'Nueva Convocatoria', proy2026:18,  proy2027:0,   monto2026:2800000000,  monto2027:0 },
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes',   programa:'Vinculación Regional',                  instrumento:'Nodos Macrozonales',                financiamiento:'Regional',      concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:24,  monto2026:0,           monto2027:3800000000 },
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.503', subtitulo:'24 — Transferencias Corrientes',   programa:'Información Científica',                instrumento:'SciELO Chile',                      financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:1,   proy2027:1,   monto2026:650000000,   monto2027:720000000 },
 
-    // Gastos operativos institucionales
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 21.01.001', subtitulo:'21 — Gastos en Personal',          programa:'Gestión Institucional',                 instrumento:'Personal de Planta',                financiamiento:'Institucional', proy2026:0,    proy2027:0,    monto2026:8500000000,  monto2027:9100000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 21.02.001', subtitulo:'21 — Gastos en Personal',          programa:'Gestión Institucional',                 instrumento:'Personal a Contrata',               financiamiento:'Institucional', proy2026:0,    proy2027:0,    monto2026:12400000000, monto2027:13200000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 22.01.001', subtitulo:'22 — Bienes y Servicios de Consumo',programa:'Gestión Institucional',                instrumento:'Operación y Mantención',            financiamiento:'Institucional', proy2026:0,    proy2027:0,    monto2026:2800000000,  monto2027:2950000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 22.08.011', subtitulo:'22 — Bienes y Servicios de Consumo',programa:'Gestión Institucional',                instrumento:'Viáticos',                          financiamiento:'Institucional', proy2026:0,    proy2027:0,    monto2026:180000000,   monto2027:210000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 29.07.001', subtitulo:'29 — Adquisición de Activos No Financieros', programa:'Gestión Institucional',         instrumento:'Programas Informáticos',            financiamiento:'Institucional', proy2026:0,    proy2027:0,    monto2026:420000000,   monto2027:580000000 },
+    // ===== Gastos operativos institucionales =====
+    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 21.01.001', subtitulo:'21 — Gastos en Personal',          programa:'Gestión Institucional',                 instrumento:'Personal de Planta',                financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:8500000000,  monto2027:9100000000 },
+    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 21.02.001', subtitulo:'21 — Gastos en Personal',          programa:'Gestión Institucional',                 instrumento:'Personal a Contrata',               financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:12400000000, monto2027:13200000000 },
+    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 22.01.001', subtitulo:'22 — Bienes y Servicios de Consumo',programa:'Gestión Institucional',                instrumento:'Operación y Mantención',            financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:2800000000,  monto2027:2950000000 },
+    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 22.08.011', subtitulo:'22 — Bienes y Servicios de Consumo',programa:'Gestión Institucional',                instrumento:'Viáticos',                          financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:180000000,   monto2027:210000000 },
+    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 29.07.001', subtitulo:'29 — Adquisición de Activos No Financieros', programa:'Gestión Institucional',         instrumento:'Programas Informáticos',            financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:0,   monto2026:420000000,   monto2027:580000000 },
   ];
   demo.forEach(d => records.push({...d, id: uid()}));
   saveRecords();
   renderRecords();
   refreshDatalists();
+  try { renderRegFilters(); } catch(e) {}
+  // Auto-refresh del dashboard si está visible
+  try {
+    if (!document.getElementById('page-dashboard').classList.contains('hidden')) renderAll();
+  } catch(e) {}
   toast(`Cargadas ${demo.length} partidas de ejemplo (datos referenciales ANID)`, 'ok');
 }
-
-/* ==================== PROCESAR ==================== */
-document.getElementById('btn-process').addEventListener('click', () => {
-  if (!records.length) {
-    toast('No hay datos para procesar. Carga al menos una partida.', 'err');
-    return;
-  }
-  document.querySelector('[data-nav="dashboard"]').click();
-});
 
 /* ==================== ANÁLISIS & CÁLCULOS ==================== */
 function getDashData() {
@@ -1752,7 +2425,8 @@ function pickBreakdownDim(data, preferred) {
 
 function dimLabel(dim) {
   return { subdireccion:'Subdirección', asignacion:'Asignación', subtitulo:'Subtítulo',
-           programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento' }[dim];
+           programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento',
+           concurso:'Concurso', categoria:'Categoría' }[dim];
 }
 
 function computeKPIs(data) {
@@ -1776,8 +2450,8 @@ function renderDashboard() {
     container.innerHTML = `
       <div class="dash-empty">
         <h2>Sin datos para analizar</h2>
-        <p>Vuelve al módulo de ingreso y carga al menos una partida presupuestaria. Puedes usar el botón "Cargar ejemplo" para explorar el dashboard con datos de muestra.</p>
-        <button class="btn btn-primary" onclick="document.querySelector('[data-nav=ingreso]').click()">Ir a ingreso de datos</button>
+        <p>Primero carga al menos una partida presupuestaria en la sección "Partidas Registradas". Puedes usar el botón "+ Nueva partida" o cargar datos de ejemplo desde el menú "⋯ Más acciones".</p>
+        <button class="btn btn-primary" onclick="document.querySelector('[data-nav=registros]').click()">Ir a Partidas Registradas</button>
       </div>`;
     return;
   }
@@ -1793,82 +2467,98 @@ function renderDashboard() {
     <div class="kpi-grid" id="kpi-grid"></div>
 
     <div class="charts-grid">
-      <div class="chart-card span-8 reveal">
+      <div class="chart-card span-8 reveal" data-chart="comp">
         <div class="chart-hd">
           <h3>Comparativo presupuestario 2026 <span style="color:var(--ink-30)">vs</span> 2027</h3>
-          <span class="chart-sub">Por Subdirección</span>
+          <span class="chart-sub"><span class="sub-text">Por Subdirección</span><button class="chart-zoom" data-zoom="comp">Zoom</button></span>
         </div>
         <div class="chart-body lg"><canvas id="ch-comp"></canvas></div>
       </div>
 
-      <div class="chart-card span-4 reveal">
+      <div class="chart-card span-4 reveal" data-chart="donut">
         <div class="chart-hd">
           <h3>Distribución 2027</h3>
-          <span class="chart-sub">Subdirecciones</span>
+          <span class="chart-sub"><span class="sub-text">Subdirecciones</span><button class="chart-zoom" data-zoom="donut">Zoom</button></span>
         </div>
         <div class="chart-body lg"><canvas id="ch-donut"></canvas></div>
       </div>
 
-      <div class="chart-card span-6 reveal">
+      <div class="chart-card span-6 reveal" data-chart="rank-asig">
         <div class="chart-hd">
           <h3>Ranking · Mayores montos 2027</h3>
-          <span class="chart-sub">Top asignaciones</span>
+          <span class="chart-sub"><span class="sub-text">Top asignaciones</span><button class="chart-zoom" data-zoom="rank-asig">Zoom</button></span>
         </div>
         <div id="rank-asig"></div>
       </div>
 
-      <div class="chart-card span-6 reveal">
+      <div class="chart-card span-6 reveal" data-chart="rank-var">
         <div class="chart-hd">
           <h3>Ranking · Mayores variaciones absolutas</h3>
-          <span class="chart-sub">Δ 2027 − 2026</span>
+          <span class="chart-sub"><span class="sub-text">Δ 2027 − 2026</span><button class="chart-zoom" data-zoom="rank-var">Zoom</button></span>
         </div>
         <div id="rank-var"></div>
       </div>
 
-      <div class="chart-card span-6 reveal">
+      <div class="chart-card span-6 reveal" data-chart="categoria">
+        <div class="chart-hd">
+          <h3>Nueva Convocatoria vs Arrastre</h3>
+          <span class="chart-sub"><span class="sub-text">Composición 2027</span><button class="chart-zoom" data-zoom="categoria">Zoom</button></span>
+        </div>
+        <div class="chart-body"><canvas id="ch-categoria"></canvas></div>
+      </div>
+
+      <div class="chart-card span-6 reveal" data-chart="concurso">
+        <div class="chart-hd">
+          <h3>Distribución por año de concurso</h3>
+          <span class="chart-sub"><span class="sub-text">Monto 2027</span><button class="chart-zoom" data-zoom="concurso">Zoom</button></span>
+        </div>
+        <div class="chart-body"><canvas id="ch-concurso"></canvas></div>
+      </div>
+
+      <div class="chart-card span-6 reveal" data-chart="stack">
         <div class="chart-hd">
           <h3>Composición por Subtítulo</h3>
-          <span class="chart-sub">2027 · Barras apiladas</span>
+          <span class="chart-sub"><span class="sub-text">2027 · Barras apiladas</span><button class="chart-zoom" data-zoom="stack">Zoom</button></span>
         </div>
         <div class="chart-body"><canvas id="ch-stack"></canvas></div>
       </div>
 
-      <div class="chart-card span-6 reveal">
+      <div class="chart-card span-6 reveal" data-chart="instr">
         <div class="chart-hd">
           <h3>Instrumentos · Participación 2027</h3>
-          <span class="chart-sub">Dona</span>
+          <span class="chart-sub"><span class="sub-text">Dona</span><button class="chart-zoom" data-zoom="instr">Zoom</button></span>
         </div>
         <div class="chart-body"><canvas id="ch-instr"></canvas></div>
       </div>
 
-      <div class="chart-card span-6 reveal">
+      <div class="chart-card span-6 reveal" data-chart="fin">
         <div class="chart-hd">
           <h3>Financiamiento · Participación 2027</h3>
-          <span class="chart-sub">Por fuente</span>
+          <span class="chart-sub"><span class="sub-text">Por fuente</span><button class="chart-zoom" data-zoom="fin">Zoom</button></span>
         </div>
         <div class="chart-body"><canvas id="ch-fin"></canvas></div>
       </div>
 
-      <div class="chart-card span-6 reveal">
+      <div class="chart-card span-6 reveal" data-chart="scatter">
         <div class="chart-hd">
           <h3>Programas · Monto vs. N° proyectos</h3>
-          <span class="chart-sub">Dispersión 2027</span>
+          <span class="chart-sub"><span class="sub-text">Dispersión 2027</span><button class="chart-zoom" data-zoom="scatter">Zoom</button></span>
         </div>
         <div class="chart-body"><canvas id="ch-scatter"></canvas></div>
       </div>
 
-      <div class="chart-card span-12 reveal">
+      <div class="chart-card span-12 reveal" data-chart="heatmap">
         <div class="chart-hd">
           <h3>Matriz de concentración · Subdirección × Subtítulo</h3>
-          <span class="chart-sub">Monto 2027 · mapa de calor</span>
+          <span class="chart-sub"><span class="sub-text">Monto 2027 · mapa de calor</span><button class="chart-zoom" data-zoom="heatmap">Zoom</button></span>
         </div>
         <div class="heatmap-wrap" id="heatmap"></div>
       </div>
 
-      <div class="chart-card span-12 reveal">
+      <div class="chart-card span-12 reveal" data-chart="var">
         <div class="chart-hd">
           <h3>Variación porcentual por Subdirección</h3>
-          <span class="chart-sub">2026 → 2027</span>
+          <span class="chart-sub"><span class="sub-text">2026 → 2027</span><button class="chart-zoom" data-zoom="var">Zoom</button></span>
         </div>
         <div class="chart-body"><canvas id="ch-var"></canvas></div>
       </div>
@@ -1881,12 +2571,12 @@ function renderDashboard() {
         <div class="insights" id="insights"></div>
       </div>
 
-      <div class="chart-card span-12 reveal">
+      <div class="chart-card span-12 reveal" data-chart="summary-table">
         <div class="chart-hd">
           <h3>Tabla resumen ejecutiva</h3>
           <span class="chart-sub">
             <button class="btn btn-ghost btn-icon" id="btn-export-xlsx">XLSX</button>
-            <button class="btn btn-ghost btn-icon" id="btn-export-pdf">PDF</button>
+            <button class="btn btn-ghost btn-icon" id="btn-export-pdf">PDF (filtrado)</button>
             <button class="btn btn-ghost btn-icon" id="btn-print">Imprimir</button>
           </span>
         </div>
@@ -1897,10 +2587,246 @@ function renderDashboard() {
 
   renderFilters();
   renderAll();
+  bindZoomButtons();
 
   document.getElementById('btn-export-xlsx').addEventListener('click', exportDashboardXLSX);
   document.getElementById('btn-export-pdf').addEventListener('click', exportDashboardPDF);
   document.getElementById('btn-print').addEventListener('click', () => window.print());
+}
+
+/* ==================== ZOOM DE GRÁFICOS ====================
+   Cada tarjeta del dashboard tiene un botón "Zoom" que abre un modal
+   grande con la misma visualización. Se aprovecha el hecho de que Chart.js
+   permite crear otra instancia del mismo gráfico en otro canvas, así
+   mantenemos los filtros actuales y no hay que duplicar la lógica.
+   Para los rankings, heatmap y tabla (que son HTML), se clona el contenido. */
+let zoomChart = null;
+
+function bindZoomButtons() {
+  document.querySelectorAll('.chart-zoom').forEach(btn => {
+    btn.addEventListener('click', () => openZoom(btn.dataset.zoom));
+  });
+  document.getElementById('zoom-close').addEventListener('click', closeZoom);
+  document.getElementById('zoom-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'zoom-modal') closeZoom();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('zoom-modal').classList.contains('show')) {
+      closeZoom();
+    }
+  });
+}
+
+function closeZoom() {
+  const bg = document.getElementById('zoom-modal');
+  bg.classList.remove('show');
+  document.getElementById('zoom-body').innerHTML = '';
+  if (zoomChart) { try { zoomChart.destroy(); } catch(e){} zoomChart = null; }
+}
+
+function openZoom(chartKey) {
+  const data = getDashData();
+  if (!data.length) return;
+
+  const bg = document.getElementById('zoom-modal');
+  const body = document.getElementById('zoom-body');
+  const title = document.getElementById('zoom-title');
+  const sub = document.getElementById('zoom-sub');
+
+  // Buscar la tarjeta original para heredar su título
+  const origCard = document.querySelector(`[data-chart="${chartKey}"]`);
+  if (origCard) {
+    title.textContent = origCard.querySelector('h3').textContent;
+    const subEl = origCard.querySelector('.sub-text');
+    sub.textContent = subEl ? subEl.textContent : '';
+  }
+
+  body.innerHTML = '';
+  bg.classList.add('show');
+
+  // Gráficos Chart.js (con canvas): recrear en canvas grande
+  const chartRenderers = {
+    'comp': () => zoomChartCompare(data, body),
+    'donut': () => zoomChartDonut(data, body),
+    'stack': () => zoomChartStack(data, body),
+    'instr': () => zoomChartInstr(data, body),
+    'fin': () => zoomChartFin(data, body),
+    'scatter': () => zoomChartScatter(data, body),
+    'var': () => zoomChartVar(data, body),
+    'categoria': () => zoomChartCategoria(data, body),
+    'concurso': () => zoomChartConcurso(data, body),
+  };
+
+  // Rankings, heatmap y tabla: clonar el contenido HTML
+  const htmlClones = {
+    'rank-asig': () => {
+      const src = document.getElementById('rank-asig').innerHTML;
+      body.innerHTML = `<div style="max-width:1000px;margin:0 auto">${src}</div>`;
+    },
+    'rank-var': () => {
+      const src = document.getElementById('rank-var').innerHTML;
+      body.innerHTML = `<div style="max-width:1000px;margin:0 auto">${src}</div>`;
+    },
+    'heatmap': () => {
+      body.innerHTML = `<div class="heatmap-wrap">${document.getElementById('heatmap').innerHTML}</div>`;
+    }
+  };
+
+  if (chartRenderers[chartKey]) {
+    const canvas = document.createElement('canvas');
+    canvas.style.maxHeight = 'calc(100vh - 200px)';
+    body.appendChild(canvas);
+    chartRenderers[chartKey](canvas);
+  } else if (htmlClones[chartKey]) {
+    htmlClones[chartKey]();
+  }
+}
+
+/* Versiones ampliadas de los gráficos Chart.js */
+function zoomChartCompare(data, body) {
+  const dim = pickBreakdownDim(data, 'subdireccion');
+  const agg = aggregate(data, dim);
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: agg.map(a => a.key),
+      datasets: [
+        { label: '2026', data: agg.map(a=>a.m26), backgroundColor: '#1E4D6B', borderRadius: 2 },
+        { label: '2027', data: agg.map(a=>a.m27), backgroundColor: '#7A1F2B', borderRadius: 2 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' }, tooltip: tooltipCfg() },
+      scales: {
+        y: { ticks: { callback: v=> fmtCLP(v,true) }, grid: { color: 'rgba(14,26,43,.06)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function zoomChartDonut(data, body) {
+  const dim = pickBreakdownDim(data, 'subdireccion');
+  const agg = aggregate(data, dim).filter(a=>a.m27>0);
+  const total = agg.reduce((s,a)=>s+a.m27,0);
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: agg.map(a=>a.key),
+      datasets: [{ data: agg.map(a=>a.m27), backgroundColor: agg.map((_,i)=>PALETTE[i%PALETTE.length]), borderColor:'#FFFFFF', borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins: {
+        legend: { position:'right', labels:{boxWidth:12,boxHeight:12,usePointStyle:true,font:{size:12}} },
+        tooltip: { ...tooltipCfg(), callbacks: { label: ctx => {
+          const v = ctx.parsed; const p = total>0?((v/total)*100).toFixed(1):0;
+          return `${ctx.label}: ${fmtCLP(v)} (${p}%)`;
+        }}}
+      }
+    }
+  });
+}
+
+function zoomChartStack(data, body) {
+  const xDim = pickBreakdownDim(data, 'subdireccion');
+  let stackDim = 'subtitulo';
+  if (xDim === 'subtitulo' || new Set(data.map(r=>r.subtitulo)).size < 2) {
+    const alts = ['instrumento','financiamiento','programa','categoria'];
+    for (const a of alts) {
+      if (a !== xDim && !activeFilters[a] && new Set(data.map(r=>r[a])).size > 1) { stackDim = a; break; }
+    }
+  }
+  const xVals = [...new Set(data.map(r=>r[xDim]))];
+  const stacks = [...new Set(data.map(r=>r[stackDim]))];
+  const datasets = stacks.map((s,i) => ({
+    label: String(s), backgroundColor: PALETTE[i%PALETTE.length], borderRadius: 2,
+    data: xVals.map(xv => data.filter(r=>r[xDim]===xv && r[stackDim]===s).reduce((a,b)=>a+b.monto2027,0))
+  }));
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'bar', data: { labels: xVals, datasets },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: { legend:{position:'bottom'}, tooltip: tooltipCfg() },
+      scales: {
+        x: { stacked:true, grid:{display:false} },
+        y: { stacked:true, ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
+      }
+    }
+  });
+}
+
+function zoomChartInstr(data, body) {
+  const agg = aggregate(data,'instrumento').filter(a=>a.m27>0);
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'doughnut',
+    data: { labels: agg.map(a=>a.key), datasets: [{ data: agg.map(a=>a.m27), backgroundColor: agg.map((_,i)=>PALETTE[i%PALETTE.length]), borderColor:'#FFF', borderWidth:2 }] },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'50%', plugins: { legend: { position:'right' }, tooltip: tooltipCfg() } }
+  });
+}
+
+function zoomChartFin(data, body) {
+  const agg = aggregate(data,'financiamiento');
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'bar',
+    data: { labels: agg.map(a=>a.key), datasets: [{ label:'Monto 2027', data: agg.map(a=>a.m27), backgroundColor: agg.map((_,i)=>PALETTE[i%PALETTE.length]), borderRadius:2 }] },
+    options: { responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins: {legend:{display:false}, tooltip: tooltipCfg()}, scales: { x: { ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }, y: { grid:{display:false} } } }
+  });
+}
+
+function zoomChartScatter(data, body) {
+  const agg = aggregate(data,'programa');
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'bubble',
+    data: { datasets: [{ label:'Programas', data: agg.map(a=>({ x:a.p27, y:a.m27, r: Math.max(6, Math.min(35, Math.sqrt(a.count)*8)), label: a.key })), backgroundColor:'rgba(122,31,43,.55)', borderColor:'#7A1F2B', borderWidth:1.5 }] },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: { legend:{display:false}, tooltip: { ...tooltipCfg(), callbacks: { label: ctx => { const d=ctx.raw; return [d.label, 'Proyectos: '+fmtNum(d.x), 'Monto: '+fmtCLP(d.y)]; }}}},
+      scales: { x: { title:{display:true,text:'Proyectos 2027'}, grid:{color:'rgba(14,26,43,.06)'} }, y: { title:{display:true,text:'Monto 2027'}, ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} } }
+    }
+  });
+}
+
+function zoomChartVar(data, body) {
+  const dim = pickBreakdownDim(data, 'subdireccion');
+  const agg = aggregate(data, dim);
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'bar',
+    data: { labels: agg.map(a=>a.key), datasets: [{ label:'Variación %', data: agg.map(a=>a.deltaPct), backgroundColor: agg.map(a=>a.deltaPct>=0?'rgba(47,93,63,.85)':'rgba(122,31,43,.85)'), borderColor: agg.map(a=>a.deltaPct>=0?'#2F5D3F':'#7A1F2B'), borderWidth:1, borderRadius:2 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins: {legend:{display:false}, tooltip: { ...tooltipCfg(), callbacks: { label: ctx => fmtPct(ctx.parsed.y) } }}, scales: { x:{grid:{display:false}}, y:{ticks:{callback:v=>v+'%'}, grid:{color:'rgba(14,26,43,.06)'}} } }
+  });
+}
+
+function zoomChartCategoria(data, body) {
+  const agg = aggregate(data,'categoria').filter(a=>a.m27>0);
+  const total = agg.reduce((s,a)=>s+a.m27,0);
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'doughnut',
+    data: { labels: agg.map(a=>a.key), datasets: [{ data: agg.map(a=>a.m27), backgroundColor: agg.map(a=>a.key==='Nueva Convocatoria'?'#2F5D3F':'#B08D3B'), borderColor:'#FFF', borderWidth:2 }] },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'50%', plugins: { legend:{position:'right',labels:{font:{size:14}}}, tooltip: { ...tooltipCfg(), callbacks: { label: ctx => { const v=ctx.parsed; const p=total>0?((v/total)*100).toFixed(1):0; return `${ctx.label}: ${fmtCLP(v)} (${p}%)`; }}}}}
+  });
+}
+
+function zoomChartConcurso(data, body) {
+  const agg = aggregate(data, 'concurso').sort((a,b)=>String(a.key).localeCompare(String(b.key)));
+  const canvas = body.querySelector('canvas');
+  zoomChart = new Chart(canvas, {
+    type: 'bar',
+    data: { labels: agg.map(a=>'Concurso '+a.key), datasets: [
+      { label:'Monto 2026', data: agg.map(a=>a.m26), backgroundColor:'#1E4D6B', borderRadius:2 },
+      { label:'Monto 2027', data: agg.map(a=>a.m27), backgroundColor:'#7A1F2B', borderRadius:2 }
+    ] },
+    options: { responsive:true, maintainAspectRatio:false, plugins: {legend:{position:'top'}, tooltip: tooltipCfg()}, scales: { x:{grid:{display:false}}, y:{ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'}} } }
+  });
 }
 
 /* ==================== FILTROS JERÁRQUICOS ====================
@@ -1923,7 +2849,9 @@ function renderFilters() {
     subtitulo:'Subtítulo',
     programa:'Programa',
     instrumento:'Instrumento',
-    financiamiento:'Financiamiento'
+    financiamiento:'Financiamiento',
+    concurso:'Concurso',
+    categoria:'Categoría'
   };
 
   // Limpiar filtros que ya no son válidos bajo los filtros superiores actuales.
@@ -1991,7 +2919,8 @@ function renderActiveFilters() {
 
   const labels = {
     subdireccion:'Subdirección', asignacion:'Asignación', subtitulo:'Subtítulo',
-    programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento'
+    programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento',
+    concurso:'Concurso', categoria:'Categoría'
   };
 
   wrap.innerHTML = `
@@ -2025,6 +2954,11 @@ function renderAll() {
     document.getElementById('kpi-grid').innerHTML = '';
     return;
   }
+  // IMPORTANTE: destruir todos los charts previos antes de recrearlos,
+  // si no Chart.js se queja y los gráficos quedan "pegados" sin refrescar.
+  Object.values(charts).forEach(c => c && c.destroy && c.destroy());
+  charts = {};
+
   renderExecSummary(data);
   renderKPIs(data);
   renderChartCompare(data);
@@ -2037,6 +2971,8 @@ function renderAll() {
   renderChartScatter(data);
   renderHeatmap(data);
   renderChartVar(data);
+  renderChartCategoria(data);
+  renderChartConcurso(data);
   renderInsights(data);
   renderSummaryTable(data);
   document.getElementById('foot-summary').textContent = `${data.length} partidas analizadas`;
@@ -2157,7 +3093,7 @@ function renderChartCompare(data) {
 
   // Actualizar el subtítulo del gráfico
   const card = document.getElementById('ch-comp').closest('.chart-card');
-  if (card) card.querySelector('.chart-sub').textContent = 'Por ' + dimLabel(dim);
+  if (card) card.querySelector('.sub-text').textContent = 'Por ' + dimLabel(dim);
 
   const ctx = document.getElementById('ch-comp');
   charts.comp = new Chart(ctx, {
@@ -2187,7 +3123,7 @@ function renderChartDonut(data) {
   const total = agg.reduce((s,a)=>s+a.m27,0);
 
   const card = document.getElementById('ch-donut').closest('.chart-card');
-  if (card) card.querySelector('.chart-sub').textContent = dimLabel(dim) + (dim==='subdireccion'?'es':'s');
+  if (card) card.querySelector('.sub-text').textContent = dimLabel(dim) + (dim==='subdireccion'?'es':'s');
 
   charts.donut = new Chart(document.getElementById('ch-donut'), {
     type: 'doughnut',
@@ -2272,7 +3208,7 @@ function renderChartStack(data) {
   const card = document.getElementById('ch-stack').closest('.chart-card');
   if (card) {
     card.querySelector('h3').textContent = `Composición por ${dimLabel(stackDim)}`;
-    card.querySelector('.chart-sub').textContent = `2027 · ${dimLabel(xDim)}`;
+    card.querySelector('.sub-text').textContent = `2027 · ${dimLabel(xDim)}`;
   }
 
   const xVals = [...new Set(data.map(r=>r[xDim]))];
@@ -2379,6 +3315,64 @@ function renderChartScatter(data) {
       scales: {
         x: { title:{display:true,text:'Proyectos 2027', font:{size:10, family:"'JetBrains Mono'"}}, grid:{color:'rgba(14,26,43,.06)'} },
         y: { title:{display:true,text:'Monto 2027', font:{size:10, family:"'JetBrains Mono'"}}, ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
+      }
+    }
+  });
+}
+
+/* ==================== CHART: Categoría (Nueva Convocatoria vs Arrastre) ==================== */
+function renderChartCategoria(data) {
+  const agg = aggregate(data, 'categoria').filter(a=>a.m27>0);
+  const total = agg.reduce((s,a)=>s+a.m27,0);
+
+  charts.categoria = new Chart(document.getElementById('ch-categoria'), {
+    type: 'doughnut',
+    data: {
+      labels: agg.map(a=>a.key),
+      datasets: [{
+        data: agg.map(a=>a.m27),
+        backgroundColor: agg.map(a => a.key === 'Nueva Convocatoria' ? '#2F5D3F' : '#B08D3B'),
+        borderColor: '#FFFFFF', borderWidth: 2
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins: {
+        legend: { position:'bottom', labels:{boxWidth:10,boxHeight:10,usePointStyle:true,font:{size:11}} },
+        tooltip: {
+          ...tooltipCfg(),
+          callbacks: { label: ctx => {
+            const v = ctx.parsed; const p = total>0?((v/total)*100).toFixed(1):0;
+            return `${ctx.label}: ${fmtCLP(v)} (${p}%)`;
+          }}
+        }
+      }
+    }
+  });
+}
+
+/* ==================== CHART: Distribución por año de concurso ==================== */
+function renderChartConcurso(data) {
+  const agg = aggregate(data, 'concurso').sort((a,b) => String(a.key).localeCompare(String(b.key)));
+
+  charts.concurso = new Chart(document.getElementById('ch-concurso'), {
+    type: 'bar',
+    data: {
+      labels: agg.map(a => 'Concurso ' + a.key),
+      datasets: [
+        { label: 'Monto 2026', data: agg.map(a=>a.m26), backgroundColor: '#1E4D6B', borderRadius: 2 },
+        { label: 'Monto 2027', data: agg.map(a=>a.m27), backgroundColor: '#7A1F2B', borderRadius: 2 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {
+        legend: { position:'top', align:'end', labels:{boxWidth:10,boxHeight:10,usePointStyle:true} },
+        tooltip: tooltipCfg()
+      },
+      scales: {
+        x: { grid:{display:false} },
+        y: { ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
       }
     }
   });
@@ -2641,6 +3635,8 @@ function exportRecordsXLSX() {
     'Programa': r.programa,
     'Instrumento': r.instrumento,
     'Financiamiento': r.financiamiento,
+    'Concurso': r.concurso || '',
+    'Categoría': r.categoria || '',
     'Proyectos 2026': r.proy2026,
     'Proyectos 2027': r.proy2027,
     'Monto 2026': r.monto2026,
@@ -2696,19 +3692,19 @@ function exportDashboardXLSX() {
 function exportDashboardPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({orientation:'landscape', unit:'pt', format:'a4'});
+  // USA LOS DATOS FILTRADOS — respeta los filtros que el usuario haya aplicado
   const data = getDashData();
+  if (!data.length) { toast('Sin datos para exportar con los filtros aplicados','err'); return; }
   const k = computeKPIs(data);
   const pageW = doc.internal.pageSize.getWidth();
 
   // Banda superior institucional — solo texto, sin bandera
   doc.setFillColor(14, 26, 43);
   doc.rect(0, 0, pageW, 34, 'F');
-  // Texto institucional ANID en dos líneas
   doc.setFont('helvetica','bold'); doc.setFontSize(9);
   doc.setTextColor(245, 241, 232);
   doc.text('Agencia Nacional de', 40, 14);
   doc.text('Investigación y Desarrollo', 40, 24);
-  // Separador y título del sistema
   doc.setDrawColor(176, 141, 59);
   doc.setLineWidth(.5);
   doc.line(155, 8, 155, 26);
@@ -2733,21 +3729,58 @@ function exportDashboardPDF() {
   doc.setLineWidth(1);
   doc.line(40, 113, pageW - 40, 113);
 
+  // BLOQUE DE FILTROS ACTIVOS (si hay)
+  const activeEntries = Object.entries(activeFilters).filter(([_,v]) => v);
+  let cursorY = 133;
+  if (activeEntries.length > 0) {
+    doc.setFillColor(245, 232, 233);  // tono oxblood claro
+    doc.setDrawColor(122, 31, 43);
+    doc.setLineWidth(.5);
+    const boxHeight = 14 + Math.ceil(activeEntries.length / 3) * 12;
+    doc.rect(40, cursorY - 10, pageW - 80, boxHeight, 'FD');
+    doc.setFont('helvetica','bold'); doc.setFontSize(9);
+    doc.setTextColor(122, 31, 43);
+    doc.text('FILTROS APLICADOS EN ESTE INFORME', 48, cursorY - 1);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8);
+    doc.setTextColor(30);
+    const labels = {
+      subdireccion:'Subdirección', asignacion:'Asignación', subtitulo:'Subtítulo',
+      programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento',
+      concurso:'Concurso', categoria:'Categoría'
+    };
+    activeEntries.forEach(([k, v], idx) => {
+      const col = idx % 3;
+      const row = Math.floor(idx / 3);
+      const x = 48 + col * ((pageW - 100) / 3);
+      const y = cursorY + 11 + row * 12;
+      doc.setFont('helvetica','bold');
+      doc.text(labels[k] + ':', x, y);
+      doc.setFont('helvetica','normal');
+      const labelW = doc.getTextWidth(labels[k] + ': ');
+      const maxW = (pageW - 100) / 3 - labelW - 4;
+      const txt = String(v).length > 35 ? String(v).slice(0,33)+'…' : String(v);
+      doc.text(txt, x + labelW + 2, y);
+    });
+    cursorY += boxHeight + 6;
+  }
+
   // Resumen narrativo
   doc.setTextColor(30); doc.setFontSize(10); doc.setFont('helvetica','bold');
-  doc.text('Resumen Ejecutivo', 40, 133);
+  doc.text('Resumen Ejecutivo', 40, cursorY);
   doc.setFont('helvetica','normal'); doc.setFontSize(9);
   const direction = k.dPct>=0 ? 'incrementa' : 'disminuye';
-  const summary = `El presupuesto total ${direction} un ${fmtPct(k.dPct)} entre 2026 y 2027, pasando de ${fmtCLP(k.t26)} a ${fmtCLP(k.t27)}. Se ejecutarán ${fmtNum(k.p27)} proyectos en 2027 (${fmtPct(k.dpPct)} respecto a 2026), con un monto promedio por proyecto de ${fmtCLP(k.avg27)}.`;
+  const scopeText = activeEntries.length > 0 ? 'el presupuesto analizado (vista filtrada)' : 'el presupuesto total';
+  const summary = `Según los datos cargados, ${scopeText} ${direction} un ${fmtPct(k.dPct)} entre 2026 y 2027, pasando de ${fmtCLP(k.t26)} a ${fmtCLP(k.t27)}. Se ejecutarán ${fmtNum(k.p27)} proyectos en 2027 (${fmtPct(k.dpPct)} respecto a 2026), con un monto promedio por proyecto de ${fmtCLP(k.avg27)}.`;
   const splitSummary = doc.splitTextToSize(summary, pageW - 80);
-  doc.text(splitSummary, 40, 147);
+  doc.text(splitSummary, 40, cursorY + 14);
+  cursorY += 14 + splitSummary.length * 11 + 14;
 
   // Indicadores principales
   doc.setFont('helvetica','bold'); doc.setFontSize(10);
-  doc.text('Indicadores Principales', 40, 180);
+  doc.text('Indicadores Principales', 40, cursorY);
 
   doc.autoTable({
-    startY: 188,
+    startY: cursorY + 8,
     head: [['Indicador','Valor']],
     body: [
       ['Presupuesto 2026', fmtCLP(k.t26)],
@@ -2766,20 +3799,22 @@ function exportDashboardPDF() {
     margin: { left: 40, right: 40 }
   });
 
-  // Resumen por subdirección
-  const agg = aggregate(data,'subdireccion');
+  // Tabla resumen por la dimensión adaptativa más informativa
+  const dim = pickBreakdownDim(data, 'subdireccion');
+  const agg = aggregate(data, dim);
   const total = agg.reduce((s,a)=>s+a.m27,0);
   doc.setFontSize(10); doc.setFont('helvetica','bold');
-  doc.text('Resumen por Subdirección', 40, doc.lastAutoTable.finalY + 25);
+  doc.text('Resumen por ' + dimLabel(dim), 40, doc.lastAutoTable.finalY + 25);
 
   doc.autoTable({
     startY: doc.lastAutoTable.finalY + 33,
-    head: [['Subdirección','N° Part.','Monto 2026','Monto 2027','Δ Abs.','Δ %','Part. 2027']],
+    head: [[dimLabel(dim), 'N° Part.', 'Monto 2026', 'Monto 2027', 'Δ Abs.', 'Δ %', 'Part. 2027']],
     body: agg.map(a => [
-      a.key, a.count, fmtCLP(a.m26,true), fmtCLP(a.m27,true),
+      String(a.key).length>40?String(a.key).slice(0,38)+'…':a.key,
+      a.count, fmtCLP(a.m26,true), fmtCLP(a.m27,true),
       (a.delta>=0?'+':'') + fmtCLP(a.delta,true),
       fmtPct(a.deltaPct),
-      ((a.m27/total)*100).toFixed(1)+'%'
+      total>0 ? ((a.m27/total)*100).toFixed(1)+'%' : '—'
     ]),
     theme: 'striped',
     headStyles: { fillColor: [14,26,43], textColor: [245,241,232], fontSize: 9, fontStyle:'bold' },
@@ -2790,6 +3825,27 @@ function exportDashboardPDF() {
     },
     margin: { left: 40, right: 40 }
   });
+
+  // Tabla por Categoría (Nueva Convocatoria vs Arrastre) — muy útil en informes ANID
+  const byCat = aggregate(data, 'categoria');
+  if (byCat.length >= 1) {
+    doc.setFontSize(10); doc.setFont('helvetica','bold');
+    doc.text('Nueva Convocatoria vs Arrastre', 40, doc.lastAutoTable.finalY + 25);
+    doc.autoTable({
+      startY: doc.lastAutoTable.finalY + 33,
+      head: [['Categoría', 'N° Part.', 'Monto 2026', 'Monto 2027', 'Δ %', 'Part. 2027']],
+      body: byCat.map(a => [
+        a.key || '—', a.count, fmtCLP(a.m26,true), fmtCLP(a.m27,true),
+        fmtPct(a.deltaPct),
+        total>0 ? ((a.m27/total)*100).toFixed(1)+'%' : '—'
+      ]),
+      theme: 'grid',
+      headStyles: { fillColor: [14,26,43], textColor: [245,241,232], fontSize: 9, fontStyle:'bold' },
+      bodyStyles: { fontSize: 8.5 },
+      columnStyles: { 1:{halign:'right'}, 2:{halign:'right'}, 3:{halign:'right'}, 4:{halign:'right'}, 5:{halign:'right'} },
+      margin: { left: 40, right: 40 }
+    });
+  }
 
   // Footer institucional en cada página
   const pg = doc.internal.getNumberOfPages();
@@ -2807,8 +3863,9 @@ function exportDashboardPDF() {
     doc.text('Documento generado por ERARIO — Sistema de Análisis Presupuestario', 40, h - 9);
   }
 
-  doc.save(`ANID-ERARIO-informe-${new Date().toISOString().slice(0,10)}.pdf`);
-  toast('PDF generado','ok');
+  const fileSuffix = activeEntries.length > 0 ? '-filtrado' : '';
+  doc.save(`ANID-ERARIO-informe${fileSuffix}-${new Date().toISOString().slice(0,10)}.pdf`);
+  toast(activeEntries.length > 0 ? `PDF generado con ${activeEntries.length} filtro(s) aplicado(s)` : 'PDF generado','ok');
 }
 
 /* ==================== RELOJ TOPBAR ==================== */
@@ -2825,6 +3882,8 @@ tickClock();
 loadRecords();
 renderRecords();
 refreshDatalists();
+// Pre-render de los filtros de la página Registros (por si el usuario la abre directamente)
+try { renderRegFilters(); } catch(e) { /* noop */ }
 </script>
 
 </body>
