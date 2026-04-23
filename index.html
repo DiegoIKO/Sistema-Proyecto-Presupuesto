@@ -1311,6 +1311,198 @@
     .drawer { max-width: 100%; border-left: none; }
   }
 
+  /* ==================== SECCIÓN DE VALORES MULTI-AÑO ==================== */
+  .values-section {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--ink-15);
+  }
+  .values-hd {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 16px; margin-bottom: 14px;
+  }
+  .values-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-70);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .values-hint {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-50);
+    max-width: 380px;
+    line-height: 1.4;
+  }
+  .values-list {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .value-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1.2fr 32px;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--paper-pure);
+    border: 1px solid var(--ink-15);
+    border-radius: 2px;
+    transition: all .15s;
+  }
+  .value-row:hover { border-color: var(--ink-30); }
+  .value-row .vr-field {
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .value-row .vr-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-50);
+  }
+  .value-row input, .value-row select {
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 6px 8px;
+    background: var(--card);
+    border: 1px solid var(--ink-15);
+    border-radius: 2px;
+    width: 100%;
+  }
+  .value-row .vr-currency { position: relative; }
+  .value-row .vr-currency::before {
+    content: '$';
+    position: absolute;
+    left: 8px; top: 50%; transform: translateY(-50%);
+    font-family: var(--serif);
+    color: var(--ink-50);
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .value-row .vr-currency input { padding-left: 18px; font-family: var(--mono); }
+  .value-row .vr-remove {
+    background: transparent;
+    border: 1px solid var(--ink-15);
+    color: var(--ink-50);
+    width: 30px; height: 30px;
+    margin-top: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all .15s;
+  }
+  .value-row .vr-remove:hover {
+    border-color: var(--accent-oxblood);
+    color: var(--accent-oxblood);
+  }
+  .values-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--ink-50);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    border: 1px dashed var(--ink-15);
+    border-radius: 2px;
+  }
+  .values-empty.hidden { display: none; }
+  @media (max-width: 560px) {
+    .value-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .value-row .vr-remove { grid-column: 2/3; justify-self: end; margin-top: 0; }
+  }
+
+  /* ==================== SELECTOR AÑOS Y MÉTRICA ==================== */
+  .year-metric-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: flex-start;
+    padding: 16px 20px;
+    background: var(--card);
+    border: 1px solid var(--ink-15);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 800px) {
+    .year-metric-bar { grid-template-columns: 1fr; gap: 18px; }
+  }
+  .ymb-section { display: flex; flex-direction: column; gap: 8px; }
+  .ymb-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-70);
+    font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .ymb-count {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-50);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .year-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .year-chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    background: var(--paper-pure);
+    border: 1px solid var(--ink-15);
+    border-radius: 2px;
+    color: var(--ink-70);
+    cursor: pointer;
+    transition: all .15s;
+    font-variant-numeric: tabular-nums;
+  }
+  .year-chip:hover {
+    border-color: var(--accent-gold);
+    color: var(--ink);
+  }
+  .year-chip.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: 0 1px 3px rgba(14,26,43,.2);
+  }
+  .metric-toggle {
+    display: inline-flex;
+    border: 1px solid var(--ink-15);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--paper-pure);
+  }
+  .metric-btn {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    color: var(--ink-70);
+    cursor: pointer;
+    transition: all .15s;
+    border-right: 1px solid var(--ink-15);
+  }
+  .metric-btn:last-child { border-right: none; }
+  .metric-btn:hover { color: var(--ink); background: rgba(14,26,43,.03); }
+  .metric-btn.active {
+    background: var(--accent-oxblood);
+    color: var(--paper);
+  }
+
   /* Scrollbar */
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track { background: var(--paper-warm); }
@@ -1410,7 +1602,7 @@
     <div class="table-wrap" style="max-height: calc(100vh - 420px); min-height: 500px">
       <table class="data">
         <thead>
-          <tr>
+          <tr id="records-thead-row">
             <th>Subdirección</th>
             <th>Asignación</th>
             <th>Subtítulo</th>
@@ -1419,11 +1611,9 @@
             <th>Financ.</th>
             <th>Concurso</th>
             <th>Categoría</th>
-            <th style="text-align:right">Proy. 26</th>
-            <th style="text-align:right">Proy. 27</th>
-            <th style="text-align:right">Monto 26</th>
-            <th style="text-align:right">Monto 27</th>
-            <th style="text-align:right">Δ%</th>
+            <th style="text-align:right">Años</th>
+            <th style="text-align:right">Monto total</th>
+            <th style="text-align:right">Actividades</th>
             <th></th>
           </tr>
         </thead>
@@ -1452,7 +1642,7 @@
       <div class="eyebrow">Módulo II · Análisis & Visualización</div>
       <h1>Panel <em>ejecutivo</em></h1>
     </div>
-    <div class="subtitle">Indicadores, variaciones, concentraciones y rankings derivados automáticamente de las partidas cargadas. Comparativo 2026 vs 2027.</div>
+    <div class="subtitle">Indicadores, variaciones, concentraciones y rankings derivados automáticamente. Selecciona años y tipo de métrica en el panel dorado.</div>
   </div>
 
   <div id="dash-content">
@@ -1553,21 +1743,22 @@
             <option value="Arrastre">Arrastre</option>
           </select>
         </div>
-        <div class="field">
-          <label>Proyectos 2026</label>
-          <input type="number" name="proy2026" min="0" step="1" value="0" />
+      </div>
+
+      <!-- ==================== VALORES MULTI-AÑO ==================== -->
+      <div class="values-section">
+        <div class="values-hd">
+          <div>
+            <div class="values-label">Valores <span class="req">*</span></div>
+            <div class="values-hint">Agrega una fila por cada combinación de año y tipo que quieras registrar (monto o cantidad de actividades).</div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-icon" id="btn-add-value">+ Agregar valor</button>
         </div>
-        <div class="field">
-          <label>Proyectos 2027</label>
-          <input type="number" name="proy2027" min="0" step="1" value="0" />
+        <div class="values-list" id="values-list">
+          <!-- filas generadas dinámicamente -->
         </div>
-        <div class="field">
-          <label>Monto 2026 <span class="req">*</span></label>
-          <div class="currency"><input type="number" name="monto2026" min="0" step="1" required value="0" /></div>
-        </div>
-        <div class="field">
-          <label>Monto 2027 <span class="req">*</span></label>
-          <div class="currency"><input type="number" name="monto2027" min="0" step="1" required value="0" /></div>
+        <div class="values-empty" id="values-empty">
+          <em>Aún no has agregado valores. Haz clic en "+ Agregar valor" para ingresar al menos uno.</em>
         </div>
       </div>
     </form>
@@ -1631,6 +1822,21 @@ const CATALOG = {
 };
 const STORAGE_KEY = 'erario.records.v1';
 const FILTERS = ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento','concurso','categoria'];
+// Filtros extendidos incluyen "año" que no es un campo directo sino que mira dentro de valores[]
+const EXTENDED_FILTERS = [...FILTERS, 'año'];
+
+/* ==================== TIPOS DE MÉTRICA ====================
+   El modelo de datos ahora es "long": cada partida tiene un array `valores`
+   con entradas {año, tipo, valor}. Esto permite ingresar montos y
+   cantidades de actividades en cualquier combinación de años. */
+const METRIC_TYPES = [
+  { id: 'monto',        label: 'Monto',                 isCurrency: true,  unit: '$' },
+  { id: 'actividades',  label: 'Cantidad de Actividades', isCurrency: false, unit: '' }
+];
+const metricById = id => METRIC_TYPES.find(m => m.id === id) || METRIC_TYPES[0];
+
+// Paleta categórica para todos los gráficos y visuales
+const PALETTE = ['#1E4D6B','#7A1F2B','#B08D3B','#2F5D3F','#A64B2A','#4A3A5E','#5C6B3A','#8A5A3C','#3B5D7A','#A37A3F'];
 
 let records = [];
 let editingId = null;
@@ -1638,6 +1844,11 @@ let activeFilters = {};
 let regFilters = {};       // filtros propios de la vista Partidas Registradas
 let charts = {};     // instancias Chart.js
 let searchQuery = '';
+// Años seleccionados para comparar en el dashboard. Se inicializan a los
+// últimos 2 años con datos la primera vez que se abre el dashboard.
+let selectedYears = [];
+// Tipo de métrica activo para el dashboard (los gráficos muestran una métrica a la vez)
+let activeMetric = 'monto';
 
 /* ==================== UTILIDADES ==================== */
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -1676,6 +1887,45 @@ function loadRecords() {
       if (raw) records = JSON.parse(raw);
     }
   } catch(e) { records = []; }
+  // Migración silenciosa: si algún registro está en formato wide
+  // (monto2026, monto2027, proy2026, proy2027), convertirlo a long.
+  records = records.map(migrateRecordIfNeeded);
+  saveRecords();  // persistir formato nuevo
+}
+
+/* ==================== MIGRACIÓN WIDE → LONG ====================
+   Si el registro tiene los campos antiguos monto2026/monto2027/proy2026/proy2027
+   pero no tiene `valores`, los convierte al nuevo array y elimina los campos antiguos.
+   Registros ya en formato long pasan sin cambios. */
+function migrateRecordIfNeeded(r) {
+  if (Array.isArray(r.valores)) return r;  // ya migrado
+  const valores = [];
+  if (typeof r.monto2026 === 'number' && r.monto2026 > 0) valores.push({ año: 2026, tipo: 'monto', valor: r.monto2026 });
+  if (typeof r.monto2027 === 'number' && r.monto2027 > 0) valores.push({ año: 2027, tipo: 'monto', valor: r.monto2027 });
+  if (typeof r.proy2026  === 'number' && r.proy2026  > 0) valores.push({ año: 2026, tipo: 'actividades', valor: r.proy2026 });
+  if (typeof r.proy2027  === 'number' && r.proy2027  > 0) valores.push({ año: 2027, tipo: 'actividades', valor: r.proy2027 });
+  const { monto2026, monto2027, proy2026, proy2027, ...rest } = r;
+  return { ...rest, valores };
+}
+
+/* ==================== HELPERS DE VALORES ====================
+   Utilidades para trabajar con el nuevo modelo long. */
+function getValue(rec, año, tipo) {
+  const v = (rec.valores || []).find(x => x.año == año && x.tipo === tipo);
+  return v ? v.valor : 0;
+}
+function getYearsOfRecord(rec) {
+  return [...new Set((rec.valores || []).map(v => Number(v.año)))].sort();
+}
+function getAllYearsInData(data = records) {
+  const all = new Set();
+  data.forEach(r => (r.valores || []).forEach(v => all.add(Number(v.año))));
+  return [...all].sort();
+}
+function getTotalForYearType(data, año, tipo) {
+  let sum = 0;
+  for (const r of data) sum += getValue(r, año, tipo);
+  return sum;
 }
 
 /* ==================== NAVEGACIÓN ==================== */
@@ -1697,14 +1947,92 @@ const form = document.getElementById('record-form');
 
 function clearForm() {
   form.reset();
-  form.querySelector('[name="proy2026"]').value = 0;
-  form.querySelector('[name="proy2027"]').value = 0;
-  form.querySelector('[name="monto2026"]').value = 0;
-  form.querySelector('[name="monto2027"]').value = 0;
   editingId = null;
   document.getElementById('form-mode').textContent = 'Modo: Creación';
   document.getElementById('btn-save').textContent = 'Guardar partida';
-  refreshDatalists();  // resetear el autocompletado a universo completo
+  renderValuesList([]);  // limpiar filas de valores
+  refreshDatalists();
+}
+
+/* ==================== GESTIÓN DE VALORES EN EL DRAWER ====================
+   Las filas de valores se manejan en memoria (fuera de form elements tradicionales)
+   y se recolectan al guardar. Cada fila es {año, tipo, valor}. */
+let drawerValues = [];  // estado de filas actualmente mostradas en el drawer
+
+function renderValuesList(initialValues) {
+  drawerValues = (initialValues || []).map(v => ({
+    año: v.año, tipo: v.tipo || 'monto', valor: v.valor || 0
+  }));
+  drawValuesList();
+}
+
+function drawValuesList() {
+  const list = document.getElementById('values-list');
+  const empty = document.getElementById('values-empty');
+  if (!list) return;
+
+  if (drawerValues.length === 0) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  list.innerHTML = drawerValues.map((v, idx) => {
+    const m = metricById(v.tipo);
+    return `
+      <div class="value-row" data-idx="${idx}">
+        <div class="vr-field">
+          <label class="vr-label">Año</label>
+          <input type="number" min="2000" max="2100" step="1" value="${v.año || ''}" data-field="año" placeholder="2026" />
+        </div>
+        <div class="vr-field">
+          <label class="vr-label">Tipo</label>
+          <select data-field="tipo">
+            ${METRIC_TYPES.map(t => `<option value="${t.id}" ${v.tipo===t.id?'selected':''}>${t.label}</option>`).join('')}
+          </select>
+        </div>
+        <div class="vr-field">
+          <label class="vr-label">Valor</label>
+          <div class="${m.isCurrency ? 'vr-currency' : ''}">
+            <input type="number" min="0" step="${m.isCurrency ? '1' : '1'}" value="${v.valor || 0}" data-field="valor" />
+          </div>
+        </div>
+        <button type="button" class="vr-remove" data-remove="${idx}" title="Eliminar fila">✕</button>
+      </div>`;
+  }).join('');
+
+  // Wire inputs: actualizar drawerValues cuando cambian
+  list.querySelectorAll('.value-row').forEach(row => {
+    const idx = Number(row.dataset.idx);
+    row.querySelectorAll('[data-field]').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const field = inp.dataset.field;
+        if (field === 'valor' || field === 'año') {
+          drawerValues[idx][field] = Number(inp.value) || 0;
+        } else {
+          drawerValues[idx][field] = inp.value;
+          // Si cambió el tipo, redibujar para ajustar el $ currency prefix
+          if (field === 'tipo') drawValuesList();
+        }
+      });
+    });
+    const rm = row.querySelector('[data-remove]');
+    rm.addEventListener('click', () => {
+      drawerValues.splice(idx, 1);
+      drawValuesList();
+    });
+  });
+}
+
+function addValueRow() {
+  // Año por defecto: último año usado en esta partida + 1, o año actual
+  let defYear = new Date().getFullYear();
+  if (drawerValues.length > 0) {
+    const lastYear = Math.max(...drawerValues.map(v => Number(v.año) || 0));
+    if (lastYear > 0) defYear = lastYear;
+  }
+  drawerValues.push({ año: defYear, tipo: 'monto', valor: 0 });
+  drawValuesList();
 }
 
 document.getElementById('btn-clear').addEventListener('click', clearForm);
@@ -1712,6 +2040,23 @@ document.getElementById('btn-clear').addEventListener('click', clearForm);
 document.getElementById('btn-save').addEventListener('click', () => {
   const fd = new FormData(form);
   const editingId_wasSet = !!editingId;  // capturar antes de clearForm
+
+  // Validar que haya al menos una fila de valores válida
+  const validValues = drawerValues
+    .filter(v => v.año && v.tipo && Number(v.valor) > 0)
+    .map(v => ({ año: Number(v.año), tipo: v.tipo, valor: Number(v.valor) }));
+
+  if (validValues.length === 0) {
+    toast('Debes agregar al menos un valor (año + tipo + valor > 0)', 'err');
+    return;
+  }
+  // Detectar duplicados exactos (mismo año + mismo tipo)
+  const keys = validValues.map(v => v.año + '|' + v.tipo);
+  if (new Set(keys).size !== keys.length) {
+    toast('Hay valores duplicados: no puede haber dos filas con el mismo año y tipo', 'err');
+    return;
+  }
+
   const rec = {
     id: editingId || uid(),
     subdireccion: (fd.get('subdireccion')||'').trim(),
@@ -1722,19 +2067,13 @@ document.getElementById('btn-save').addEventListener('click', () => {
     financiamiento:(fd.get('financiamiento')||'').trim(),
     concurso:     (fd.get('concurso')||'').toString().trim(),
     categoria:    (fd.get('categoria')||'').trim(),
-    proy2026:     Math.max(0, parseInt(fd.get('proy2026'))||0),
-    proy2027:     Math.max(0, parseInt(fd.get('proy2027'))||0),
-    monto2026:    Math.max(0, parseFloat(fd.get('monto2026'))||0),
-    monto2027:    Math.max(0, parseFloat(fd.get('monto2027'))||0),
+    valores:      validValues
   };
 
-  // Validación
+  // Validación de campos estructurales
   const required = ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento','concurso','categoria'];
   for (const f of required) {
     if (!rec[f]) { toast('Falta completar: '+f, 'err'); return; }
-  }
-  if (rec.monto2026===0 && rec.monto2027===0) {
-    toast('Debe haber al menos un monto mayor a cero', 'err'); return;
   }
 
   if (editingId) {
@@ -1749,7 +2088,6 @@ document.getElementById('btn-save').addEventListener('click', () => {
   renderRecords();
   refreshDatalists();
   try { renderRegFilters(); } catch(e) {}
-  // Si el dashboard está visible, refrescarlo automáticamente (dato → gráfico)
   try {
     if (!document.getElementById('page-dashboard').classList.contains('hidden')) {
       renderAll();
@@ -1788,8 +2126,9 @@ function openDrawerForNew() {
   document.getElementById('btn-save').textContent = 'Guardar partida';
   const keepWrap = document.getElementById('keep-open-wrap');
   if (keepWrap) keepWrap.style.display = '';
+  // Inicializar lista de valores con una fila lista para editar (por defecto año actual + monto)
+  renderValuesList([{ año: new Date().getFullYear(), tipo: 'monto', valor: 0 }]);
   showDrawer();
-  // Foco en el primer campo para empezar a tipear de inmediato
   setTimeout(() => {
     form.querySelector('[name="subdireccion"]').focus();
   }, 320);
@@ -1798,19 +2137,22 @@ function openDrawerForNew() {
 function openDrawerForEdit(id) {
   const r = records.find(x=>x.id===id); if (!r) return;
   editingId = id;
-  Object.keys(r).forEach(k => {
-    const input = form.querySelector(`[name="${k}"]`);
-    if (input) input.value = r[k];
-  });
+  // Rellenar los campos estructurales
+  ['subdireccion','asignacion','subtitulo','programa','instrumento','financiamiento','concurso','categoria']
+    .forEach(k => {
+      const input = form.querySelector(`[name="${k}"]`);
+      if (input) input.value = r[k] || '';
+    });
   document.getElementById('drawer-title').textContent = 'Editar partida';
   document.getElementById('drawer-eyebrow').textContent = 'Edición';
   document.getElementById('form-mode').textContent = 'Modo: Edición';
   document.getElementById('btn-save').textContent = 'Actualizar';
-  // En modo edición no tiene sentido "mantener abierto"
   const keepWrap = document.getElementById('keep-open-wrap');
   if (keepWrap) keepWrap.style.display = 'none';
   const keep = document.getElementById('keep-open');
   if (keep) keep.checked = false;
+  // Cargar los valores existentes en la tabla dinámica
+  renderValuesList(r.valores || []);
   refreshDatalists();
   showDrawer();
 }
@@ -1834,6 +2176,7 @@ function closeDrawer() {
 document.getElementById('btn-open-drawer').addEventListener('click', openDrawerForNew);
 document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 document.getElementById('drawer-bg').addEventListener('click', closeDrawer);
+document.getElementById('btn-add-value').addEventListener('click', addValueRow);
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && document.getElementById('drawer').classList.contains('show')) {
     closeDrawer();
@@ -1935,6 +2278,11 @@ function getFilteredRecords(list = records) {
   for (const f of FILTERS) {
     if (regFilters[f]) r = r.filter(x => String(x[f]||'') === regFilters[f]);
   }
+  // Filtro especial "año": mira dentro de valores[]
+  if (regFilters['año']) {
+    const targetYear = Number(regFilters['año']);
+    r = r.filter(x => (x.valores||[]).some(v => Number(v.año) === targetYear));
+  }
   // Búsqueda libre
   if (searchQuery) {
     r = r.filter(x => FILTERS.some(f => String(x[f]||'').toLowerCase().includes(searchQuery)));
@@ -1978,8 +2326,13 @@ function renderRecords() {
   empty.style.display = 'none';
 
   tbody.innerHTML = list.map(r => {
-    const delta = r.monto2026>0 ? ((r.monto2027-r.monto2026)/r.monto2026)*100 : (r.monto2027>0?100:0);
-    const dColor = delta>0?'var(--positive)':delta<0?'var(--negative)':'var(--ink-50)';
+    const years = getYearsOfRecord(r);
+    const totalMonto = (r.valores||[]).filter(v=>v.tipo==='monto').reduce((s,v)=>s+v.valor,0);
+    const totalActs = (r.valores||[]).filter(v=>v.tipo==='actividades').reduce((s,v)=>s+v.valor,0);
+    const yearsLabel = years.length === 0 ? '—'
+      : years.length === 1 ? String(years[0])
+      : years.length <= 3 ? years.join(', ')
+      : `${years[0]}–${years[years.length-1]} (${years.length})`;
     // Tags visuales para categoría
     const catBadge = r.categoria === 'Arrastre'
       ? '<span style="display:inline-block; padding:2px 6px; background:rgba(176,141,59,.18); color:#8a6a24; border-radius:2px; font-size:11px; font-weight:500">Arrastre</span>'
@@ -1995,11 +2348,9 @@ function renderRecords() {
       <td>${esc(r.financiamiento)}</td>
       <td class="num">${esc(r.concurso||'—')}</td>
       <td>${catBadge}</td>
-      <td class="num">${fmtNum(r.proy2026)}</td>
-      <td class="num">${fmtNum(r.proy2027)}</td>
-      <td class="num">${fmtCLP(r.monto2026)}</td>
-      <td class="num">${fmtCLP(r.monto2027)}</td>
-      <td class="num" style="color:${dColor};font-weight:600">${fmtPct(delta)}</td>
+      <td class="num" style="color:var(--ink-70)">${yearsLabel}</td>
+      <td class="num" style="font-weight:500">${totalMonto>0 ? fmtCLP(totalMonto) : '—'}</td>
+      <td class="num">${totalActs>0 ? fmtNum(totalActs) : '—'}</td>
       <td class="actions">
         <button class="row-btn edit" data-edit="${r.id}" title="Editar">Editar</button>
         <button class="row-btn dup" data-dup="${r.id}" title="Duplicar">Duplicar</button>
@@ -2034,7 +2385,7 @@ function renderRegFilters() {
   const labels = {
     subdireccion:'Subdirección', asignacion:'Asignación', subtitulo:'Subtítulo',
     programa:'Programa', instrumento:'Instrumento', financiamiento:'Financiamiento',
-    concurso:'Concurso (año)', categoria:'Categoría'
+    concurso:'Concurso (año)', categoria:'Categoría', 'año':'Año (con datos)'
   };
 
   // Limpiar filtros inválidos (si la jerarquía quedó inconsistente)
@@ -2046,14 +2397,33 @@ function renderRegFilters() {
       else upstream = upstream.filter(r => String(r[f]||'') === regFilters[f]);
     }
   }
+  // Si el año seleccionado ya no tiene registros que lo contengan, limpiarlo
+  if (regFilters['año']) {
+    const targetYear = Number(regFilters['año']);
+    const stillValid = upstream.some(r => (r.valores||[]).some(v => Number(v.año) === targetYear));
+    if (!stillValid) delete regFilters['año'];
+  }
 
-  wrap.innerHTML = FILTERS.map(f => {
-    // Opciones disponibles bajo los filtros superiores
-    let subset = records.slice();
-    for (const other of FILTERS) {
-      if (other !== f && regFilters[other]) subset = subset.filter(r => String(r[other]||'') === regFilters[other]);
+  const allFiltersToRender = [...FILTERS, 'año'];
+  wrap.innerHTML = allFiltersToRender.map(f => {
+    let opts;
+    if (f === 'año') {
+      // Años disponibles en el subset ya filtrado por los campos superiores
+      const yearsSet = new Set();
+      upstream.forEach(r => (r.valores||[]).forEach(v => yearsSet.add(String(v.año))));
+      opts = [...yearsSet].sort();
+    } else {
+      // Opciones disponibles bajo los filtros superiores
+      let subset = records.slice();
+      for (const other of FILTERS) {
+        if (other !== f && regFilters[other]) subset = subset.filter(r => String(r[other]||'') === regFilters[other]);
+      }
+      if (regFilters['año']) {
+        const y = Number(regFilters['año']);
+        subset = subset.filter(r => (r.valores||[]).some(v => Number(v.año) === y));
+      }
+      opts = [...new Set(subset.map(r=>String(r[f]||'')).filter(Boolean))].sort();
     }
-    const opts = [...new Set(subset.map(r=>String(r[f]||'')).filter(Boolean))].sort();
     const current = regFilters[f] || '';
 
     return `<div class="filter-wrap">
@@ -2152,7 +2522,6 @@ document.getElementById('reg-file-import').addEventListener('change', async (e) 
     const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
     if (!rows.length) { toast('El archivo no contiene datos','err'); return; }
 
-    // Mapeo flexible de columnas: intenta reconocer varios encabezados comunes
     const mapCol = (row, keys) => {
       for (const k of keys) {
         const found = Object.keys(row).find(col => col.toLowerCase().trim() === k.toLowerCase().trim());
@@ -2163,32 +2532,97 @@ document.getElementById('reg-file-import').addEventListener('change', async (e) 
     const toNum = v => {
       if (typeof v === 'number') return v;
       const n = parseFloat(String(v).replace(/[^\d.-]/g,''));
-      return isNaN(n) ? 0 : Math.max(0,n);
+      return isNaN(n) ? 0 : Math.max(0, n);
+    };
+    const normalizeTipo = t => {
+      const s = String(t||'').toLowerCase().trim();
+      if (s === 'monto' || s.startsWith('mont')) return 'monto';
+      if (s === 'actividades' || s === 'cantidad' || s.includes('activid') || s.includes('proy')) return 'actividades';
+      return 'monto';
     };
 
-    const imported = rows.map(row => ({
-      id: uid(),
-      subdireccion: String(mapCol(row, ['Subdirección','Subdireccion','subdireccion'])).trim(),
-      asignacion:   String(mapCol(row, ['Asignación','Asignacion','asignacion'])).trim(),
-      subtitulo:    String(mapCol(row, ['Subtítulo','Subtitulo','subtitulo'])).trim(),
-      programa:     String(mapCol(row, ['Programa','programa','Programa Presupuestario'])).trim(),
-      instrumento:  String(mapCol(row, ['Instrumento','instrumento'])).trim(),
-      financiamiento:String(mapCol(row, ['Financiamiento','financiamiento','Financ.'])).trim(),
-      concurso:     String(mapCol(row, ['Concurso','concurso','Concurso (año)','Año concurso'])).trim(),
-      categoria:    String(mapCol(row, ['Categoría','Categoria','categoria'])).trim(),
-      proy2026:     Math.round(toNum(mapCol(row, ['Proyectos 2026','Proy 2026','proy2026','Proy. 26']))),
-      proy2027:     Math.round(toNum(mapCol(row, ['Proyectos 2027','Proy 2027','proy2027','Proy. 27']))),
-      monto2026:    toNum(mapCol(row, ['Monto 2026','monto2026','Monto 26'])),
-      monto2027:    toNum(mapCol(row, ['Monto 2027','monto2027','Monto 27']))
-    })).filter(r => r.subdireccion && (r.monto2026>0 || r.monto2027>0));
+    // Detectar si el archivo está en formato LONG (tiene columnas Año + Tipo + Valor)
+    // o WIDE (tiene columnas Monto 2026, Proyectos 2026, etc.)
+    const cols = Object.keys(rows[0]).map(c => c.toLowerCase().trim());
+    const hasLong = cols.some(c => c === 'año' || c === 'ano') &&
+                    cols.some(c => c === 'tipo') &&
+                    cols.some(c => c === 'valor');
+
+    let imported = [];
+    let skipped = 0;
+
+    if (hasLong) {
+      // Formato LONG: agrupar filas por combinación estructural (usando una clave compuesta)
+      const byKey = new Map();
+      for (const row of rows) {
+        const sub = String(mapCol(row, ['Subdirección','Subdireccion','subdireccion'])).trim();
+        if (!sub) { skipped++; continue; }
+        const asi = String(mapCol(row, ['Asignación','Asignacion','asignacion'])).trim();
+        const st  = String(mapCol(row, ['Subtítulo','Subtitulo','subtitulo'])).trim();
+        const prg = String(mapCol(row, ['Programa','programa','Programa Presupuestario'])).trim();
+        const ins = String(mapCol(row, ['Instrumento','instrumento'])).trim();
+        const fin = String(mapCol(row, ['Financiamiento','financiamiento','Financ.'])).trim();
+        const con = String(mapCol(row, ['Concurso','concurso','Concurso (año)','Año concurso'])).trim();
+        const cat = String(mapCol(row, ['Categoría','Categoria','categoria'])).trim();
+        const año = Math.round(toNum(mapCol(row, ['Año','Ano','año','ano'])));
+        const tipo = normalizeTipo(mapCol(row, ['Tipo','tipo']));
+        const valor = toNum(mapCol(row, ['Valor','valor']));
+        if (año <= 0 || valor <= 0) { skipped++; continue; }
+        const key = [sub, asi, st, prg, ins, fin, con, cat].join('‖');
+        if (!byKey.has(key)) {
+          byKey.set(key, {
+            id: uid(), subdireccion: sub, asignacion: asi, subtitulo: st, programa: prg,
+            instrumento: ins, financiamiento: fin, concurso: con, categoria: cat, valores: []
+          });
+        }
+        byKey.get(key).valores.push({ año, tipo, valor });
+      }
+      imported = [...byKey.values()].filter(r => r.valores.length > 0);
+    } else {
+      // Formato WIDE (retrocompatibilidad): columnas Monto YYYY / Proyectos YYYY / Cantidad YYYY
+      // Detectar dinámicamente qué años están presentes en las columnas
+      const colKeys = Object.keys(rows[0]);
+      const yearCols = [];
+      for (const col of colKeys) {
+        const m = col.match(/(monto|cantidad|proy(?:ectos)?|actividades)\s*(20\d{2})/i);
+        if (m) {
+          yearCols.push({
+            col,
+            tipo: /cantidad|proy|activid/i.test(m[1]) ? 'actividades' : 'monto',
+            año: Number(m[2])
+          });
+        }
+      }
+      imported = rows.map(row => {
+        const rec = {
+          id: uid(),
+          subdireccion: String(mapCol(row, ['Subdirección','Subdireccion','subdireccion'])).trim(),
+          asignacion:   String(mapCol(row, ['Asignación','Asignacion','asignacion'])).trim(),
+          subtitulo:    String(mapCol(row, ['Subtítulo','Subtitulo','subtitulo'])).trim(),
+          programa:     String(mapCol(row, ['Programa','programa','Programa Presupuestario'])).trim(),
+          instrumento:  String(mapCol(row, ['Instrumento','instrumento'])).trim(),
+          financiamiento:String(mapCol(row, ['Financiamiento','financiamiento','Financ.'])).trim(),
+          concurso:     String(mapCol(row, ['Concurso','concurso','Concurso (año)','Año concurso'])).trim(),
+          categoria:    String(mapCol(row, ['Categoría','Categoria','categoria'])).trim(),
+          valores:      []
+        };
+        for (const yc of yearCols) {
+          const v = toNum(row[yc.col]);
+          if (v > 0) rec.valores.push({ año: yc.año, tipo: yc.tipo, valor: v });
+        }
+        return rec;
+      }).filter(r => r.subdireccion && r.valores.length > 0);
+      skipped = rows.length - imported.length;
+    }
 
     if (!imported.length) {
-      toast('No se pudieron identificar partidas. Revisa los encabezados.','err');
+      toast('No se pudieron identificar partidas. Revisa los encabezados del archivo.','err');
       return;
     }
 
+    const fmtName = hasLong ? 'long (partida-año-tipo)' : 'wide (columnas por año)';
     openModal('Importación de datos',
-      `Se detectaron ${imported.length} partidas válidas en el archivo. ¿Agregar a los registros actuales?`,
+      `Se detectaron ${imported.length} partidas válidas en formato ${fmtName}${skipped>0?` (${skipped} filas ignoradas por datos incompletos)`:''}. ¿Agregar a los registros actuales?`,
       () => {
         records.push(...imported);
         saveRecords(); renderRecords(); refreshDatalists(); renderRegFilters();
@@ -2289,77 +2723,138 @@ function refreshDatalists() {
 /* ==================== DATA DEMO ==================== */
 function loadDemoData() {
   if (records.length && !confirm('Se agregarán partidas de ejemplo a los registros actuales. ¿Continuar?')) return;
-  // Datos de ejemplo basados en la estructura real de ANID:
-  // Subdirecciones oficiales + instrumentos efectivamente administrados por la agencia.
-  // Incluye Concurso (año) y Categoría (Nueva Convocatoria / Arrastre).
+  // Helper: crea un array de valores multi-año a partir de un objeto compacto
+  // { 2024: {m: monto, a: actividades}, 2025: {...}, ... }
+  const mkValues = (yearsObj) => {
+    const vals = [];
+    for (const [año, data] of Object.entries(yearsObj)) {
+      if (data.m && data.m > 0) vals.push({ año: Number(año), tipo: 'monto', valor: data.m });
+      if (data.a && data.a > 0) vals.push({ año: Number(año), tipo: 'actividades', valor: data.a });
+    }
+    return vals;
+  };
+
+  // Datos de ejemplo basados en la estructura real de ANID con series multi-año.
+  // Cada partida puede tener valores en varios años (ej. un concurso 2024 financia
+  // proyectos hasta 2027 como arrastre).
   const demo = [
-    // ===== Subdirección Capital Humano =====
-    // Doctorado Nacional — nueva convocatoria 2026 + arrastres
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:250, proy2027:0,   monto2026:12500000000, monto2027:0 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:280, proy2027:260, monto2026:18500000000, monto2027:17200000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2024', categoria:'Arrastre',            proy2026:320, proy2027:320, monto2026:14000000000, monto2027:12800000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Nacional',          financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:340, monto2026:0,           monto2027:22000000000 },
-    // Becas Chile
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:180, proy2027:0,   monto2026:18000000000, monto2027:0 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:240, proy2027:230, monto2026:20000000000, monto2027:19800000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Doctorado Becas Chile',       financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:250, monto2026:0,           monto2027:24200000000 },
-    // Magíster
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:600, proy2027:0,   monto2026:8500000000,  monto2027:0 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:600, proy2027:550, monto2026:10000000000, monto2027:9200000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes',   programa:'Formación de Capital Humano Avanzado',  instrumento:'Beca Magíster Nacional',           financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:800, monto2026:0,           monto2027:11800000000 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.106', subtitulo:'24 — Transferencias Corrientes',   programa:'Inserción en la Academia',              instrumento:'Subvención a la Instalación',      financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:45,  proy2027:0,   monto2026:3200000000,  monto2027:0 },
-    { subdireccion:'Subdirección de Capital Humano',    asignacion:'Asig. 24.03.106', subtitulo:'24 — Transferencias Corrientes',   programa:'Inserción en la Academia',              instrumento:'Subvención a la Instalación',      financiamiento:'Institucional', concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:52,  monto2026:0,           monto2027:3850000000 },
+    // ===== Capital Humano — Doctorado Nacional =====
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Nacional', financiamiento:'Sectorial', concurso:'2024', categoria:'Arrastre',
+      valores: mkValues({ 2024:{m:14000000000,a:320}, 2025:{m:13500000000,a:320}, 2026:{m:14000000000,a:320}, 2027:{m:12800000000,a:320} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Nacional', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:17500000000,a:280}, 2026:{m:18500000000,a:280}, 2027:{m:17200000000,a:260} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Nacional', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:12500000000,a:250}, 2027:{m:20000000000,a:250}, 2028:{m:19500000000,a:240} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.103', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Nacional', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:22000000000,a:340}, 2028:{m:28000000000,a:340}, 2029:{m:27000000000,a:320} }) },
 
-    // ===== Subdirección de Proyectos de Investigación (Fondecyt) =====
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:420, proy2027:0,   monto2026:28000000000, monto2027:0 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:260, proy2027:250, monto2026:26000000000, monto2027:25000000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2024', categoria:'Arrastre',            proy2026:140, proy2027:120, monto2026:14000000000, monto2027:11500000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Regular',                      instrumento:'Concurso Regular',                  financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:400, monto2026:0,           monto2027:28500000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:200, proy2027:0,   monto2026:8500000000,  monto2027:0 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:120, proy2027:100, monto2026:6000000000,  monto2027:5300000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Iniciación',                   instrumento:'Concurso Iniciación',               financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:260, monto2026:0,           monto2027:11500000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:180, proy2027:0,   monto2026:7500000000,  monto2027:0 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:100, proy2027:90,  monto2026:4500000000,  monto2027:4100000000 },
-    { subdireccion:'Subd. Proyectos de Investigación',  asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondecyt Postdoctorado',                instrumento:'Concurso Postdoctoral',             financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:220, monto2026:0,           monto2027:9700000000 },
+    // ===== Capital Humano — Becas Chile =====
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Becas Chile', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:19500000000,a:240}, 2026:{m:20000000000,a:240}, 2027:{m:19800000000,a:230} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Becas Chile', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:18000000000,a:180}, 2027:{m:22500000000,a:180}, 2028:{m:21800000000,a:170} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.104', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Doctorado Becas Chile', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:24200000000,a:250}, 2028:{m:30500000000,a:250} }) },
 
-    // ===== Subdirección Centros e Investigación Asociativa =====
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:22,  proy2027:0,   monto2026:11500000000, monto2027:0 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:20,  proy2027:20,  monto2026:10500000000, monto2027:10800000000 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes',   programa:'Iniciativa Científica Milenio',         instrumento:'Núcleos Milenio',                   financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:28,  monto2026:0,           monto2027:15700000000 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:18,  proy2027:0,   monto2026:6000000000,  monto2027:0 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:10,  proy2027:10,  monto2026:3800000000,  monto2027:3900000000 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes',   programa:'Anillos de Investigación',              instrumento:'Anillos Regulares',                 financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:22,  monto2026:0,           monto2027:7300000000 },
-    { subdireccion:'Subd. Centros e Inv. Asociativa',   asignacion:'Asig. 24.03.303', subtitulo:'24 — Transferencias Corrientes',   programa:'Centros Basales',                       instrumento:'Financiamiento Basal',              financiamiento:'Basal',         concurso:'2024', categoria:'Arrastre',            proy2026:14,  proy2027:14,  monto2026:34000000000, monto2027:36500000000 },
+    // ===== Capital Humano — Magíster =====
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Magíster Nacional', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:9500000000,a:600}, 2026:{m:10000000000,a:600}, 2027:{m:9200000000,a:550} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Magíster Nacional', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:8500000000,a:600}, 2027:{m:10800000000,a:600} }) },
+    { subdireccion:'Subdirección de Capital Humano', asignacion:'Asig. 24.03.105', subtitulo:'24 — Transferencias Corrientes', programa:'Formación de Capital Humano Avanzado', instrumento:'Beca Magíster Nacional', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:11800000000,a:800}, 2028:{m:14500000000,a:800} }) },
 
-    // ===== Subdirección Investigación Aplicada =====
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:60,  proy2027:0,   monto2026:9500000000,  monto2027:0 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     concurso:'2025', categoria:'Arrastre',            proy2026:35,  proy2027:30,  monto2026:6300000000,  monto2027:5500000000 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef IDeA I+D',                   financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:75,  monto2026:0,           monto2027:13000000000 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.402', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef Valorización de la Investigación', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:22, proy2027:0,   monto2026:3400000000,  monto2027:0 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.402', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondef',                                instrumento:'Fondef Valorización de la Investigación', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,  proy2027:30,  monto2026:0,           monto2027:4800000000 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondequip',                             instrumento:'Fondequip Mediano',                 financiamiento:'Sectorial',     concurso:'2026', categoria:'Nueva Convocatoria', proy2026:45,  proy2027:0,   monto2026:8900000000,  monto2027:0 },
-    { subdireccion:'Subd. Investigación Aplicada',      asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes',   programa:'Fondequip',                             instrumento:'Fondequip Mediano',                 financiamiento:'Sectorial',     concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:38,  monto2026:0,           monto2027:7800000000 },
+    // ===== Fondecyt Regular =====
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Regular', instrumento:'Concurso Regular', financiamiento:'Sectorial', concurso:'2024', categoria:'Arrastre',
+      valores: mkValues({ 2024:{m:13500000000,a:140}, 2025:{m:13000000000,a:140}, 2026:{m:14000000000,a:140}, 2027:{m:11500000000,a:120} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Regular', instrumento:'Concurso Regular', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:24800000000,a:260}, 2026:{m:26000000000,a:260}, 2027:{m:25000000000,a:250} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Regular', instrumento:'Concurso Regular', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:28000000000,a:420}, 2027:{m:36500000000,a:420}, 2028:{m:35200000000,a:400} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.201', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Regular', instrumento:'Concurso Regular', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:28500000000,a:400}, 2028:{m:38000000000,a:400}, 2029:{m:37500000000,a:390} }) },
 
-    // ===== Subdirección Redes, Estrategia y Conocimiento =====
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes',   programa:'Cooperación Internacional',             instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:55,  proy2027:0,   monto2026:3400000000,  monto2027:0 },
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes',   programa:'Cooperación Internacional',             instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:62,  monto2026:0,           monto2027:3950000000 },
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes',   programa:'Vinculación Regional',                  instrumento:'Nodos Macrozonales',                financiamiento:'Regional',      concurso:'2026', categoria:'Nueva Convocatoria', proy2026:18,  proy2027:0,   monto2026:2800000000,  monto2027:0 },
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes',   programa:'Vinculación Regional',                  instrumento:'Nodos Macrozonales',                financiamiento:'Regional',      concurso:'2027', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:24,  monto2026:0,           monto2027:3800000000 },
-    { subdireccion:'Subd. Redes, Estrategia y Conoc.',  asignacion:'Asig. 24.03.503', subtitulo:'24 — Transferencias Corrientes',   programa:'Información Científica',                instrumento:'SciELO Chile',                      financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:1,   proy2027:1,   monto2026:650000000,   monto2027:720000000 },
+    // ===== Fondecyt Iniciación =====
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Iniciación', instrumento:'Concurso Iniciación', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:5600000000,a:120}, 2026:{m:6000000000,a:120}, 2027:{m:5300000000,a:100} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Iniciación', instrumento:'Concurso Iniciación', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:8500000000,a:200}, 2027:{m:9800000000,a:200}, 2028:{m:9200000000,a:190} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.202', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Iniciación', instrumento:'Concurso Iniciación', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:11500000000,a:260}, 2028:{m:13200000000,a:260} }) },
 
-    // ===== Gastos operativos institucionales =====
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 21.01.001', subtitulo:'21 — Gastos en Personal',          programa:'Gestión Institucional',                 instrumento:'Personal de Planta',                financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:8500000000,  monto2027:9100000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 21.02.001', subtitulo:'21 — Gastos en Personal',          programa:'Gestión Institucional',                 instrumento:'Personal a Contrata',               financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:12400000000, monto2027:13200000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 22.01.001', subtitulo:'22 — Bienes y Servicios de Consumo',programa:'Gestión Institucional',                instrumento:'Operación y Mantención',            financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:2800000000,  monto2027:2950000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 22.08.011', subtitulo:'22 — Bienes y Servicios de Consumo',programa:'Gestión Institucional',                instrumento:'Viáticos',                          financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',            proy2026:0,   proy2027:0,   monto2026:180000000,   monto2027:210000000 },
-    { subdireccion:'Dirección Nacional',                asignacion:'Asig. 29.07.001', subtitulo:'29 — Adquisición de Activos No Financieros', programa:'Gestión Institucional',         instrumento:'Programas Informáticos',            financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria', proy2026:0,   proy2027:0,   monto2026:420000000,   monto2027:580000000 },
+    // ===== Fondecyt Postdoctorado =====
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Postdoctorado', instrumento:'Concurso Postdoctoral', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:4200000000,a:100}, 2026:{m:4500000000,a:100}, 2027:{m:4100000000,a:90} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Postdoctorado', instrumento:'Concurso Postdoctoral', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:7500000000,a:180}, 2027:{m:8900000000,a:180} }) },
+    { subdireccion:'Subd. Proyectos de Investigación', asignacion:'Asig. 24.03.203', subtitulo:'24 — Transferencias Corrientes', programa:'Fondecyt Postdoctorado', instrumento:'Concurso Postdoctoral', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:9700000000,a:220}, 2028:{m:11200000000,a:220} }) },
+
+    // ===== Núcleos Milenio =====
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes', programa:'Iniciativa Científica Milenio', instrumento:'Núcleos Milenio', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:10200000000,a:20}, 2026:{m:10500000000,a:20}, 2027:{m:10800000000,a:20} }) },
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes', programa:'Iniciativa Científica Milenio', instrumento:'Núcleos Milenio', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:11500000000,a:22}, 2027:{m:13500000000,a:22}, 2028:{m:13000000000,a:22} }) },
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.301', subtitulo:'24 — Transferencias Corrientes', programa:'Iniciativa Científica Milenio', instrumento:'Núcleos Milenio', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:15700000000,a:28}, 2028:{m:18500000000,a:28} }) },
+
+    // ===== Anillos =====
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes', programa:'Anillos de Investigación', instrumento:'Anillos Regulares', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:3600000000,a:10}, 2026:{m:3800000000,a:10}, 2027:{m:3900000000,a:10} }) },
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes', programa:'Anillos de Investigación', instrumento:'Anillos Regulares', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:6000000000,a:18}, 2027:{m:7000000000,a:18}, 2028:{m:6800000000,a:18} }) },
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.302', subtitulo:'24 — Transferencias Corrientes', programa:'Anillos de Investigación', instrumento:'Anillos Regulares', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:7300000000,a:22}, 2028:{m:8800000000,a:22} }) },
+
+    // ===== Centros Basales =====
+    { subdireccion:'Subd. Centros e Inv. Asociativa', asignacion:'Asig. 24.03.303', subtitulo:'24 — Transferencias Corrientes', programa:'Centros Basales', instrumento:'Financiamiento Basal', financiamiento:'Basal', concurso:'2024', categoria:'Arrastre',
+      valores: mkValues({ 2024:{m:32000000000,a:14}, 2025:{m:33000000000,a:14}, 2026:{m:34000000000,a:14}, 2027:{m:36500000000,a:14}, 2028:{m:38000000000,a:14} }) },
+
+    // ===== Fondef IDeA =====
+    { subdireccion:'Subd. Investigación Aplicada', asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes', programa:'Fondef', instrumento:'Fondef IDeA I+D', financiamiento:'Sectorial', concurso:'2025', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:5900000000,a:35}, 2026:{m:6300000000,a:35}, 2027:{m:5500000000,a:30} }) },
+    { subdireccion:'Subd. Investigación Aplicada', asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes', programa:'Fondef', instrumento:'Fondef IDeA I+D', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:9500000000,a:60}, 2027:{m:11200000000,a:60}, 2028:{m:10500000000,a:58} }) },
+    { subdireccion:'Subd. Investigación Aplicada', asignacion:'Asig. 24.03.401', subtitulo:'24 — Transferencias Corrientes', programa:'Fondef', instrumento:'Fondef IDeA I+D', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:13000000000,a:75}, 2028:{m:15800000000,a:75} }) },
+
+    // ===== Fondequip =====
+    { subdireccion:'Subd. Investigación Aplicada', asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes', programa:'Fondequip', instrumento:'Fondequip Mediano', financiamiento:'Sectorial', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:8900000000,a:45} }) },
+    { subdireccion:'Subd. Investigación Aplicada', asignacion:'Asig. 24.03.403', subtitulo:'24 — Transferencias Corrientes', programa:'Fondequip', instrumento:'Fondequip Mediano', financiamiento:'Sectorial', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:7800000000,a:38} }) },
+
+    // ===== Cooperación Internacional =====
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.', asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes', programa:'Cooperación Internacional', instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:3400000000,a:55}, 2027:{m:3700000000,a:58} }) },
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.', asignacion:'Asig. 24.03.501', subtitulo:'24 — Transferencias Corrientes', programa:'Cooperación Internacional', instrumento:'Fondo de Cooperación Internacional', financiamiento:'Institucional', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:3950000000,a:62}, 2028:{m:4200000000,a:65} }) },
+
+    // ===== Nodos Regionales =====
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.', asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes', programa:'Vinculación Regional', instrumento:'Nodos Macrozonales', financiamiento:'Regional', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:2800000000,a:18}, 2027:{m:3100000000,a:20} }) },
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.', asignacion:'Asig. 24.03.502', subtitulo:'24 — Transferencias Corrientes', programa:'Vinculación Regional', instrumento:'Nodos Macrozonales', financiamiento:'Regional', concurso:'2027', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2027:{m:3800000000,a:24}, 2028:{m:4200000000,a:26} }) },
+
+    // ===== SciELO =====
+    { subdireccion:'Subd. Redes, Estrategia y Conoc.', asignacion:'Asig. 24.03.503', subtitulo:'24 — Transferencias Corrientes', programa:'Información Científica', instrumento:'SciELO Chile', financiamiento:'Institucional', concurso:'2024', categoria:'Arrastre',
+      valores: mkValues({ 2024:{m:580000000,a:1}, 2025:{m:620000000,a:1}, 2026:{m:650000000,a:1}, 2027:{m:720000000,a:1}, 2028:{m:780000000,a:1} }) },
+
+    // ===== Gastos operativos (sin actividades/proyectos, solo montos) =====
+    { subdireccion:'Dirección Nacional', asignacion:'Asig. 21.01.001', subtitulo:'21 — Gastos en Personal', programa:'Gestión Institucional', instrumento:'Personal de Planta', financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',
+      valores: mkValues({ 2024:{m:8000000000}, 2025:{m:8200000000}, 2026:{m:8500000000}, 2027:{m:9100000000}, 2028:{m:9500000000} }) },
+    { subdireccion:'Dirección Nacional', asignacion:'Asig. 21.02.001', subtitulo:'21 — Gastos en Personal', programa:'Gestión Institucional', instrumento:'Personal a Contrata', financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',
+      valores: mkValues({ 2024:{m:11500000000}, 2025:{m:12000000000}, 2026:{m:12400000000}, 2027:{m:13200000000}, 2028:{m:13800000000} }) },
+    { subdireccion:'Dirección Nacional', asignacion:'Asig. 22.01.001', subtitulo:'22 — Bienes y Servicios de Consumo', programa:'Gestión Institucional', instrumento:'Operación y Mantención', financiamiento:'Institucional', concurso:'2026', categoria:'Arrastre',
+      valores: mkValues({ 2025:{m:2700000000}, 2026:{m:2800000000}, 2027:{m:2950000000} }) },
+    { subdireccion:'Dirección Nacional', asignacion:'Asig. 29.07.001', subtitulo:'29 — Adquisición de Activos No Financieros', programa:'Gestión Institucional', instrumento:'Programas Informáticos', financiamiento:'Institucional', concurso:'2026', categoria:'Nueva Convocatoria',
+      valores: mkValues({ 2026:{m:420000000}, 2027:{m:580000000}, 2028:{m:650000000} }) },
   ];
   demo.forEach(d => records.push({...d, id: uid()}));
   saveRecords();
   renderRecords();
   refreshDatalists();
   try { renderRegFilters(); } catch(e) {}
-  // Auto-refresh del dashboard si está visible
   try {
     if (!document.getElementById('page-dashboard').classList.contains('hidden')) renderAll();
   } catch(e) {}
@@ -2367,31 +2862,62 @@ function loadDemoData() {
 }
 
 /* ==================== ANÁLISIS & CÁLCULOS ==================== */
-function getDashData() {
-  // aplicar filtros activos
+/* ==================== FUNCIONES ANALÍTICAS (MODELO LONG) ====================
+   Ahora las partidas tienen `valores: [{año, tipo, valor}]`. Todos los cálculos
+   deben respetar el año y la métrica activos.
+
+   - getDashDataRaw()  : registros filtrados solo por filtros estructurales
+                         (sin aplicar aún año/métrica). Sirve al selector de años.
+   - getDashData()     : igual que Raw; las funciones de cálculo reciben los años
+                         y la métrica como argumentos explícitos.
+*/
+function getDashDataRaw() {
   let data = records.slice();
   for (const f of FILTERS) {
     if (activeFilters[f]) data = data.filter(r => r[f] === activeFilters[f]);
   }
   return data;
 }
+function getDashData() { return getDashDataRaw(); }
 
-function aggregate(data, key) {
+/* Agregar por dimensión, devuelve por cada categoría un objeto con valores
+   por año y totales. Parámetros:
+   - key: nombre de la dimensión (subdireccion, programa, etc.)
+   - years: array de años a incluir
+   - metric: 'monto' o 'actividades' */
+function aggregate(data, key, years, metric) {
+  years = years || selectedYears;
+  metric = metric || activeMetric;
   const m = new Map();
+
   for (const r of data) {
     const k = r[key] || '(sin dato)';
-    if (!m.has(k)) m.set(k, { key:k, m26:0, m27:0, p26:0, p27:0, count:0 });
+    if (!m.has(k)) {
+      m.set(k, { key: k, years: {}, total: 0, count: 0 });
+    }
     const o = m.get(k);
-    o.m26 += r.monto2026; o.m27 += r.monto2027;
-    o.p26 += r.proy2026;  o.p27 += r.proy2027;
     o.count++;
+    for (const y of years) {
+      const v = getValue(r, y, metric);
+      o.years[y] = (o.years[y] || 0) + v;
+      o.total += v;
+    }
   }
-  return [...m.values()].map(o => ({
-    ...o,
-    total: o.m26 + o.m27,
-    delta: o.m27 - o.m26,
-    deltaPct: o.m26>0 ? ((o.m27-o.m26)/o.m26)*100 : (o.m27>0?100:0)
-  })).sort((a,b)=>b.m27-a.m27);
+
+  // Añadir métricas derivadas: primer año, último año, delta, deltaPct
+  return [...m.values()].map(o => {
+    const sortedYears = [...years].sort();
+    const firstY = sortedYears[0];
+    const lastY = sortedYears[sortedYears.length - 1];
+    const firstV = o.years[firstY] || 0;
+    const lastV = o.years[lastY] || 0;
+    return {
+      ...o,
+      firstY, lastY, firstV, lastV,
+      delta: lastV - firstV,
+      deltaPct: firstV > 0 ? ((lastV - firstV) / firstV) * 100 : (lastV > 0 ? 100 : 0)
+    };
+  }).sort((a,b) => b.lastV - a.lastV);
 }
 
 function quantile(arr, q) {
@@ -2402,21 +2928,13 @@ function quantile(arr, q) {
   return s[b+1] !== undefined ? s[b]+r*(s[b+1]-s[b]) : s[b];
 }
 
-/* ==================== DIMENSIÓN ADAPTATIVA DE DESGLOSE ====================
-   Cuando hay un filtro de Subdirección activo, gráficos como "Distribución por
-   Subdirección" dejan de tener sentido (solo mostrarían una categoría). Esta
-   función elige automáticamente la siguiente dimensión jerárquica con diversidad
-   para que los gráficos sigan siendo informativos.
-   Jerarquía: Subdirección → Programa → Instrumento → Subtítulo → Financiamiento */
 function pickBreakdownDim(data, preferred) {
   const priority = ['subdireccion','programa','instrumento','subtitulo','financiamiento','asignacion'];
-  // Si la preferida tiene más de 1 categoría en el subset, usarla
   const prefCount = new Set(data.map(r => r[preferred])).size;
   if (prefCount > 1) return preferred;
-  // Si no, buscar la siguiente en jerarquía con diversidad
   for (const dim of priority) {
     if (dim === preferred) continue;
-    if (activeFilters[dim]) continue; // no desglosar por un filtro ya fijo
+    if (activeFilters[dim]) continue;
     const n = new Set(data.map(r => r[dim])).size;
     if (n > 1) return dim;
   }
@@ -2429,17 +2947,38 @@ function dimLabel(dim) {
            concurso:'Concurso', categoria:'Categoría' }[dim];
 }
 
-function computeKPIs(data) {
-  const t26 = data.reduce((s,r)=>s+r.monto2026,0);
-  const t27 = data.reduce((s,r)=>s+r.monto2027,0);
-  const p26 = data.reduce((s,r)=>s+r.proy2026,0);
-  const p27 = data.reduce((s,r)=>s+r.proy2027,0);
+/* Computar KPIs para los años seleccionados. Compara primer año vs último año
+   de la selección. Si solo hay 1 año seleccionado, el delta no aplica. */
+function computeKPIs(data, years, metric) {
+  years = years || selectedYears;
+  metric = metric || activeMetric;
+  const sortedYears = [...years].sort();
+  const firstY = sortedYears[0];
+  const lastY = sortedYears[sortedYears.length - 1];
+  const isSingleYear = sortedYears.length === 1;
+
+  const totals = {};  // año → suma
+  for (const y of sortedYears) totals[y] = getTotalForYearType(data, y, metric);
+  const sumAll = sortedYears.reduce((s,y) => s + (totals[y]||0), 0);
+
+  const firstV = totals[firstY] || 0;
+  const lastV = totals[lastY] || 0;
+  const delta = lastV - firstV;
+  const deltaPct = firstV > 0 ? ((lastV - firstV) / firstV) * 100 : (lastV > 0 ? 100 : 0);
+
+  // También calcular el cross-metric para "monto promedio por actividad"
+  const otherMetric = metric === 'monto' ? 'actividades' : 'monto';
+  const otherTotals = {};
+  for (const y of sortedYears) otherTotals[y] = getTotalForYearType(data, y, otherMetric);
+
   return {
-    t26, t27, d: t27-t26, dPct: t26>0?((t27-t26)/t26)*100:(t27>0?100:0),
-    p26, p27, dp: p27-p26, dpPct: p26>0?((p27-p26)/p26)*100:(p27>0?100:0),
-    avg26: p26>0?t26/p26:0,
-    avg27: p27>0?t27/p27:0,
-    count: data.length
+    years: sortedYears, firstY, lastY, isSingleYear,
+    totals,              // por año
+    sumAll,
+    firstV, lastV, delta, deltaPct,
+    otherTotals,
+    count: data.length,
+    metric,
   };
 }
 
@@ -2462,6 +3001,7 @@ function renderDashboard() {
 
   container.innerHTML = `
     <div class="filter-bar reveal" id="filter-bar"></div>
+    <div id="year-selector-wrap" class="reveal"></div>
     <div id="active-filters-wrap"></div>
     <div id="exec-summary-wrap"></div>
     <div class="kpi-grid" id="kpi-grid"></div>
@@ -2586,6 +3126,7 @@ function renderDashboard() {
   `;
 
   renderFilters();
+  renderYearSelector();
   renderAll();
   bindZoomButtons();
 
@@ -2855,14 +3396,12 @@ function renderFilters() {
   };
 
   // Limpiar filtros que ya no son válidos bajo los filtros superiores actuales.
-  // Recorremos en orden jerárquico y, si un filtro quedó "huérfano" (no existe
-  // en el subconjunto ya filtrado por los anteriores), lo eliminamos.
   let upstream = records.slice();
   for (const f of FILTERS) {
     if (activeFilters[f]) {
       const validValues = new Set(upstream.map(r => r[f]).filter(Boolean));
       if (!validValues.has(activeFilters[f])) {
-        delete activeFilters[f];  // filtro inválido bajo la nueva combinación
+        delete activeFilters[f];
       } else {
         upstream = upstream.filter(r => r[f] === activeFilters[f]);
       }
@@ -2870,8 +3409,6 @@ function renderFilters() {
   }
 
   bar.innerHTML = FILTERS.map((f, idx) => {
-    // Opciones disponibles: aplicar TODOS los filtros superiores en la jerarquía
-    // (es decir, todos excepto el propio campo f).
     let subset = records.slice();
     for (const other of FILTERS) {
       if (other !== f && activeFilters[other]) {
@@ -2882,7 +3419,6 @@ function renderFilters() {
     const selectedIsValid = !activeFilters[f] || opts.includes(activeFilters[f]);
     const currentValue = selectedIsValid ? (activeFilters[f] || '') : '';
 
-    // Indicador visual cuando este filtro está restringido por filtros superiores
     const restricted = FILTERS.slice(0, idx).some(prev => activeFilters[prev]);
     const hint = restricted && opts.length < records.length
       ? `<span style="color:var(--accent-oxblood); font-weight:600">${opts.length}</span> opción(es)`
@@ -2901,12 +3437,94 @@ function renderFilters() {
     s.addEventListener('change', () => {
       const f = s.dataset.filter;
       if (s.value) activeFilters[f] = s.value; else delete activeFilters[f];
-      renderFilters();  // recalcular todos los dropdowns con la nueva jerarquía
+      renderFilters();
+      renderYearSelector();  // al cambiar filtros, los años disponibles pueden cambiar
       renderAll();
     });
   });
   document.getElementById('filter-reset').addEventListener('click', () => {
-    activeFilters = {}; renderFilters(); renderAll();
+    activeFilters = {};
+    renderFilters();
+    renderYearSelector();
+    renderAll();
+  });
+}
+
+/* ==================== SELECTOR DE AÑOS Y MÉTRICA ====================
+   Debajo de los filtros estructurales aparece un panel adicional para:
+   - Seleccionar qué años comparar (chips toggleables)
+   - Cambiar el tipo de métrica activa (Monto / Cantidad de Actividades)
+   Esto es lo que permite al dashboard trabajar con series multi-año. */
+function renderYearSelector() {
+  const container = document.getElementById('year-selector-wrap');
+  if (!container) return;
+
+  // Calcular años disponibles en el subset filtrado por los filtros estructurales
+  const data = getDashDataRaw();
+  const availableYears = getAllYearsInData(data);
+
+  // Si los años seleccionados ya no tienen datos en la vista filtrada, limpiarlos
+  selectedYears = selectedYears.filter(y => availableYears.includes(y));
+
+  // Si no hay años seleccionados o faltan, inicializar con los últimos 2 disponibles
+  if (selectedYears.length === 0 && availableYears.length > 0) {
+    selectedYears = availableYears.slice(-2);
+  }
+
+  if (availableYears.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="year-metric-bar">
+      <div class="ymb-section">
+        <div class="ymb-label">Años a comparar
+          <span class="ymb-count">${selectedYears.length} seleccionado(s) de ${availableYears.length} disponible(s)</span>
+        </div>
+        <div class="year-chips">
+          ${availableYears.map(y => `
+            <button class="year-chip ${selectedYears.includes(y)?'active':''}" data-year="${y}">${y}</button>
+          `).join('')}
+        </div>
+      </div>
+      <div class="ymb-section">
+        <div class="ymb-label">Métrica</div>
+        <div class="metric-toggle">
+          ${METRIC_TYPES.map(m => `
+            <button class="metric-btn ${activeMetric===m.id?'active':''}" data-metric="${m.id}">${m.label}</button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Wire up chips de años: toggle on/off
+  container.querySelectorAll('.year-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const y = Number(chip.dataset.year);
+      if (selectedYears.includes(y)) {
+        // No permitir deseleccionar el único año
+        if (selectedYears.length <= 1) {
+          toast('Debe haber al menos un año seleccionado', 'err');
+          return;
+        }
+        selectedYears = selectedYears.filter(x => x !== y);
+      } else {
+        selectedYears = [...selectedYears, y].sort();
+      }
+      renderYearSelector();
+      renderAll();
+    });
+  });
+
+  // Wire up botones de métrica
+  container.querySelectorAll('.metric-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeMetric = btn.dataset.metric;
+      renderYearSelector();
+      renderAll();
+    });
   });
 }
 
@@ -2954,8 +3572,12 @@ function renderAll() {
     document.getElementById('kpi-grid').innerHTML = '';
     return;
   }
-  // IMPORTANTE: destruir todos los charts previos antes de recrearlos,
-  // si no Chart.js se queja y los gráficos quedan "pegados" sin refrescar.
+  // Asegurar que selectedYears está inicializado
+  if (selectedYears.length === 0) {
+    const avail = getAllYearsInData(data);
+    if (avail.length > 0) selectedYears = avail.slice(-2);
+  }
+  // IMPORTANTE: destruir todos los charts previos antes de recrearlos.
   Object.values(charts).forEach(c => c && c.destroy && c.destroy());
   charts = {};
 
@@ -2975,23 +3597,25 @@ function renderAll() {
   renderChartConcurso(data);
   renderInsights(data);
   renderSummaryTable(data);
-  document.getElementById('foot-summary').textContent = `${data.length} partidas analizadas`;
+  const m = metricById(activeMetric);
+  document.getElementById('foot-summary').textContent =
+    `${data.length} partidas analizadas · Métrica: ${m.label} · Años: ${selectedYears.join(', ')}`;
   document.getElementById('foot-time').textContent = 'Procesado · ' + new Date().toLocaleString('es-CL');
 }
 
 /* ==================== EXEC SUMMARY ==================== */
 function renderExecSummary(data) {
   const k = computeKPIs(data);
+  const m = metricById(activeMetric);
+  const fmt = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+
   const dim = pickBreakdownDim(data, 'subdireccion');
-  const byDim = aggregate(data, dim);
+  const byDim = aggregate(data, dim, selectedYears, activeMetric);
   const topItem = byDim[0];
-  const topPct = k.t27>0 && topItem ? (topItem.m27/k.t27)*100 : 0;
-  const byInstr = aggregate(data, 'instrumento').filter(x=>x.m26>0);
-  const topGrow = [...byInstr].sort((a,b)=>b.deltaPct-a.deltaPct)[0];
-  const direction = k.dPct>=0 ? 'incrementa' : 'disminuye';
+  const topPct = k.lastV > 0 && topItem ? (topItem.lastV / k.lastV) * 100 : 0;
+  const direction = k.deltaPct >= 0 ? 'incrementa' : 'disminuye';
   const wrap = document.getElementById('exec-summary-wrap');
 
-  // Contexto de filtros activos
   const activeCount = Object.keys(activeFilters).length;
   let context = '';
   if (activeCount > 0) {
@@ -3002,58 +3626,113 @@ function renderExecSummary(data) {
     if (activeFilters.subtitulo)   parts.push(`subtítulo <strong>${esc(activeFilters.subtitulo)}</strong>`);
     if (activeFilters.financiamiento) parts.push(`financiamiento <strong>${esc(activeFilters.financiamiento)}</strong>`);
     if (activeFilters.asignacion)  parts.push(`asignación <strong>${esc(activeFilters.asignacion)}</strong>`);
+    if (activeFilters.concurso)    parts.push(`concurso <strong>${esc(activeFilters.concurso)}</strong>`);
+    if (activeFilters.categoria)   parts.push(`categoría <strong>${esc(activeFilters.categoria)}</strong>`);
     if (parts.length) context = ` Vista acotada a ${parts.join(', ')}.`;
+  }
+
+  // Narrativa según cantidad de años seleccionados
+  let temporalText;
+  if (k.isSingleYear) {
+    temporalText = `El total de <strong>${m.label.toLowerCase()}</strong> para el año <strong>${k.firstY}</strong> es <strong>${fmt(k.firstV)}</strong>.`;
+  } else if (k.years.length === 2) {
+    temporalText = `El total de <strong>${m.label.toLowerCase()}</strong> <strong>${direction} un ${fmtPct(k.deltaPct)}</strong> entre ${k.firstY} y ${k.lastY}, pasando de <strong>${fmt(k.firstV)}</strong> a <strong>${fmt(k.lastV)}</strong> (Δ ${fmt(k.delta)}).`;
+  } else {
+    temporalText = `El total de <strong>${m.label.toLowerCase()}</strong> evoluciona desde <strong>${fmt(k.firstV)}</strong> en ${k.firstY} hasta <strong>${fmt(k.lastV)}</strong> en ${k.lastY} (${k.years.length} años analizados, Δ ${fmtPct(k.deltaPct)}).`;
+  }
+
+  // Si la métrica activa es monto, mencionar actividades del último año
+  let crossText = '';
+  const lastActs = k.otherTotals[k.lastY];
+  if (activeMetric === 'monto' && lastActs > 0) {
+    const avgPerAct = k.lastV / lastActs;
+    crossText = ` En ${k.lastY} se ejecutarán <strong>${fmtNum(lastActs)} actividades</strong> con un monto promedio de <strong>${fmtCLP(avgPerAct)}</strong> cada una.`;
   }
 
   wrap.innerHTML = `
     <div class="exec-summary reveal">
-      <div class="label">Resumen ejecutivo${activeCount>0?' · vista filtrada':''}</div>
+      <div class="label">Resumen ejecutivo${activeCount > 0 ? ' · vista filtrada' : ''} · ${m.label}</div>
       <div class="narrative">
-        El presupuesto analizado <strong>${direction} un ${fmtPct(k.dPct)}</strong> entre 2026 y 2027,
-        pasando de <strong>${fmtCLP(k.t26)}</strong> a <strong>${fmtCLP(k.t27)}</strong> (Δ ${fmtCLP(k.d)}).${context}
-        ${topItem && byDim.length>1 ? `El mayor peso dentro de esta vista lo tiene <strong>${esc(topItem.key)}</strong> con el <strong>${topPct.toFixed(1)}%</strong> (${dimLabel(dim)}).` : ''}
-        ${topGrow && byInstr.length>1 ? `El instrumento con mayor crecimiento relativo es <strong>${esc(topGrow.key)}</strong> con ${fmtPct(topGrow.deltaPct)}.` : ''}
-        Se ejecutarán <strong>${fmtNum(k.p27)} proyectos</strong> en 2027 (${fmtPct(k.dpPct)} respecto a 2026),
-        con un monto promedio por proyecto de <strong>${fmtCLP(k.avg27)}</strong>.
+        ${temporalText}${context}
+        ${topItem && byDim.length > 1 ? ` El mayor peso en ${k.lastY} lo tiene <strong>${esc(topItem.key)}</strong> con el <strong>${topPct.toFixed(1)}%</strong> (${dimLabel(dim)}).` : ''}
+        ${crossText}
       </div>
     </div>`;
 }
 
-/* ==================== KPIs ==================== */
+/* ==================== KPIs ====================
+   Los KPIs se adaptan a cuántos años están seleccionados:
+   - 1 año:     muestra solo el total de ese año + desglose de métricas cruzadas
+   - 2 años:    muestra total primer año, total último año con delta, variación %, métrica cruzada
+   - 3+ años:   muestra total primer año, total último año, promedio anual, delta total */
 function renderKPIs(data) {
   const k = computeKPIs(data);
+  const m = metricById(activeMetric);
   const grid = document.getElementById('kpi-grid');
-  const kpis = [
-    {
-      label: 'Presupuesto 2026', value: fmtCLP(k.t26,true),
-      color: 'var(--c1)', note: `${fmtNum(k.p26)} proyectos`,
-    },
-    {
-      label: 'Presupuesto 2027', value: fmtCLP(k.t27,true),
-      color: 'var(--accent-oxblood)',
-      delta: { val: k.dPct, cls: k.dPct>0?'pos':k.dPct<0?'neg':'neu' },
-      note: fmtCLP(k.d,true) + ' Δ abs.'
-    },
-    {
-      label: 'Proyectos 2027', value: fmtNum(k.p27),
-      color: 'var(--accent-gold)',
-      delta: { val: k.dpPct, cls: k.dpPct>0?'pos':k.dpPct<0?'neg':'neu' },
-      note: `${k.dp>=0?'+':''}${fmtNum(k.dp)} vs 2026`
-    },
-    {
-      label: 'Monto promedio por proyecto 2027', value: fmtCLP(k.avg27,true),
-      color: 'var(--accent-forest)',
-      delta: { val: k.avg26>0?((k.avg27-k.avg26)/k.avg26)*100:0, cls: (k.avg27>=k.avg26)?'pos':'neg' },
-      note: 'vs ' + fmtCLP(k.avg26,true) + ' en 2026'
+  const fmt = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+
+  const totalLabel = m.label;
+  const unit = m.isCurrency ? '' : ' actividades';
+  let kpis = [];
+
+  if (k.isSingleYear) {
+    // Solo 1 año seleccionado
+    const actsThisYear = k.otherTotals[k.firstY] || 0;
+    const avg = activeMetric === 'monto' && actsThisYear > 0 ? k.firstV / actsThisYear : 0;
+    kpis = [
+      { label: `${totalLabel} ${k.firstY}`, value: fmt(k.firstV), color: 'var(--accent-oxblood)', note: `${data.length} partidas` },
+      { label: `Partidas con datos`, value: fmtNum(data.length), color: 'var(--c1)' },
+    ];
+    if (activeMetric === 'monto' && actsThisYear > 0) {
+      kpis.push({ label: `Actividades ${k.firstY}`, value: fmtNum(actsThisYear), color: 'var(--accent-gold)' });
+      kpis.push({ label: `Monto promedio por actividad`, value: fmtCLP(avg), color: 'var(--accent-forest)' });
     }
-  ];
-  grid.innerHTML = kpis.map((k,i)=>`
+  } else {
+    // 2+ años seleccionados
+    const firstActs = k.otherTotals[k.firstY] || 0;
+    const lastActs = k.otherTotals[k.lastY] || 0;
+    kpis = [
+      { label: `${totalLabel} ${k.firstY}`, value: fmt(k.firstV), color: 'var(--c1)',
+        note: activeMetric === 'monto' && firstActs > 0 ? `${fmtNum(firstActs)} actividades` : `` },
+      { label: `${totalLabel} ${k.lastY}`, value: fmt(k.lastV), color: 'var(--accent-oxblood)',
+        delta: { val: k.deltaPct, cls: k.deltaPct>0?'pos':k.deltaPct<0?'neg':'neu' },
+        note: (k.delta>=0?'+':'') + fmt(k.delta) + ' vs ' + k.firstY },
+    ];
+    if (k.years.length >= 3) {
+      const avgAnnual = k.sumAll / k.years.length;
+      kpis.push({ label: `${totalLabel} promedio anual`, value: fmt(avgAnnual), color: 'var(--accent-gold)',
+        note: `${k.years.length} años analizados` });
+    }
+    if (activeMetric === 'monto' && lastActs > 0) {
+      kpis.push({ label: `Monto/actividad ${k.lastY}`, value: fmtCLP(k.lastV / lastActs), color: 'var(--accent-forest)',
+        note: firstActs > 0 ? `vs ${fmtCLP(k.firstV / firstActs)} en ${k.firstY}` : '' });
+    } else if (activeMetric === 'actividades') {
+      // Mostrar el monto correspondiente
+      const lastMonto = k.otherTotals[k.lastY] || 0;
+      if (lastMonto > 0) {
+        kpis.push({ label: `Monto ${k.lastY}`, value: fmtCLP(lastMonto), color: 'var(--accent-forest)',
+          note: 'Dato complementario' });
+      } else {
+        kpis.push({ label: `Partidas`, value: fmtNum(data.length), color: 'var(--accent-forest)' });
+      }
+    } else {
+      kpis.push({ label: `Partidas`, value: fmtNum(data.length), color: 'var(--accent-forest)' });
+    }
+  }
+
+  // Rellenar hasta 4 KPIs si faltan
+  while (kpis.length < 4) {
+    kpis.push({ label: 'Partidas', value: fmtNum(data.length), color: 'var(--accent-forest)' });
+  }
+  kpis = kpis.slice(0, 4);
+
+  grid.innerHTML = kpis.map((k, i) => `
     <div class="kpi reveal" style="--kpi-color:${k.color}">
       <div class="kpi-label">${k.label}</div>
       <div class="kpi-value">${k.value}</div>
       <div class="kpi-meta">
         ${k.delta ? `<span class="kpi-delta ${k.delta.cls}">${fmtPct(k.delta.val)}</span>` : ''}
-        <span class="kpi-note">${k.note}</span>
+        <span class="kpi-note">${k.note || ''}</span>
       </div>
     </div>
   `).join('');
@@ -3064,8 +3743,6 @@ Chart.defaults.font.family = "'Inter Tight', sans-serif";
 Chart.defaults.font.size = 11;
 Chart.defaults.color = '#1E2D42';
 Chart.defaults.borderColor = 'rgba(14,26,43,.08)';
-
-const PALETTE = ['#1E4D6B','#7A1F2B','#B08D3B','#2F5D3F','#A64B2A','#4A3A5E','#5C6B3A','#8A5A3C','#3B5D7A','#A37A3F'];
 
 function tooltipCfg() {
   return {
@@ -3089,27 +3766,57 @@ function tooltipCfg() {
 /* ==================== CHART: Comparativo (barras agrupadas) ==================== */
 function renderChartCompare(data) {
   const dim = pickBreakdownDim(data, 'subdireccion');
-  const agg = aggregate(data, dim).slice(0,10);
+  const agg = aggregate(data, dim, selectedYears, activeMetric).slice(0,10);
+  const m = metricById(activeMetric);
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
 
-  // Actualizar el subtítulo del gráfico
+  // Actualizar título + subtítulo del gráfico
   const card = document.getElementById('ch-comp').closest('.chart-card');
-  if (card) card.querySelector('.sub-text').textContent = 'Por ' + dimLabel(dim);
+  if (card) {
+    const yearsRange = selectedYears.length === 1 ? selectedYears[0]
+                     : selectedYears.length <= 3 ? selectedYears.join(' · ')
+                     : `${selectedYears[0]}–${selectedYears[selectedYears.length-1]}`;
+    card.querySelector('h3').textContent = `${m.label} por ${dimLabel(dim).toLowerCase()} · ${yearsRange}`;
+    card.querySelector('.sub-text').textContent = `${selectedYears.length} año(s) comparado(s)`;
+  }
+
+  // Un dataset por año con color diferenciado
+  const datasets = selectedYears.map((y, idx) => ({
+    label: String(y),
+    data: agg.map(a => a.years[y] || 0),
+    backgroundColor: PALETTE[idx % PALETTE.length],
+    borderColor: PALETTE[idx % PALETTE.length],
+    borderRadius: 2,
+    barPercentage: .9,
+    categoryPercentage: .78,
+    // Si hay 4+ años, cambiar a línea para evolución más clara
+    type: selectedYears.length >= 4 ? 'line' : 'bar',
+    fill: false,
+    tension: 0.25,
+    borderWidth: 2,
+    pointRadius: 3
+  }));
 
   const ctx = document.getElementById('ch-comp');
   charts.comp = new Chart(ctx, {
-    type: 'bar',
+    type: selectedYears.length >= 4 ? 'line' : 'bar',
     data: {
-      labels: agg.map(a => a.key.length>24? a.key.slice(0,22)+'…' : a.key),
-      datasets: [
-        { label: '2026', data: agg.map(a=>a.m26), backgroundColor: '#1E4D6B', borderRadius: 2, barPercentage: .9, categoryPercentage: .75 },
-        { label: '2027', data: agg.map(a=>a.m27), backgroundColor: '#7A1F2B', borderRadius: 2, barPercentage: .9, categoryPercentage: .75 }
-      ]
+      labels: agg.map(a => a.key.length > 24 ? a.key.slice(0,22) + '…' : a.key),
+      datasets
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'top', align:'end', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true } }, tooltip: tooltipCfg() },
+      plugins: {
+        legend: { position: 'top', align:'end', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true } },
+        tooltip: {
+          ...tooltipCfg(),
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + fmt(ctx.parsed.y ?? ctx.parsed)
+          }
+        }
+      },
       scales: {
-        y: { ticks: { callback: v=> fmtCLP(v,true) }, grid: { color: 'rgba(14,26,43,.06)' } },
+        y: { ticks: { callback: v => fmt(v) }, grid: { color: 'rgba(14,26,43,.06)' } },
         x: { grid: { display: false } }
       }
     }
@@ -3153,29 +3860,79 @@ function renderChartDonut(data) {
 
 /* ==================== RANKINGS ==================== */
 function renderRankingAsignaciones(data) {
-  const top = [...data].sort((a,b)=>b.monto2027-a.monto2027).slice(0,8);
-  const max = top[0]?.monto2027 || 1;
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
+  // Top 8 partidas por valor del último año + métrica activa
+  const top = [...data]
+    .map(r => ({ rec: r, val: getValue(r, lastY, activeMetric) }))
+    .filter(x => x.val > 0)
+    .sort((a,b) => b.val - a.val)
+    .slice(0, 8);
+  const max = top[0]?.val || 1;
+
+  const card = document.getElementById('rank-asig').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = `Ranking · Mayores ${m.label.toLowerCase()} ${lastY}`;
+    card.querySelector('.sub-text').textContent = 'Top 8 partidas';
+  }
+
   const el = document.getElementById('rank-asig');
-  el.innerHTML = '<div class="ranking">' + top.map((r,i) => `
+  el.innerHTML = '<div class="ranking">' + top.map(({rec, val}, i) => `
     <div class="rank-row">
       <div class="rank-num">${String(i+1).padStart(2,'0')}</div>
       <div>
-        <div class="rank-label">${esc(r.asignacion)} · ${esc(r.subdireccion)}</div>
-        <div class="rank-bar"><span style="width:${(r.monto2027/max)*100}%"></span></div>
+        <div class="rank-label">${esc(rec.asignacion)} · ${esc(rec.subdireccion)}</div>
+        <div class="rank-bar"><span style="width:${(val/max)*100}%"></span></div>
       </div>
-      <div class="rank-value">${fmtCLP(r.monto2027, true)}</div>
+      <div class="rank-value">${fmt(val)}</div>
     </div>
   `).join('') + '</div>';
 }
 
 function renderRankingVariaciones(data) {
-  const items = data.map(r => ({
-    label: r.asignacion + ' · ' + r.subdireccion,
-    delta: r.monto2027 - r.monto2026,
-    pct: r.monto2026>0 ? ((r.monto2027-r.monto2026)/r.monto2026)*100 : (r.monto2027>0?100:0)
-  })).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,8);
-  const max = Math.max(...items.map(i=>Math.abs(i.delta)),1);
+  const m = metricById(activeMetric);
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
+  const firstY = selectedYears[0];
+  const lastY = selectedYears[selectedYears.length - 1];
+
+  // Si solo hay 1 año, mostrar un mensaje en lugar del ranking
+  if (selectedYears.length < 2) {
+    const card = document.getElementById('rank-var').closest('.chart-card');
+    if (card) {
+      card.querySelector('h3').textContent = 'Ranking · Variaciones';
+      card.querySelector('.sub-text').textContent = 'Requiere 2+ años';
+    }
+    document.getElementById('rank-var').innerHTML =
+      '<div style="padding:40px 20px;text-align:center;color:var(--ink-50);font-style:italic;font-family:var(--serif)">Selecciona al menos 2 años para ver las mayores variaciones.</div>';
+    return;
+  }
+
+  const items = data.map(r => {
+    const v0 = getValue(r, firstY, activeMetric);
+    const v1 = getValue(r, lastY, activeMetric);
+    return {
+      label: r.asignacion + ' · ' + r.subdireccion,
+      delta: v1 - v0,
+      pct: v0 > 0 ? ((v1 - v0) / v0) * 100 : (v1 > 0 ? 100 : 0)
+    };
+  })
+  .filter(x => x.delta !== 0)
+  .sort((a,b) => Math.abs(b.delta) - Math.abs(a.delta))
+  .slice(0, 8);
+
+  const card = document.getElementById('rank-var').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = `Ranking · Mayores variaciones absolutas`;
+    card.querySelector('.sub-text').textContent = `Δ ${lastY} − ${firstY} · ${m.label}`;
+  }
+
+  const max = Math.max(...items.map(i=>Math.abs(i.delta)), 1);
   const el = document.getElementById('rank-var');
+  if (items.length === 0) {
+    el.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--ink-50);font-style:italic;font-family:var(--serif)">Sin variaciones significativas entre los años seleccionados.</div>';
+    return;
+  }
   el.innerHTML = '<div class="ranking">' + items.map((r,i) => {
     const pos = r.delta >= 0;
     return `
@@ -3185,7 +3942,7 @@ function renderRankingVariaciones(data) {
           <div class="rank-label">${esc(r.label)}</div>
           <div class="rank-bar"><span style="width:${(Math.abs(r.delta)/max)*100}%; background:${pos?'linear-gradient(90deg,var(--positive),var(--accent-gold))':'linear-gradient(90deg,var(--negative),var(--accent-terra))'}"></span></div>
         </div>
-        <div class="rank-value" style="color:${pos?'var(--positive)':'var(--negative)'}">${pos?'+':''}${fmtCLP(r.delta,true)}<br><span style="color:var(--ink-50);font-size:10px">${fmtPct(r.pct)}</span></div>
+        <div class="rank-value" style="color:${pos?'var(--positive)':'var(--negative)'}">${pos?'+':''}${fmt(r.delta)}<br><span style="color:var(--ink-50);font-size:10px">${fmtPct(r.pct)}</span></div>
       </div>
     `;
   }).join('') + '</div>';
@@ -3193,6 +3950,11 @@ function renderRankingVariaciones(data) {
 
 /* ==================== CHART: Stack (dimensión adaptativa) ==================== */
 function renderChartStack(data) {
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
+  const fmtTip = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+
   const xDim = pickBreakdownDim(data, 'subdireccion');
   // Para el apilado elegir otra dimensión con diversidad
   let stackDim = 'subtitulo';
@@ -3208,15 +3970,19 @@ function renderChartStack(data) {
   const card = document.getElementById('ch-stack').closest('.chart-card');
   if (card) {
     card.querySelector('h3').textContent = `Composición por ${dimLabel(stackDim)}`;
-    card.querySelector('.sub-text').textContent = `2027 · ${dimLabel(xDim)}`;
+    card.querySelector('.sub-text').textContent = `${lastY} · ${dimLabel(xDim)} · ${m.label}`;
   }
 
   const xVals = [...new Set(data.map(r=>r[xDim]))];
   const stacks = [...new Set(data.map(r=>r[stackDim]))];
-  const datasets = stacks.map((s,i) => ({
-    label: String(s).length>22?String(s).slice(0,20)+'…':String(s),
-    data: xVals.map(xv => data.filter(r=>r[xDim]===xv && r[stackDim]===s).reduce((a,b)=>a+b.monto2027,0)),
-    backgroundColor: PALETTE[i%PALETTE.length],
+  const datasets = stacks.map((s, i) => ({
+    label: String(s).length > 22 ? String(s).slice(0,20) + '…' : String(s),
+    data: xVals.map(xv =>
+      data
+        .filter(r => r[xDim] === xv && r[stackDim] === s)
+        .reduce((a, b) => a + getValue(b, lastY, activeMetric), 0)
+    ),
+    backgroundColor: PALETTE[i % PALETTE.length],
     borderRadius: 2
   }));
   charts.stack = new Chart(document.getElementById('ch-stack'), {
@@ -3224,48 +3990,84 @@ function renderChartStack(data) {
     data: { labels: xVals.map(s=>String(s).length>18?String(s).slice(0,16)+'…':String(s)), datasets },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position:'bottom', labels:{boxWidth:10,boxHeight:10,usePointStyle:true,font:{size:10}} }, tooltip: tooltipCfg() },
+      plugins: {
+        legend: { position:'bottom', labels:{boxWidth:10,boxHeight:10,usePointStyle:true,font:{size:10}} },
+        tooltip: {
+          ...tooltipCfg(),
+          callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTip(ctx.parsed.y) }
+        }
+      },
       scales: {
         x: { stacked: true, grid:{display:false} },
-        y: { stacked: true, ticks:{callback: v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
+        y: { stacked: true, ticks:{callback: v => fmt(v)}, grid:{color:'rgba(14,26,43,.06)'} }
       }
     }
   });
 }
 
-/* ==================== CHART: Instrumentos (polar) ==================== */
+/* ==================== CHART: Instrumentos ==================== */
 function renderChartInstr(data) {
-  const agg = aggregate(data,'instrumento').filter(a=>a.m27>0);
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmtTip = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+  const agg = aggregate(data, 'instrumento', selectedYears, activeMetric)
+    .filter(a => (a.years[lastY] || 0) > 0);
+
+  const card = document.getElementById('ch-instr').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = `Instrumentos · Participación ${lastY}`;
+    card.querySelector('.sub-text').textContent = m.label;
+  }
+
   charts.instr = new Chart(document.getElementById('ch-instr'), {
     type: 'doughnut',
     data: {
-      labels: agg.map(a=>a.key),
+      labels: agg.map(a => a.key),
       datasets: [{
-        data: agg.map(a=>a.m27),
-        backgroundColor: agg.map((_,i)=>PALETTE[i%PALETTE.length]),
+        data: agg.map(a => a.years[lastY] || 0),
+        backgroundColor: agg.map((_, i) => PALETTE[i % PALETTE.length]),
         borderColor:'#FFFFFF', borderWidth:2
       }]
     },
     options: {
       responsive:true, maintainAspectRatio:false,
       cutout: '50%',
-      plugins: { legend: { position:'bottom', labels:{boxWidth:8,boxHeight:8,usePointStyle:true,font:{size:10}} }, tooltip: tooltipCfg() }
+      plugins: {
+        legend: { position:'bottom', labels:{boxWidth:8,boxHeight:8,usePointStyle:true,font:{size:10}} },
+        tooltip: {
+          ...tooltipCfg(),
+          callbacks: { label: ctx => `${ctx.label}: ${fmtTip(ctx.parsed)}` }
+        }
+      }
     }
   });
 }
 
 /* ==================== CHART: Financiamiento (bar horizontal) ==================== */
 function renderChartFin(data) {
-  const agg = aggregate(data,'financiamiento');
-  const total = agg.reduce((s,a)=>s+a.m27,0);
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
+  const fmtTip = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+
+  const agg = aggregate(data, 'financiamiento', selectedYears, activeMetric)
+    .filter(a => (a.years[lastY] || 0) > 0);
+  const total = agg.reduce((s,a) => s + (a.years[lastY] || 0), 0);
+
+  const card = document.getElementById('ch-fin').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = `Financiamiento · Participación ${lastY}`;
+    card.querySelector('.sub-text').textContent = `Por fuente · ${m.label}`;
+  }
+
   charts.fin = new Chart(document.getElementById('ch-fin'), {
     type: 'bar',
     data: {
-      labels: agg.map(a=>a.key),
+      labels: agg.map(a => a.key),
       datasets: [{
-        label: 'Monto 2027',
-        data: agg.map(a=>a.m27),
-        backgroundColor: agg.map((_,i)=>PALETTE[i%PALETTE.length]),
+        label: m.label + ' ' + lastY,
+        data: agg.map(a => a.years[lastY] || 0),
+        backgroundColor: agg.map((_, i) => PALETTE[i % PALETTE.length]),
         borderRadius: 2
       }]
     },
@@ -3274,27 +4076,50 @@ function renderChartFin(data) {
       plugins: {
         legend:{display:false},
         tooltip:{ ...tooltipCfg(), callbacks: { label: ctx => {
-          const v = ctx.parsed.x; const p = total>0?((v/total)*100).toFixed(1):0;
-          return fmtCLP(v) + ' (' + p + '%)';
+          const v = ctx.parsed.x;
+          const p = total > 0 ? ((v/total)*100).toFixed(1) : 0;
+          return fmtTip(v) + ' (' + p + '%)';
         }}}
       },
       scales: {
-        x: { ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} },
+        x: { ticks:{callback:v=>fmt(v)}, grid:{color:'rgba(14,26,43,.06)'} },
         y: { grid:{display:false} }
       }
     }
   });
 }
 
-/* ==================== CHART: Scatter proyectos vs monto ==================== */
+/* ==================== CHART: Scatter programas · monto vs actividades ==================== */
 function renderChartScatter(data) {
-  const agg = aggregate(data,'programa');
+  const lastY = selectedYears[selectedYears.length - 1];
+  // Agregado manual: para cada programa, sumar monto y actividades del último año
+  const agg = new Map();
+  for (const r of data) {
+    const k = r.programa || '(sin programa)';
+    if (!agg.has(k)) agg.set(k, { key: k, monto: 0, acts: 0, count: 0 });
+    const o = agg.get(k);
+    o.monto += getValue(r, lastY, 'monto');
+    o.acts  += getValue(r, lastY, 'actividades');
+    o.count++;
+  }
+  const points = [...agg.values()].filter(a => a.monto > 0 || a.acts > 0);
+
+  const card = document.getElementById('ch-scatter').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = `Programas · Monto vs. N° actividades`;
+    card.querySelector('.sub-text').textContent = `Dispersión ${lastY}`;
+  }
+
   charts.scatter = new Chart(document.getElementById('ch-scatter'), {
     type: 'bubble',
     data: {
       datasets: [{
         label: 'Programas',
-        data: agg.map(a => ({ x: a.p27, y: a.m27, r: Math.max(5, Math.min(25, Math.sqrt(a.count)*6)), label: a.key })),
+        data: points.map(a => ({
+          x: a.acts, y: a.monto,
+          r: Math.max(5, Math.min(25, Math.sqrt(a.count) * 6)),
+          label: a.key
+        })),
         backgroundColor: 'rgba(122,31,43,.55)',
         borderColor: '#7A1F2B',
         borderWidth: 1.5
@@ -3308,13 +4133,13 @@ function renderChartScatter(data) {
           ...tooltipCfg(),
           callbacks: { label: ctx => {
             const d = ctx.raw;
-            return [d.label, 'Proyectos: ' + fmtNum(d.x), 'Monto: ' + fmtCLP(d.y)];
+            return [d.label, `Actividades: ${fmtNum(d.x)}`, `Monto: ${fmtCLP(d.y)}`];
           }}
         }
       },
       scales: {
-        x: { title:{display:true,text:'Proyectos 2027', font:{size:10, family:"'JetBrains Mono'"}}, grid:{color:'rgba(14,26,43,.06)'} },
-        y: { title:{display:true,text:'Monto 2027', font:{size:10, family:"'JetBrains Mono'"}}, ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
+        x: { title:{display:true, text: `Actividades ${lastY}`, font:{size:10, family:"'JetBrains Mono'"}}, grid:{color:'rgba(14,26,43,.06)'} },
+        y: { title:{display:true, text: `Monto ${lastY}`, font:{size:10, family:"'JetBrains Mono'"}}, ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
       }
     }
   });
@@ -3322,15 +4147,26 @@ function renderChartScatter(data) {
 
 /* ==================== CHART: Categoría (Nueva Convocatoria vs Arrastre) ==================== */
 function renderChartCategoria(data) {
-  const agg = aggregate(data, 'categoria').filter(a=>a.m27>0);
-  const total = agg.reduce((s,a)=>s+a.m27,0);
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmtTip = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+
+  const agg = aggregate(data, 'categoria', selectedYears, activeMetric)
+    .filter(a => (a.years[lastY] || 0) > 0);
+  const total = agg.reduce((s, a) => s + (a.years[lastY] || 0), 0);
+
+  const card = document.getElementById('ch-categoria').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = 'Nueva Convocatoria vs Arrastre';
+    card.querySelector('.sub-text').textContent = `Composición ${lastY} · ${m.label}`;
+  }
 
   charts.categoria = new Chart(document.getElementById('ch-categoria'), {
     type: 'doughnut',
     data: {
-      labels: agg.map(a=>a.key),
+      labels: agg.map(a => a.key),
       datasets: [{
-        data: agg.map(a=>a.m27),
+        data: agg.map(a => a.years[lastY] || 0),
         backgroundColor: agg.map(a => a.key === 'Nueva Convocatoria' ? '#2F5D3F' : '#B08D3B'),
         borderColor: '#FFFFFF', borderWidth: 2
       }]
@@ -3342,8 +4178,9 @@ function renderChartCategoria(data) {
         tooltip: {
           ...tooltipCfg(),
           callbacks: { label: ctx => {
-            const v = ctx.parsed; const p = total>0?((v/total)*100).toFixed(1):0;
-            return `${ctx.label}: ${fmtCLP(v)} (${p}%)`;
+            const v = ctx.parsed;
+            const p = total > 0 ? ((v / total) * 100).toFixed(1) : 0;
+            return `${ctx.label}: ${fmtTip(v)} (${p}%)`;
           }}
         }
       }
@@ -3351,28 +4188,51 @@ function renderChartCategoria(data) {
   });
 }
 
-/* ==================== CHART: Distribución por año de concurso ==================== */
+/* ==================== CHART: Distribución por año de concurso ====================
+   Muestra el valor del último año seleccionado, agrupado por Concurso.
+   Esto permite ver qué tan viva está cada convocatoria. */
 function renderChartConcurso(data) {
-  const agg = aggregate(data, 'concurso').sort((a,b) => String(a.key).localeCompare(String(b.key)));
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
+  const fmtTip = v => m.isCurrency ? fmtCLP(v) : fmtNum(v);
+
+  // Agregar por concurso: valor del último año + delta desde primer año
+  const agg = aggregate(data, 'concurso', selectedYears, activeMetric)
+    .sort((a, b) => String(a.key).localeCompare(String(b.key)));
+
+  const card = document.getElementById('ch-concurso').closest('.chart-card');
+  if (card) {
+    card.querySelector('h3').textContent = `Distribución por concurso`;
+    card.querySelector('.sub-text').textContent = `${m.label} en ${lastY}`;
+  }
+
+  // Si se seleccionaron 2+ años, mostrar primer y último (igual que el comparativo principal)
+  const firstY = selectedYears[0];
+  const datasets = selectedYears.length === 1
+    ? [{ label: String(lastY), data: agg.map(a => a.years[lastY] || 0), backgroundColor: '#7A1F2B', borderRadius: 2 }]
+    : selectedYears.length === 2
+      ? [
+          { label: String(firstY), data: agg.map(a => a.years[firstY] || 0), backgroundColor: '#1E4D6B', borderRadius: 2 },
+          { label: String(lastY),  data: agg.map(a => a.years[lastY]  || 0), backgroundColor: '#7A1F2B', borderRadius: 2 }
+        ]
+      : [{ label: String(lastY), data: agg.map(a => a.years[lastY] || 0), backgroundColor: '#7A1F2B', borderRadius: 2 }];
 
   charts.concurso = new Chart(document.getElementById('ch-concurso'), {
     type: 'bar',
     data: {
       labels: agg.map(a => 'Concurso ' + a.key),
-      datasets: [
-        { label: 'Monto 2026', data: agg.map(a=>a.m26), backgroundColor: '#1E4D6B', borderRadius: 2 },
-        { label: 'Monto 2027', data: agg.map(a=>a.m27), backgroundColor: '#7A1F2B', borderRadius: 2 }
-      ]
+      datasets
     },
     options: {
       responsive:true, maintainAspectRatio:false,
       plugins: {
         legend: { position:'top', align:'end', labels:{boxWidth:10,boxHeight:10,usePointStyle:true} },
-        tooltip: tooltipCfg()
+        tooltip: { ...tooltipCfg(), callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtTip(ctx.parsed.y) } }
       },
       scales: {
         x: { grid:{display:false} },
-        y: { ticks:{callback:v=>fmtCLP(v,true)}, grid:{color:'rgba(14,26,43,.06)'} }
+        y: { ticks:{callback: v => fmt(v)}, grid:{color:'rgba(14,26,43,.06)'} }
       }
     }
   });
@@ -3394,16 +4254,27 @@ function renderHeatmap(data) {
   }
 
   const card = document.getElementById('heatmap').closest('.chart-card');
+  const m = metricById(activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
   if (card) {
     card.querySelector('h3').textContent = `Matriz de concentración · ${dimLabel(rowDim)} × ${dimLabel(colDim)}`;
+    const subEl = card.querySelector('.sub-text');
+    if (subEl) subEl.textContent = `${m.label} en ${lastY}`;
   }
 
   const rows = [...new Set(data.map(r=>r[rowDim]))];
   const cols = [...new Set(data.map(r=>r[colDim]))];
   const matrix = rows.map(rv => ({
     rv,
-    vals: cols.map(cv => data.filter(r=>r[rowDim]===rv && r[colDim]===cv).reduce((a,b)=>a+b.monto2027,0)),
-    total: data.filter(r=>r[rowDim]===rv).reduce((a,b)=>a+b.monto2027,0)
+    vals: cols.map(cv =>
+      data
+        .filter(r => r[rowDim] === rv && r[colDim] === cv)
+        .reduce((a, b) => a + getValue(b, lastY, activeMetric), 0)
+    ),
+    total: data
+      .filter(r => r[rowDim] === rv)
+      .reduce((a, b) => a + getValue(b, lastY, activeMetric), 0)
   }));
   const max = Math.max(...matrix.flatMap(m=>m.vals), 1);
   const colorFor = v => {
@@ -3424,11 +4295,11 @@ function renderHeatmap(data) {
         <th style="color:var(--accent-oxblood)">Total</th>
       </tr></thead>
       <tbody>
-        ${matrix.map(m => `
+        ${matrix.map(mr => `
           <tr>
-            <td title="${esc(m.rv)}">${esc(m.rv)}</td>
-            ${m.vals.map(v => `<td class="hm" style="background:${colorFor(v)}; color:${textCol(v)}">${v?fmtCLP(v,true):'—'}</td>`).join('')}
-            <td style="font-weight:600; color:var(--accent-oxblood)">${fmtCLP(m.total,true)}</td>
+            <td title="${esc(mr.rv)}">${esc(mr.rv)}</td>
+            ${mr.vals.map(v => `<td class="hm" style="background:${colorFor(v)}; color:${textCol(v)}">${v ? fmt(v) : '—'}</td>`).join('')}
+            <td style="font-weight:600; color:var(--accent-oxblood)">${fmt(mr.total)}</td>
           </tr>
         `).join('')}
       </tbody>
@@ -3437,23 +4308,46 @@ function renderHeatmap(data) {
 
 /* ==================== CHART: Variación % ==================== */
 function renderChartVar(data) {
+  const m = metricById(activeMetric);
+  const firstY = selectedYears[0];
+  const lastY = selectedYears[selectedYears.length - 1];
+
+  // Si solo hay 1 año, ocultar el gráfico
+  if (selectedYears.length < 2) {
+    const card = document.getElementById('ch-var').closest('.chart-card');
+    if (card) {
+      card.querySelector('h3').textContent = 'Variación porcentual';
+      card.querySelector('.sub-text').textContent = 'Requiere 2+ años';
+    }
+    const ctx = document.getElementById('ch-var');
+    // Dibuja un mensaje via canvas 2D text
+    const c2d = ctx.getContext('2d');
+    c2d.clearRect(0, 0, ctx.width, ctx.height);
+    c2d.font = "italic 14px 'Fraunces', serif";
+    c2d.fillStyle = 'rgba(14,26,43,.4)';
+    c2d.textAlign = 'center';
+    c2d.fillText('Selecciona al menos 2 años para calcular variaciones', ctx.width/2, ctx.height/2);
+    return;
+  }
+
   const dim = pickBreakdownDim(data, 'subdireccion');
-  const agg = aggregate(data, dim);
+  const agg = aggregate(data, dim, selectedYears, activeMetric);
 
   const card = document.getElementById('ch-var').closest('.chart-card');
   if (card) {
     card.querySelector('h3').textContent = 'Variación porcentual por ' + dimLabel(dim);
+    card.querySelector('.sub-text').textContent = `${firstY} → ${lastY} · ${m.label}`;
   }
 
   charts.var = new Chart(document.getElementById('ch-var'), {
     type: 'bar',
     data: {
-      labels: agg.map(a=>a.key.length>24?a.key.slice(0,22)+'…':a.key),
+      labels: agg.map(a => a.key.length > 24 ? a.key.slice(0,22) + '…' : a.key),
       datasets: [{
         label: 'Variación %',
-        data: agg.map(a=>a.deltaPct),
-        backgroundColor: agg.map(a=>a.deltaPct>=0?'rgba(47,93,63,.85)':'rgba(122,31,43,.85)'),
-        borderColor: agg.map(a=>a.deltaPct>=0?'#2F5D3F':'#7A1F2B'),
+        data: agg.map(a => a.deltaPct),
+        backgroundColor: agg.map(a => a.deltaPct>=0?'rgba(47,93,63,.85)':'rgba(122,31,43,.85)'),
+        borderColor: agg.map(a => a.deltaPct>=0?'#2F5D3F':'#7A1F2B'),
         borderWidth: 1,
         borderRadius: 2
       }]
@@ -3472,152 +4366,169 @@ function renderChartVar(data) {
   });
 }
 
-/* ==================== INSIGHTS AUTOMÁTICOS ==================== */
+/* ==================== INSIGHTS AUTOMÁTICOS ====================
+   Los insights ahora hablan en términos de los años seleccionados y la
+   métrica activa. La lógica es la misma (concentración, outliers, HHI),
+   pero el texto se ajusta a lo que el usuario está viendo. */
 function renderInsights(data) {
   const out = [];
   const k = computeKPIs(data);
+  const m = metricById(activeMetric);
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
+  const metricLabel = m.label.toLowerCase();
   const primaryDim = pickBreakdownDim(data, 'subdireccion');
-  const byPrimary = aggregate(data, primaryDim);
-  const byInstr = aggregate(data,'instrumento');
-  const byFin = aggregate(data,'financiamiento');
-  const byProg = aggregate(data,'programa');
+  const byPrimary = aggregate(data, primaryDim, selectedYears, activeMetric);
+  const byInstr = aggregate(data, 'instrumento', selectedYears, activeMetric);
+  const byFin = aggregate(data, 'financiamiento', selectedYears, activeMetric);
+  const byProg = aggregate(data, 'programa', selectedYears, activeMetric);
 
-  // 1. Variación general
-  if (k.t26>0) {
-    const cls = k.dPct>0?'pos':k.dPct<0?'neg':'neu';
-    const tag = k.dPct>0?'Alza':k.dPct<0?'Baja':'Estable';
-    out.push({cls, tag, text: `El presupuesto ${Object.keys(activeFilters).length>0?'de la vista filtrada':'total'} <strong>${k.dPct>=0?'aumenta':'disminuye'} un ${fmtPct(k.dPct)}</strong> entre 2026 y 2027 (${fmtCLP(k.d,true)} Δ abs.).`});
+  // 1. Variación general (solo si hay 2+ años)
+  if (!k.isSingleYear && k.firstV > 0) {
+    const cls = k.deltaPct>0?'pos':k.deltaPct<0?'neg':'neu';
+    const tag = k.deltaPct>0?'Alza':k.deltaPct<0?'Baja':'Estable';
+    const dir = k.deltaPct>=0?'aumenta':'disminuye';
+    const scope = Object.keys(activeFilters).length>0?'de la vista filtrada':'total';
+    out.push({cls, tag, text: `El ${metricLabel} ${scope} <strong>${dir} un ${fmtPct(k.deltaPct)}</strong> entre ${k.firstY} y ${k.lastY} (${fmt(k.delta)} Δ abs.).`});
   }
 
-  // 2. Concentración del top
-  if (byPrimary.length>1 && k.t27>0) {
+  // 2. Concentración del top (en el último año)
+  if (byPrimary.length > 1 && k.lastV > 0) {
     const top = byPrimary[0];
-    const p = (top.m27/k.t27)*100;
-    out.push({cls:'neu', tag:'Concentración', text: `<strong>${esc(top.key)}</strong> (${dimLabel(primaryDim)}) concentra el <strong>${p.toFixed(1)}%</strong> del presupuesto 2027 (${fmtCLP(top.m27,true)}).`});
+    const p = (top.lastV / k.lastV) * 100;
+    out.push({cls:'neu', tag:'Concentración', text: `<strong>${esc(top.key)}</strong> (${dimLabel(primaryDim)}) concentra el <strong>${p.toFixed(1)}%</strong> del ${metricLabel} en ${k.lastY} (${fmt(top.lastV)}).`});
   }
 
-  // 3. Mayor crecimiento absoluto
-  const grow = [...byPrimary].sort((a,b)=>b.delta-a.delta)[0];
-  if (grow && grow.delta>0 && byPrimary.length>1) {
-    out.push({cls:'pos', tag:'Mayor alza', text: `<strong>${esc(grow.key)}</strong> registra el mayor incremento absoluto: ${fmtCLP(grow.delta,true)} (${fmtPct(grow.deltaPct)}).`});
-  }
+  // 3. Mayor crecimiento absoluto (requiere 2+ años)
+  if (!k.isSingleYear) {
+    const grow = [...byPrimary].sort((a,b) => b.delta - a.delta)[0];
+    if (grow && grow.delta > 0 && byPrimary.length > 1) {
+      out.push({cls:'pos', tag:'Mayor alza', text: `<strong>${esc(grow.key)}</strong> registra el mayor incremento absoluto en ${metricLabel}: ${fmt(grow.delta)} (${fmtPct(grow.deltaPct)}).`});
+    }
 
-  // 4. Mayor caída
-  const drop = [...byPrimary].sort((a,b)=>a.delta-b.delta)[0];
-  if (drop && drop.delta<0 && byPrimary.length>1) {
-    out.push({cls:'neg', tag:'Mayor baja', text: `<strong>${esc(drop.key)}</strong> presenta la mayor caída: ${fmtCLP(drop.delta,true)} (${fmtPct(drop.deltaPct)}).`});
-  }
+    // 4. Mayor caída
+    const drop = [...byPrimary].sort((a,b) => a.delta - b.delta)[0];
+    if (drop && drop.delta < 0 && byPrimary.length > 1) {
+      out.push({cls:'neg', tag:'Mayor baja', text: `<strong>${esc(drop.key)}</strong> presenta la mayor caída: ${fmt(drop.delta)} (${fmtPct(drop.deltaPct)}).`});
+    }
 
-  // 5. Instrumento con mayor crecimiento % (solo si no está filtrado por instrumento)
-  if (!activeFilters.instrumento) {
-    const instrGrow = byInstr.filter(i=>i.m26>0).sort((a,b)=>b.deltaPct-a.deltaPct)[0];
-    if (instrGrow && instrGrow.deltaPct>0 && byInstr.length>1) {
-      out.push({cls:'pos', tag:'Instrumento', text: `El instrumento <strong>${esc(instrGrow.key)}</strong> exhibe la mayor variación positiva relativa (${fmtPct(instrGrow.deltaPct)}).`});
+    // 5. Instrumento con mayor crecimiento % (solo si hay 2+ años)
+    if (!activeFilters.instrumento) {
+      const instrGrow = byInstr.filter(i => i.firstV > 0).sort((a,b) => b.deltaPct - a.deltaPct)[0];
+      if (instrGrow && instrGrow.deltaPct > 0 && byInstr.length > 1) {
+        out.push({cls:'pos', tag:'Instrumento', text: `El instrumento <strong>${esc(instrGrow.key)}</strong> exhibe la mayor variación positiva relativa (${fmtPct(instrGrow.deltaPct)}).`});
+      }
     }
   }
 
-  // 6. Outliers (IQR sobre monto2027)
-  const m27vals = data.map(r=>r.monto2027).filter(v=>v>0);
-  if (m27vals.length>=4) {
-    const q1 = quantile(m27vals,.25), q3 = quantile(m27vals,.75);
-    const iqr = q3-q1;
-    const upper = q3 + 1.5*iqr;
-    const outliers = data.filter(r=>r.monto2027>upper).sort((a,b)=>b.monto2027-a.monto2027);
+  // 6. Outliers (IQR sobre valor del último año)
+  const vals = data.map(r => getValue(r, k.lastY, activeMetric)).filter(v => v > 0);
+  if (vals.length >= 4) {
+    const q1 = quantile(vals, .25), q3 = quantile(vals, .75);
+    const iqr = q3 - q1;
+    const upper = q3 + 1.5 * iqr;
+    const outliers = data
+      .map(r => ({ r, v: getValue(r, k.lastY, activeMetric) }))
+      .filter(x => x.v > upper)
+      .sort((a,b) => b.v - a.v);
     if (outliers.length) {
-      out.push({cls:'warn', tag:'Atípicos', text: `Se detectaron <strong>${outliers.length} partidas atípicas</strong> (montos 2027 > ${fmtCLP(upper,true)}). La mayor: ${esc(outliers[0].asignacion)} (${fmtCLP(outliers[0].monto2027,true)}).`});
+      out.push({cls:'warn', tag:'Atípicos', text: `Se detectaron <strong>${outliers.length} partidas atípicas</strong> en ${k.lastY} (${metricLabel} > ${fmt(upper)}). La mayor: ${esc(outliers[0].r.asignacion)} (${fmt(outliers[0].v)}).`});
     }
   }
 
-  // 7. Financiamiento dominante (solo si no está filtrado por financiamiento)
-  if (!activeFilters.financiamiento && byFin.length>1 && k.t27>0) {
+  // 7. Financiamiento dominante
+  if (!activeFilters.financiamiento && byFin.length > 1 && k.lastV > 0) {
     const topFin = byFin[0];
-    const p = (topFin.m27/k.t27)*100;
-    out.push({cls:'neu', tag:'Financiamiento', text: `La fuente dominante es <strong>${esc(topFin.key)}</strong>, representando el ${p.toFixed(1)}% del presupuesto 2027.`});
+    const p = (topFin.lastV / k.lastV) * 100;
+    out.push({cls:'neu', tag:'Financiamiento', text: `La fuente dominante es <strong>${esc(topFin.key)}</strong>, con ${p.toFixed(1)}% del ${metricLabel} en ${k.lastY}.`});
   }
 
-  // 8. Eficiencia por proyecto
-  if (k.p27>0 && k.p26>0) {
-    const effChange = ((k.avg27-k.avg26)/k.avg26)*100;
-    const cls = Math.abs(effChange)<5?'neu':(effChange>0?'warn':'pos');
-    const dir = effChange>0?'encarece':'abarata';
-    out.push({cls, tag:'Eficiencia', text: `El monto promedio por proyecto <strong>${dir}</strong> en ${fmtPct(Math.abs(effChange))} (${fmtCLP(k.avg26,true)} → ${fmtCLP(k.avg27,true)}).`});
+  // 8. Monto promedio por actividad (cross-metric)
+  if (activeMetric === 'monto' && k.otherTotals[k.lastY] > 0) {
+    const avg = k.lastV / k.otherTotals[k.lastY];
+    out.push({cls:'neu', tag:'Eficiencia', text: `En ${k.lastY}, el monto promedio por actividad es <strong>${fmtCLP(avg)}</strong> (total: ${fmtCLP(k.lastV)} / ${fmtNum(k.otherTotals[k.lastY])} actividades).`});
   }
 
-  // 9. Programa más costoso (solo si no está filtrado por programa)
-  if (!activeFilters.programa && byProg.length) {
+  // 9. Programa más costoso
+  if (!activeFilters.programa && byProg.length > 1) {
     const topProg = byProg[0];
-    if (byProg.length>1) {
-      out.push({cls:'neu', tag:'Programa líder', text: `El programa con mayor asignación 2027 es <strong>${esc(topProg.key)}</strong> con ${fmtCLP(topProg.m27,true)} en ${topProg.count} partida(s).`});
-    }
+    out.push({cls:'neu', tag:'Programa líder', text: `El programa con mayor ${metricLabel} en ${k.lastY} es <strong>${esc(topProg.key)}</strong> con ${fmt(topProg.lastV)} en ${topProg.count} partida(s).`});
   }
 
-  // 10. Herfindahl (diversificación)
-  if (byPrimary.length>=2 && k.t27>0) {
-    const hhi = byPrimary.reduce((s,a)=>s+Math.pow((a.m27/k.t27)*100,2),0);
-    let lvl = 'baja', cls='pos';
-    if (hhi>=2500) { lvl='alta'; cls='warn'; }
-    else if (hhi>=1500) { lvl='moderada'; cls='neu'; }
-    out.push({cls, tag:'Diversificación', text: `La concentración presupuestaria entre ${dimLabel(primaryDim).toLowerCase()}s es <strong>${lvl}</strong> (HHI ≈ ${Math.round(hhi)}).`});
+  // 10. Herfindahl (diversificación) basado en último año
+  if (byPrimary.length >= 2 && k.lastV > 0) {
+    const hhi = byPrimary.reduce((s, a) => s + Math.pow((a.lastV / k.lastV) * 100, 2), 0);
+    let lvl = 'baja', cls = 'pos';
+    if (hhi >= 2500) { lvl = 'alta'; cls = 'warn'; }
+    else if (hhi >= 1500) { lvl = 'moderada'; cls = 'neu'; }
+    out.push({cls, tag:'Diversificación', text: `La concentración del ${metricLabel} entre ${dimLabel(primaryDim).toLowerCase()}s en ${k.lastY} es <strong>${lvl}</strong> (HHI ≈ ${Math.round(hhi)}).`});
+  }
+
+  // 11. Rango de años con datos (si la selección cubre muchos años)
+  if (k.years.length >= 4) {
+    out.push({cls:'neu', tag:'Cobertura', text: `Se están analizando <strong>${k.years.length} años consecutivos</strong> (${k.firstY}–${k.lastY}). El dashboard muestra evolución temporal completa.`});
   }
 
   const el = document.getElementById('insights');
   el.innerHTML = out.map(o => `<div class="insight ${o.cls}"><span class="tag">${o.tag}</span>${o.text}</div>`).join('');
 }
 
-/* ==================== TABLA RESUMEN EJECUTIVA ==================== */
+/* ==================== TABLA RESUMEN EJECUTIVA ====================
+   Se genera con una columna por año seleccionado. Si hay 2+ años agrega
+   también Δ absoluto y Δ%, y una columna "Part. último año" (participación). */
 function renderSummaryTable(data) {
   const dim = pickBreakdownDim(data, 'subdireccion');
-  const agg = aggregate(data, dim);
+  const agg = aggregate(data, dim, selectedYears, activeMetric);
+  const m = metricById(activeMetric);
+  const fmt = v => m.isCurrency ? fmtCLP(v, true) : fmtNum(v);
 
-  // Actualizar título contextualmente
   const card = document.getElementById('summary-table').closest('.chart-card');
   if (card) {
-    card.querySelector('h3').textContent = 'Tabla resumen ejecutiva · por ' + dimLabel(dim);
+    card.querySelector('h3').textContent = `Tabla resumen ejecutiva · por ${dimLabel(dim)} · ${m.label}`;
   }
 
-  const total27 = agg.reduce((s,a)=>s+a.m27,0);
-  const total26 = agg.reduce((s,a)=>s+a.m26,0);
-  const tp26 = agg.reduce((s,a)=>s+a.p26,0);
-  const tp27 = agg.reduce((s,a)=>s+a.p27,0);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const showDelta = selectedYears.length >= 2;
+  const totalLast = agg.reduce((s, a) => s + (a.years[lastY] || 0), 0);
+  const totalByYear = {};
+  for (const y of selectedYears) totalByYear[y] = agg.reduce((s, a) => s + (a.years[y] || 0), 0);
+  const totalDelta = showDelta ? totalByYear[lastY] - totalByYear[selectedYears[0]] : 0;
+  const totalPct = showDelta && totalByYear[selectedYears[0]] > 0
+    ? ((totalByYear[lastY] - totalByYear[selectedYears[0]]) / totalByYear[selectedYears[0]]) * 100
+    : 0;
+
   const el = document.getElementById('summary-table');
   el.innerHTML = `
     <table class="heatmap">
       <thead><tr>
         <th>${dimLabel(dim)}</th>
         <th>Partidas</th>
-        <th>Proy. 2026</th>
-        <th>Proy. 2027</th>
-        <th>Monto 2026</th>
-        <th>Monto 2027</th>
-        <th>Δ Abs.</th>
-        <th>Δ %</th>
-        <th>Part. 2027</th>
+        ${selectedYears.map(y => `<th>${m.label} ${y}</th>`).join('')}
+        ${showDelta ? `<th>Δ Abs.</th><th>Δ %</th>` : ''}
+        <th>Part. ${lastY}</th>
       </tr></thead>
       <tbody>
         ${agg.map(a => {
-          const pos = a.delta>=0;
-          const pct = total27>0 ? (a.m27/total27)*100 : 0;
+          const pos = a.delta >= 0;
+          const pct = totalLast > 0 ? (a.lastV / totalLast) * 100 : 0;
           return `<tr>
             <td>${esc(a.key)}</td>
             <td>${fmtNum(a.count)}</td>
-            <td>${fmtNum(a.p26)}</td>
-            <td>${fmtNum(a.p27)}</td>
-            <td>${fmtCLP(a.m26,true)}</td>
-            <td>${fmtCLP(a.m27,true)}</td>
-            <td style="color:${pos?'var(--positive)':'var(--negative)'}">${pos?'+':''}${fmtCLP(a.delta,true)}</td>
-            <td style="color:${pos?'var(--positive)':'var(--negative)'}; font-weight:600">${fmtPct(a.deltaPct)}</td>
+            ${selectedYears.map(y => `<td>${fmt(a.years[y] || 0)}</td>`).join('')}
+            ${showDelta ? `
+              <td style="color:${pos?'var(--positive)':'var(--negative)'}">${pos?'+':''}${fmt(a.delta)}</td>
+              <td style="color:${pos?'var(--positive)':'var(--negative)'}; font-weight:600">${fmtPct(a.deltaPct)}</td>
+            ` : ''}
             <td>${pct.toFixed(1)}%</td>
           </tr>`;
         }).join('')}
         <tr style="background:var(--ink); color:var(--paper); font-weight:600">
           <td style="color:var(--paper)">TOTAL</td>
           <td>${fmtNum(data.length)}</td>
-          <td>${fmtNum(tp26)}</td>
-          <td>${fmtNum(tp27)}</td>
-          <td>${fmtCLP(total26,true)}</td>
-          <td>${fmtCLP(total27,true)}</td>
-          <td>${total27>=total26?'+':''}${fmtCLP(total27-total26,true)}</td>
-          <td>${fmtPct(total26>0?((total27-total26)/total26)*100:0)}</td>
+          ${selectedYears.map(y => `<td>${fmt(totalByYear[y])}</td>`).join('')}
+          ${showDelta ? `
+            <td>${totalDelta>=0?'+':''}${fmt(totalDelta)}</td>
+            <td>${fmtPct(totalPct)}</td>
+          ` : ''}
           <td>100%</td>
         </tr>
       </tbody>
@@ -3625,65 +4536,102 @@ function renderSummaryTable(data) {
   `;
 }
 
-/* ==================== EXPORTACIÓN ==================== */
+/* ==================== EXPORTACIÓN ====================
+   El XLSX exporta en formato LONG: una fila por cada combinación partida-año-tipo.
+   Esto es consistente con el modelo interno y es el formato estándar de DIPRES.
+   La importación (más abajo) también entiende el formato WIDE por compatibilidad. */
 function exportRecordsXLSX() {
   if (!records.length) { toast('Sin registros para exportar','err'); return; }
-  const ws = XLSX.utils.json_to_sheet(records.map(r => ({
-    'Subdirección': r.subdireccion,
-    'Asignación': r.asignacion,
-    'Subtítulo': r.subtitulo,
-    'Programa': r.programa,
-    'Instrumento': r.instrumento,
-    'Financiamiento': r.financiamiento,
-    'Concurso': r.concurso || '',
-    'Categoría': r.categoria || '',
-    'Proyectos 2026': r.proy2026,
-    'Proyectos 2027': r.proy2027,
-    'Monto 2026': r.monto2026,
-    'Monto 2027': r.monto2027,
-    'Variación': r.monto2027 - r.monto2026,
-    'Variación %': r.monto2026>0?(((r.monto2027-r.monto2026)/r.monto2026)*100).toFixed(2):''
-  })));
+  // Expandir cada registro en una fila por cada valor
+  const rows = [];
+  for (const r of records) {
+    for (const v of (r.valores || [])) {
+      rows.push({
+        'Subdirección': r.subdireccion,
+        'Asignación': r.asignacion,
+        'Subtítulo': r.subtitulo,
+        'Programa': r.programa,
+        'Instrumento': r.instrumento,
+        'Financiamiento': r.financiamiento,
+        'Concurso': r.concurso || '',
+        'Categoría': r.categoria || '',
+        'Año': v.año,
+        'Tipo': metricById(v.tipo).label,
+        'Valor': v.valor
+      });
+    }
+  }
+  if (rows.length === 0) { toast('Sin valores que exportar','err'); return; }
+  const ws = XLSX.utils.json_to_sheet(rows);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Partidas');
   XLSX.writeFile(wb, `erario-partidas-${new Date().toISOString().slice(0,10)}.xlsx`);
-  toast('Archivo XLSX exportado','ok');
+  toast('Archivo XLSX exportado en formato long','ok');
 }
 
 function exportDashboardXLSX() {
   const data = getDashData();
   const wb = XLSX.utils.book_new();
+  const m = metricById(activeMetric);
 
-  // Hoja 1: KPIs
+  // Hoja 1: KPIs — un row por año con totales, y row general de metadatos
   const k = computeKPIs(data);
-  const kpiSheet = XLSX.utils.aoa_to_sheet([
-    ['Indicador','Valor'],
-    ['Presupuesto 2026', k.t26],
-    ['Presupuesto 2027', k.t27],
-    ['Variación absoluta', k.d],
-    ['Variación %', k.dPct.toFixed(2)+'%'],
-    ['Proyectos 2026', k.p26],
-    ['Proyectos 2027', k.p27],
-    ['Variación proyectos', k.dp],
-    ['Monto promedio por proyecto 2026', k.avg26],
-    ['Monto promedio por proyecto 2027', k.avg27],
-    ['N° partidas', k.count]
-  ]);
-  XLSX.utils.book_append_sheet(wb, kpiSheet, 'Indicadores');
+  const kpiRows = [
+    ['ERARIO · Dashboard'],
+    ['Métrica activa', m.label],
+    ['Años seleccionados', selectedYears.join(', ')],
+    ['N° partidas', k.count],
+    [],
+    ['Año', 'Total ' + m.label, 'Total actividades (ref.)', 'Total monto (ref.)']
+  ];
+  for (const y of selectedYears) {
+    kpiRows.push([
+      y,
+      k.totals[y] || 0,
+      (m.isCurrency ? k.otherTotals[y] : k.totals[y]) || 0,
+      (m.isCurrency ? k.totals[y] : k.otherTotals[y]) || 0
+    ]);
+  }
+  if (!k.isSingleYear) {
+    kpiRows.push([]);
+    kpiRows.push(['Δ Abs (' + k.firstY + ' → ' + k.lastY + ')', k.delta]);
+    kpiRows.push(['Δ % (' + k.firstY + ' → ' + k.lastY + ')', k.deltaPct.toFixed(2) + '%']);
+  }
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(kpiRows), 'Indicadores');
 
-  // Hojas por dimensión
+  // Una hoja por dimensión estructural con filas por categoría + columnas por año
   FILTERS.forEach(f => {
-    const agg = aggregate(data,f);
-    const sheet = XLSX.utils.json_to_sheet(agg.map(a => ({
-      [f]: a.key, 'Partidas': a.count, 'Proy 2026': a.p26, 'Proy 2027': a.p27,
-      'Monto 2026': a.m26, 'Monto 2027': a.m27, 'Δ Abs': a.delta, 'Δ %': a.deltaPct.toFixed(2)
-    })));
+    const agg = aggregate(data, f, selectedYears, activeMetric);
+    if (!agg.length) return;
+    const rows = agg.map(a => {
+      const row = { [dimLabel(f)]: a.key, 'Partidas': a.count };
+      for (const y of selectedYears) row[m.label + ' ' + y] = a.years[y] || 0;
+      if (!k.isSingleYear) {
+        row['Δ Abs'] = a.delta;
+        row['Δ %'] = a.deltaPct.toFixed(2);
+      }
+      return row;
+    });
+    const sheet = XLSX.utils.json_to_sheet(rows);
     XLSX.utils.book_append_sheet(wb, sheet, f.slice(0,31));
   });
 
-  // Detalle
-  const detSheet = XLSX.utils.json_to_sheet(data);
-  XLSX.utils.book_append_sheet(wb, detSheet, 'Detalle');
+  // Detalle: una fila por cada valor (formato long)
+  const detail = [];
+  for (const r of data) {
+    for (const v of (r.valores || [])) {
+      if (!selectedYears.includes(Number(v.año))) continue;
+      detail.push({
+        Subdirección: r.subdireccion, Asignación: r.asignacion, Subtítulo: r.subtitulo,
+        Programa: r.programa, Instrumento: r.instrumento, Financiamiento: r.financiamiento,
+        Concurso: r.concurso, Categoría: r.categoria,
+        Año: v.año, Tipo: metricById(v.tipo).label, Valor: v.valor
+      });
+    }
+  }
+  if (detail.length > 0) {
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(detail), 'Detalle');
+  }
 
   XLSX.writeFile(wb, `erario-dashboard-${new Date().toISOString().slice(0,10)}.xlsx`);
   toast('Dashboard exportado a XLSX','ok');
@@ -3718,11 +4666,15 @@ function exportDashboardPDF() {
   doc.text('Informe Presupuestario Ejecutivo', 40, 70);
   doc.setFont('helvetica','italic'); doc.setFontSize(11);
   doc.setTextColor(122, 31, 43);
-  doc.text('Análisis comparativo ejercicio 2026 — 2027', 40, 87);
+  const mPdf = metricById(activeMetric);
+  const yearsLabel = selectedYears.length === 1
+    ? `Ejercicio ${selectedYears[0]}`
+    : `Ejercicios ${selectedYears[0]} — ${selectedYears[selectedYears.length-1]}`;
+  doc.text(`${mPdf.label} · ${yearsLabel}`, 40, 87);
 
   doc.setFont('helvetica','normal'); doc.setFontSize(9);
   doc.setTextColor(100);
-  doc.text(`Generado el ${new Date().toLocaleString('es-CL')}  ·  ${data.length} partidas analizadas`, 40, 103);
+  doc.text(`Generado el ${new Date().toLocaleString('es-CL')}  ·  ${data.length} partidas analizadas  ·  Años: ${selectedYears.join(', ')}`, 40, 103);
 
   // Línea decorativa
   doc.setDrawColor(176, 141, 59);
@@ -3768,30 +4720,44 @@ function exportDashboardPDF() {
   doc.setTextColor(30); doc.setFontSize(10); doc.setFont('helvetica','bold');
   doc.text('Resumen Ejecutivo', 40, cursorY);
   doc.setFont('helvetica','normal'); doc.setFontSize(9);
-  const direction = k.dPct>=0 ? 'incrementa' : 'disminuye';
-  const scopeText = activeEntries.length > 0 ? 'el presupuesto analizado (vista filtrada)' : 'el presupuesto total';
-  const summary = `Según los datos cargados, ${scopeText} ${direction} un ${fmtPct(k.dPct)} entre 2026 y 2027, pasando de ${fmtCLP(k.t26)} a ${fmtCLP(k.t27)}. Se ejecutarán ${fmtNum(k.p27)} proyectos en 2027 (${fmtPct(k.dpPct)} respecto a 2026), con un monto promedio por proyecto de ${fmtCLP(k.avg27)}.`;
+  const fmtPdf = v => mPdf.isCurrency ? fmtCLP(v) : fmtNum(v);
+  const scopeText = activeEntries.length > 0 ? 'el total analizado (vista filtrada)' : 'el total';
+  let summary;
+  if (k.isSingleYear) {
+    summary = `Según los datos cargados, ${scopeText} de ${mPdf.label.toLowerCase()} para ${k.firstY} es ${fmtPdf(k.firstV)}, distribuido entre ${k.count} partidas.`;
+  } else {
+    const dir = k.deltaPct >= 0 ? 'incrementa' : 'disminuye';
+    summary = `Según los datos cargados, ${scopeText} de ${mPdf.label.toLowerCase()} ${dir} un ${fmtPct(k.deltaPct)} entre ${k.firstY} y ${k.lastY}, pasando de ${fmtPdf(k.firstV)} a ${fmtPdf(k.lastV)}.`;
+    if (activeMetric === 'monto' && k.otherTotals[k.lastY] > 0) {
+      summary += ` En ${k.lastY} se ejecutarán ${fmtNum(k.otherTotals[k.lastY])} actividades, con un monto promedio de ${fmtCLP(k.lastV / k.otherTotals[k.lastY])} cada una.`;
+    }
+  }
   const splitSummary = doc.splitTextToSize(summary, pageW - 80);
   doc.text(splitSummary, 40, cursorY + 14);
   cursorY += 14 + splitSummary.length * 11 + 14;
 
-  // Indicadores principales
+  // Indicadores principales — un row por año
   doc.setFont('helvetica','bold'); doc.setFontSize(10);
   doc.text('Indicadores Principales', 40, cursorY);
+
+  const kpiBody = [];
+  for (const y of selectedYears) {
+    kpiBody.push([`${mPdf.label} ${y}`, fmtPdf(k.totals[y] || 0)]);
+  }
+  if (!k.isSingleYear) {
+    kpiBody.push(['Variación absoluta (' + k.firstY + ' → ' + k.lastY + ')', (k.delta >= 0 ? '+' : '') + fmtPdf(k.delta)]);
+    kpiBody.push(['Variación porcentual', fmtPct(k.deltaPct)]);
+  }
+  kpiBody.push(['N° partidas analizadas', fmtNum(k.count)]);
+  if (activeMetric === 'monto' && k.otherTotals[k.lastY] > 0) {
+    kpiBody.push([`Actividades ${k.lastY}`, fmtNum(k.otherTotals[k.lastY])]);
+    kpiBody.push([`Monto promedio por actividad ${k.lastY}`, fmtCLP(k.lastV / k.otherTotals[k.lastY])]);
+  }
 
   doc.autoTable({
     startY: cursorY + 8,
     head: [['Indicador','Valor']],
-    body: [
-      ['Presupuesto 2026', fmtCLP(k.t26)],
-      ['Presupuesto 2027', fmtCLP(k.t27)],
-      ['Variación absoluta', (k.d>=0?'+':'')+fmtCLP(k.d)],
-      ['Variación porcentual', fmtPct(k.dPct)],
-      ['Proyectos 2026', fmtNum(k.p26)],
-      ['Proyectos 2027', fmtNum(k.p27)],
-      ['Monto promedio por proyecto 2026', fmtCLP(k.avg26)],
-      ['Monto promedio por proyecto 2027', fmtCLP(k.avg27)]
-    ],
+    body: kpiBody,
     theme: 'grid',
     headStyles: { fillColor: [14,26,43], textColor: [245,241,232], fontSize: 9, fontStyle: 'bold' },
     bodyStyles: { fontSize: 9 },
@@ -3801,48 +4767,74 @@ function exportDashboardPDF() {
 
   // Tabla resumen por la dimensión adaptativa más informativa
   const dim = pickBreakdownDim(data, 'subdireccion');
-  const agg = aggregate(data, dim);
-  const total = agg.reduce((s,a)=>s+a.m27,0);
+  const agg = aggregate(data, dim, selectedYears, activeMetric);
+  const lastY = selectedYears[selectedYears.length - 1];
+  const totalLast = agg.reduce((s,a) => s + (a.years[lastY] || 0), 0);
   doc.setFontSize(10); doc.setFont('helvetica','bold');
   doc.text('Resumen por ' + dimLabel(dim), 40, doc.lastAutoTable.finalY + 25);
 
+  // Head dinámico: una columna por año
+  const pdfHead = [dimLabel(dim), 'N° Part.'];
+  selectedYears.forEach(y => pdfHead.push(`${mPdf.label} ${y}`));
+  if (!k.isSingleYear) { pdfHead.push('Δ Abs.'); pdfHead.push('Δ %'); }
+  pdfHead.push(`Part. ${lastY}`);
+
+  const pdfBody = agg.map(a => {
+    const row = [
+      String(a.key).length > 40 ? String(a.key).slice(0,38) + '…' : a.key,
+      a.count
+    ];
+    selectedYears.forEach(y => row.push(fmtPdf(a.years[y] || 0)));
+    if (!k.isSingleYear) {
+      row.push((a.delta >= 0 ? '+' : '') + fmtPdf(a.delta));
+      row.push(fmtPct(a.deltaPct));
+    }
+    row.push(totalLast > 0 ? ((a.lastV / totalLast) * 100).toFixed(1) + '%' : '—');
+    return row;
+  });
+
+  // columnStyles: todas las columnas numéricas alineadas a la derecha
+  const numCols = {};
+  for (let i = 1; i < pdfHead.length; i++) numCols[i] = { halign: 'right' };
+
   doc.autoTable({
     startY: doc.lastAutoTable.finalY + 33,
-    head: [[dimLabel(dim), 'N° Part.', 'Monto 2026', 'Monto 2027', 'Δ Abs.', 'Δ %', 'Part. 2027']],
-    body: agg.map(a => [
-      String(a.key).length>40?String(a.key).slice(0,38)+'…':a.key,
-      a.count, fmtCLP(a.m26,true), fmtCLP(a.m27,true),
-      (a.delta>=0?'+':'') + fmtCLP(a.delta,true),
-      fmtPct(a.deltaPct),
-      total>0 ? ((a.m27/total)*100).toFixed(1)+'%' : '—'
-    ]),
+    head: [pdfHead],
+    body: pdfBody,
     theme: 'striped',
     headStyles: { fillColor: [14,26,43], textColor: [245,241,232], fontSize: 9, fontStyle:'bold' },
     bodyStyles: { fontSize: 8.5 },
-    columnStyles: {
-      1: { halign: 'right' }, 2: { halign: 'right' }, 3: { halign: 'right' },
-      4: { halign: 'right' }, 5: { halign: 'right' }, 6: { halign: 'right' }
-    },
+    columnStyles: numCols,
     margin: { left: 40, right: 40 }
   });
 
-  // Tabla por Categoría (Nueva Convocatoria vs Arrastre) — muy útil en informes ANID
-  const byCat = aggregate(data, 'categoria');
+  // Tabla por Categoría (Nueva Convocatoria vs Arrastre)
+  const byCat = aggregate(data, 'categoria', selectedYears, activeMetric);
   if (byCat.length >= 1) {
     doc.setFontSize(10); doc.setFont('helvetica','bold');
     doc.text('Nueva Convocatoria vs Arrastre', 40, doc.lastAutoTable.finalY + 25);
+    const catHead = ['Categoría', 'N° Part.'];
+    selectedYears.forEach(y => catHead.push(`${mPdf.label} ${y}`));
+    if (!k.isSingleYear) catHead.push('Δ %');
+    catHead.push(`Part. ${lastY}`);
+
+    const catBody = byCat.map(a => {
+      const row = [a.key || '—', a.count];
+      selectedYears.forEach(y => row.push(fmtPdf(a.years[y] || 0)));
+      if (!k.isSingleYear) row.push(fmtPct(a.deltaPct));
+      row.push(totalLast > 0 ? ((a.lastV / totalLast) * 100).toFixed(1) + '%' : '—');
+      return row;
+    });
+    const catNumCols = {};
+    for (let i = 1; i < catHead.length; i++) catNumCols[i] = { halign: 'right' };
     doc.autoTable({
       startY: doc.lastAutoTable.finalY + 33,
-      head: [['Categoría', 'N° Part.', 'Monto 2026', 'Monto 2027', 'Δ %', 'Part. 2027']],
-      body: byCat.map(a => [
-        a.key || '—', a.count, fmtCLP(a.m26,true), fmtCLP(a.m27,true),
-        fmtPct(a.deltaPct),
-        total>0 ? ((a.m27/total)*100).toFixed(1)+'%' : '—'
-      ]),
+      head: [catHead],
+      body: catBody,
       theme: 'grid',
       headStyles: { fillColor: [14,26,43], textColor: [245,241,232], fontSize: 9, fontStyle:'bold' },
       bodyStyles: { fontSize: 8.5 },
-      columnStyles: { 1:{halign:'right'}, 2:{halign:'right'}, 3:{halign:'right'}, 4:{halign:'right'}, 5:{halign:'right'} },
+      columnStyles: catNumCols,
       margin: { left: 40, right: 40 }
     });
   }
